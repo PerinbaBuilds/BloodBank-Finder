@@ -1,6 +1,6 @@
 import { Ambulance, AmbulanceRequest, DonorProfile, EmergencyRequest, InventoryItem, Organization, RequestResponse, User } from "@prisma/client";
 import { BLOOD_GROUP_LABELS } from "@/utils/blood";
-import { checkDonationEligibility } from "@/utils/eligibility";
+import { calculateAge, checkDonationEligibility } from "@/utils/eligibility";
 
 export function serializeDonor(donor: DonorProfile & { user?: User }) {
   const eligibility = checkDonationEligibility(donor.lastDonationDate);
@@ -11,6 +11,7 @@ export function serializeDonor(donor: DonorProfile & { user?: User }) {
     bloodGroup: BLOOD_GROUP_LABELS[donor.bloodGroup],
     gender: donor.gender,
     dateOfBirth: donor.dateOfBirth,
+    age: calculateAge(donor.dateOfBirth),
     weightKg: donor.weightKg,
     lat: donor.lat,
     lng: donor.lng,
@@ -22,6 +23,13 @@ export function serializeDonor(donor: DonorProfile & { user?: User }) {
     lastDonationDate: donor.lastDonationDate,
     totalDonations: donor.totalDonations,
     medicalNotes: donor.medicalNotes,
+    isSmoker: donor.isSmoker,
+    isAlcoholic: donor.isAlcoholic,
+    usesDrugs: donor.usesDrugs,
+    hasChronicIllness: donor.hasChronicIllness,
+    chronicIllnessDetails: donor.chronicIllnessDetails,
+    hasGeneticDisorder: donor.hasGeneticDisorder,
+    geneticDisorderDetails: donor.geneticDisorderDetails,
     eligibility,
     email: donor.user?.email,
     phone: donor.user?.phone,

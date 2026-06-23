@@ -108,8 +108,33 @@ export const authApi = {
 
 export const donorsApi = {
   getMe: () => apiFetch<Donor>("/donors/me"),
-  updateMe: (input: Partial<Pick<RegisterDonorPayload, "fullName" | "phone" | "bloodGroup" | "weightKg" | "lat" | "lng" | "address" | "city" | "state" | "pincode">> & { isAvailable?: boolean; medicalNotes?: string | null }) =>
-    apiFetch<Donor>("/donors/me", { method: "PUT", body: JSON.stringify(input) }),
+  updateMe: (
+    input: Partial<
+      Pick<
+        RegisterDonorPayload,
+        | "fullName"
+        | "phone"
+        | "bloodGroup"
+        | "weightKg"
+        | "lat"
+        | "lng"
+        | "address"
+        | "city"
+        | "state"
+        | "pincode"
+        | "isSmoker"
+        | "isAlcoholic"
+        | "usesDrugs"
+        | "hasChronicIllness"
+        | "hasGeneticDisorder"
+      >
+    > & {
+      isAvailable?: boolean;
+      medicalNotes?: string | null;
+      chronicIllnessDetails?: string | null;
+      geneticDisorderDetails?: string | null;
+    }
+  ) => apiFetch<Donor>("/donors/me", { method: "PUT", body: JSON.stringify(input) }),
   search: (params: { bloodGroup?: BloodGroupLabel; lat: number; lng: number; radiusKm?: number }) =>
     apiFetch<DonorPublic[]>(`/donors/search${buildQuery(params)}`),
   getMyDonations: () => apiFetch<DonationHistoryItem[]>("/donors/me/donations"),

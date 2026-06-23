@@ -111,6 +111,13 @@ model DonorProfile {
   lastDonationDate DateTime?
   totalDonations   Int        @default(0)
   medicalNotes     String?
+  isSmoker               Boolean @default(false)
+  isAlcoholic            Boolean @default(false)
+  usesDrugs              Boolean @default(false)
+  hasChronicIllness      Boolean @default(false)
+  chronicIllnessDetails  String?
+  hasGeneticDisorder     Boolean @default(false)
+  geneticDisorderDetails String?
   createdAt        DateTime   @default(now())
   updatedAt        DateTime   @updatedAt
 
