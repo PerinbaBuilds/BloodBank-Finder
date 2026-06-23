@@ -1,8 +1,21 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { REQUEST_STATUS_COLORS, RESPONSE_STATUS_COLORS, URGENCY_COLORS } from "../lib/constants";
+import {
+  AMBULANCE_REQUEST_STATUS_COLORS,
+  AMBULANCE_STATUS_COLORS,
+  REQUEST_STATUS_COLORS,
+  RESPONSE_STATUS_COLORS,
+  URGENCY_COLORS,
+} from "../lib/constants";
 import { colors, radius, spacing, typography } from "../lib/theme";
-import type { BloodGroupLabel, RequestStatus, ResponseStatus, Urgency } from "../lib/types";
+import type {
+  AmbulanceRequestStatus,
+  AmbulanceStatus,
+  BloodGroupLabel,
+  RequestStatus,
+  ResponseStatus,
+  Urgency,
+} from "../lib/types";
 
 function Badge({ color, children }: { color: string; children: string }) {
   return (
@@ -26,6 +39,14 @@ export function RequestStatusBadge({ status }: { status: RequestStatus }) {
 
 export function ResponseStatusBadge({ status }: { status: ResponseStatus }) {
   return <Badge color={RESPONSE_STATUS_COLORS[status]}>{status}</Badge>;
+}
+
+export function AmbulanceStatusBadge({ status }: { status: AmbulanceStatus }) {
+  return <Badge color={AMBULANCE_STATUS_COLORS[status]}>{status.replace("_", " ")}</Badge>;
+}
+
+export function AmbulanceRequestStatusBadge({ status }: { status: AmbulanceRequestStatus }) {
+  return <Badge color={AMBULANCE_REQUEST_STATUS_COLORS[status]}>{status.replace("_", " ")}</Badge>;
 }
 
 const styles = StyleSheet.create({

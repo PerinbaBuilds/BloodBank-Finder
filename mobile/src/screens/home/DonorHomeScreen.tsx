@@ -45,10 +45,21 @@ export function DonorHomeScreen({ navigation }: Props) {
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
-      <Text style={styles.title}>Welcome, {donor.fullName}</Text>
-      <Text style={styles.subtitle}>
-        {donor.bloodGroup} donor in {donor.city}
-      </Text>
+      <View style={styles.titleRow}>
+        <View style={styles.flex1}>
+          <Text style={styles.title}>Welcome, {donor.fullName}</Text>
+          <Text style={styles.subtitle}>
+            {donor.bloodGroup} donor in {donor.city}
+          </Text>
+        </View>
+        <Button
+          variant="outline"
+          size="sm"
+          onPress={() => navigation.getParent()?.navigate("Profile", { screen: "DonationHistory" } as never)}
+        >
+          My donations
+        </Button>
+      </View>
 
       <View style={styles.statsGrid}>
         <Card style={styles.statCard}>
@@ -125,6 +136,12 @@ const styles = StyleSheet.create({
   },
   flex1: {
     flex: 1,
+  },
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    gap: spacing.sm,
   },
   title: {
     ...typography.h1,

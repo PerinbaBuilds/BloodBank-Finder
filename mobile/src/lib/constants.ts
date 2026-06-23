@@ -1,4 +1,4 @@
-import type { BloodGroupLabel, RequestStatus, ResponseStatus, Urgency } from "./types";
+import type { AmbulanceRequestStatus, AmbulanceStatus, BloodGroupLabel, RequestStatus, ResponseStatus, Urgency } from "./types";
 
 export const BLOOD_GROUPS: BloodGroupLabel[] = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
@@ -22,6 +22,21 @@ export const RESPONSE_STATUS_COLORS: Record<ResponseStatus, string> = {
   COMPLETED: "#059669",
   DECLINED: "#52525b",
   CANCELLED: "#71717a",
+};
+
+export const AMBULANCE_STATUS_COLORS: Record<AmbulanceStatus, string> = {
+  AVAILABLE: "#16a34a",
+  ON_TRIP: "#2563eb",
+  OFFLINE: "#71717a",
+};
+
+export const AMBULANCE_REQUEST_STATUS_COLORS: Record<AmbulanceRequestStatus, string> = {
+  REQUESTED: "#2563eb",
+  ASSIGNED: "#7c3aed",
+  EN_ROUTE: "#ea580c",
+  ARRIVED: "#ca8a04",
+  COMPLETED: "#16a34a",
+  CANCELLED: "#52525b",
 };
 
 export const INDIAN_STATES = [
