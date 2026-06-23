@@ -22,6 +22,13 @@ export const registerDonorSchema = z.object({
   city: z.string().min(1).max(100),
   state: z.string().min(1).max(100),
   pincode: z.string().min(3).max(12),
+  isSmoker: z.boolean().default(false),
+  isAlcoholic: z.boolean().default(false),
+  usesDrugs: z.boolean().default(false),
+  hasChronicIllness: z.boolean().default(false),
+  chronicIllnessDetails: z.string().max(500).optional(),
+  hasGeneticDisorder: z.boolean().default(false),
+  geneticDisorderDetails: z.string().max(500).optional(),
 });
 export type RegisterDonorInput = z.infer<typeof registerDonorSchema>;
 

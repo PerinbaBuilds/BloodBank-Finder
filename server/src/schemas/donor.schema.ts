@@ -14,6 +14,13 @@ export const updateDonorSchema = z.object({
   pincode: z.string().min(3).max(12).optional(),
   isAvailable: z.boolean().optional(),
   medicalNotes: z.string().max(1000).nullable().optional(),
+  isSmoker: z.boolean().optional(),
+  isAlcoholic: z.boolean().optional(),
+  usesDrugs: z.boolean().optional(),
+  hasChronicIllness: z.boolean().optional(),
+  chronicIllnessDetails: z.string().max(500).nullable().optional(),
+  hasGeneticDisorder: z.boolean().optional(),
+  geneticDisorderDetails: z.string().max(500).nullable().optional(),
 });
 export type UpdateDonorInput = z.infer<typeof updateDonorSchema>;
 

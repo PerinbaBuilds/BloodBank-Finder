@@ -26,6 +26,7 @@ export interface Donor {
   bloodGroup: BloodGroupLabel;
   gender: Gender;
   dateOfBirth: string;
+  age: number;
   weightKg: number;
   lat: number;
   lng: number;
@@ -37,6 +38,13 @@ export interface Donor {
   lastDonationDate: string | null;
   totalDonations: number;
   medicalNotes: string | null;
+  isSmoker: boolean;
+  isAlcoholic: boolean;
+  usesDrugs: boolean;
+  hasChronicIllness: boolean;
+  chronicIllnessDetails: string | null;
+  hasGeneticDisorder: boolean;
+  geneticDisorderDetails: string | null;
   eligibility: Eligibility;
   email?: string;
   phone?: string;
@@ -174,6 +182,13 @@ export interface RegisterDonorPayload {
   city: string;
   state: string;
   pincode: string;
+  isSmoker: boolean;
+  isAlcoholic: boolean;
+  usesDrugs: boolean;
+  hasChronicIllness: boolean;
+  chronicIllnessDetails?: string;
+  hasGeneticDisorder: boolean;
+  geneticDisorderDetails?: string;
 }
 
 export interface RegisterOrganizationPayload {

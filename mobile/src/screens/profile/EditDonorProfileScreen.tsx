@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, Text } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useAuth } from "../../context/AuthContext";
 import { ApiError, donorsApi } from "../../lib/api";
@@ -11,6 +11,7 @@ import { Button } from "../../components/ui/Button";
 import { Input, Textarea } from "../../components/ui/Input";
 import { SelectField } from "../../components/ui/SelectField";
 import { Card } from "../../components/ui/Card";
+import { Toggle } from "../../components/ui/Toggle";
 import { LocateButton } from "../../components/LocateButton";
 import { Spinner } from "../../components/ui/Spinner";
 
@@ -31,6 +32,13 @@ export function EditDonorProfileScreen({ navigation }: Props) {
     state: donor?.state ?? "",
     pincode: donor?.pincode ?? "",
     medicalNotes: donor?.medicalNotes ?? "",
+    isSmoker: donor?.isSmoker ?? false,
+    isAlcoholic: donor?.isAlcoholic ?? false,
+    usesDrugs: donor?.usesDrugs ?? false,
+    hasChronicIllness: donor?.hasChronicIllness ?? false,
+    chronicIllnessDetails: donor?.chronicIllnessDetails ?? "",
+    hasGeneticDisorder: donor?.hasGeneticDisorder ?? false,
+    geneticDisorderDetails: donor?.geneticDisorderDetails ?? "",
   });
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(
     donor ? { lat: donor.lat, lng: donor.lng } : null
@@ -42,6 +50,8 @@ export function EditDonorProfileScreen({ navigation }: Props) {
   if (!donor) return <Spinner />;
 
   const update = (key: keyof typeof form) => (value: string) => setForm((prev) => ({ ...prev, [key]: value }));
+
+  const toggle = (key: keyof typeof form) => (value: boolean) => setForm((prev) => ({ ...prev, [key]: value }));
 
   const handleSubmit = async () => {
     setError("");
@@ -58,6 +68,13 @@ export function EditDonorProfileScreen({ navigation }: Props) {
         state: form.state,
         pincode: form.pincode,
         medicalNotes: form.medicalNotes || null,
+        isSmoker: form.isSmoker,
+        isAlcoholic: form.isAlcoholic,
+        usesDrugs: form.usesDrugs,
+        hasChronicIllness: form.hasChronicIllness,
+        chronicIllnessDetails: form.hasChronicIllness ? form.chronicIllnessDetails || null : null,
+        hasGeneticDisorder: form.hasGeneticDisorder,
+        geneticDisorderDetails: form.hasGeneticDisorder ? form.geneticDisorderDetails || null : null,
         lat: coords?.lat,
         lng: coords?.lng,
       });
@@ -90,6 +107,40 @@ export function EditDonorProfileScreen({ navigation }: Props) {
         <SelectField label="State" value={form.state} onChange={update("state")} options={STATE_OPTIONS} searchable />
         <Input label="Pincode" value={form.pincode} onChangeText={update("pincode")} />
         <Textarea label="Medical notes (optional)" value={form.medicalNotes} onChangeText={update("medicalNotes")} />
+
+        <View style={styles.healthSection}>
+          <Text style={styles.healthTitle}>Health &amp; lifestyle</Text>
+          <Text style={styles.healthHint}>
+            Helps hospitals and blood banks assess donation eligibility. Kept private to your profile.
+          </Text>
+          <Toggle label="Do you smoke?" value={form.isSmoker} onChange={toggle("isSmoker")} />
+          <Toggle label="Do you consume alcohol?" value={form.isAlcoholic} onChange={toggle("isAlcoholic")} />
+          <Toggle label="Do you use recreational drugs?" value={form.usesDrugs} onChange={toggle("usesDrugs")} />
+          <Toggle
+            label="Do you have any chronic illness?"
+            value={form.hasChronicIllness}
+            onChange={toggle("hasChronicIllness")}
+          />
+          {form.hasChronicIllness && (
+            <Textarea
+              label="Please describe the illness"
+              value={form.chronicIllnessDetails}
+              onChangeText={update("chronicIllnessDetails")}
+            />
+          )}
+          <Toggle
+            label="Any known genetic disorder?"
+            value={form.hasGeneticDisorder}
+            onChange={toggle("hasGeneticDisorder")}
+          />
+          {form.hasGeneticDisorder && (
+            <Textarea
+              label="Please describe the disorder"
+              value={form.geneticDisorderDetails}
+              onChangeText={update("geneticDisorderDetails")}
+            />
+          )}
+        </View>
 
         <LocateButton onLocate={setCoords} />
         {coords && (
@@ -128,6 +179,22 @@ const styles = StyleSheet.create({
   },
   card: {
     gap: spacing.md,
+  },
+  healthSection: {
+    gap: spacing.xs,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 12,
+    padding: spacing.md,
+  },
+  healthTitle: {
+    ...typography.subtitle,
+    color: colors.textPrimary,
+  },
+  healthHint: {
+    ...typography.caption,
+    color: colors.textMuted,
+    marginBottom: spacing.xs,
   },
   locatedText: {
     ...typography.caption,
