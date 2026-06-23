@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { BellOff } from "lucide-react";
+import { Bell, BellOff } from "lucide-react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useSocket } from "@/context/SocketContext";
 import { notificationsApi } from "@/lib/api";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { PageHeader } from "@/components/PageHeader";
 
 function NotificationsList() {
   const { notifications, unreadCount, markAllReadLocally, markReadLocally } = useSocket();
@@ -23,14 +24,18 @@ function NotificationsList() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-10">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-zinc-900">Notifications</h1>
-        {unreadCount > 0 && (
-          <Button variant="outline" size="sm" onClick={handleMarkAllRead}>
-            Mark all as read
-          </Button>
-        )}
-      </div>
+      <PageHeader
+        icon={Bell}
+        title="Notifications"
+        subtitle={unreadCount > 0 ? `${unreadCount} unread` : "You're all caught up"}
+        actions={
+          unreadCount > 0 && (
+            <Button variant="outline" size="sm" onClick={handleMarkAllRead}>
+              Mark all as read
+            </Button>
+          )
+        }
+      />
 
       <div className="mt-6 flex flex-col gap-3">
         {notifications.length === 0 ? (
