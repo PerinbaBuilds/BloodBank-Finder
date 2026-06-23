@@ -17,6 +17,8 @@ async function main() {
 
   await prisma.$transaction([
     prisma.notification.deleteMany(),
+    prisma.ambulanceRequest.deleteMany(),
+    prisma.ambulance.deleteMany(),
     prisma.requestResponse.deleteMany(),
     prisma.emergencyRequest.deleteMany(),
     prisma.inventoryItem.deleteMany(),
@@ -105,6 +107,17 @@ async function main() {
         units: bb.stock[bloodGroup],
       })),
     });
+
+    await prisma.ambulance.create({
+      data: {
+        organizationId: user.organization!.id,
+        vehicleNumber: `TN-AMB-${Math.floor(Math.random() * 9000 + 1000)}`,
+        driverName: "Driver on Duty",
+        driverPhone: "+91-9876599999",
+        lat: bb.lat,
+        lng: bb.lng,
+      },
+    });
   }
 
   const hospitalSeeds = [
@@ -157,6 +170,17 @@ async function main() {
       include: { organization: true },
     });
     hospitals.push(user);
+
+    await prisma.ambulance.create({
+      data: {
+        organizationId: user.organization!.id,
+        vehicleNumber: `TN-AMB-${Math.floor(Math.random() * 9000 + 1000)}`,
+        driverName: "Driver on Duty",
+        driverPhone: "+91-9876522222",
+        lat: h.lat,
+        lng: h.lng,
+      },
+    });
   }
 
   const donorSeeds = [

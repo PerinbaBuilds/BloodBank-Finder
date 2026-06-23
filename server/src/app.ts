@@ -12,6 +12,7 @@ import donorRoutes from "@/routes/donors.routes";
 import organizationRoutes from "@/routes/organizations.routes";
 import inventoryRoutes from "@/routes/inventory.routes";
 import requestRoutes from "@/routes/requests.routes";
+import ambulanceRoutes from "@/routes/ambulance.routes";
 import notificationRoutes from "@/routes/notifications.routes";
 import statsRoutes from "@/routes/stats.routes";
 import adminRoutes from "@/routes/admin.routes";
@@ -37,6 +38,7 @@ export function createApp() {
   app.use("/api/organizations", organizationRoutes);
   app.use("/api/inventory", inventoryRoutes);
   app.use("/api/requests", requestRoutes);
+  app.use("/api/ambulances", ambulanceRoutes);
   app.use("/api/notifications", notificationRoutes);
   app.use("/api/stats", statsRoutes);
   app.use("/api/admin", adminRoutes);

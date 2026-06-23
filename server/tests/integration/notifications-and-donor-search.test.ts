@@ -104,3 +104,59 @@ describe("GET /api/donors/search", () => {
     expect(res.status).toBe(403);
   });
 });
+
+describe("GET /api/donors/me/donations", () => {
+  it("lists only a donor's completed donations, newest first", async () => {
+    const hospital = await registerOrg(app, { type: "HOSPITAL", lat: HQ.lat, lng: HQ.lng });
+    const donor = await registerDonor(app, { bloodGroup: "O-", lat: 13.09, lng: 80.28 });
+
+    const created = await request(app)
+      .post("/api/requests")
+      .set(...authHeader(hospital.token))
+      .send({ bloodGroup: "O-", unitsNeeded: 1, urgency: "CRITICAL" });
+    const requestId = created.body.request.id as string;
+
+    const offer = await request(app)
+      .post(`/api/requests/${requestId}/responses`)
+      .set(...authHeader(donor.token));
+    const responseId = offer.body.id as string;
+
+    await request(app)
+      .patch(`/api/requests/${requestId}/responses/${responseId}`)
+      .set(...authHeader(hospital.token))
+      .send({ status: "CONFIRMED" });
+    await request(app)
+      .patch(`/api/requests/${requestId}/responses/${responseId}`)
+      .set(...authHeader(hospital.token))
+      .send({ status: "COMPLETED" });
+
+    const res = await request(app).get("/api/donors/me/donations").set(...authHeader(donor.token));
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveLength(1);
+    expect(res.body[0].requestId).toBe(requestId);
+    expect(res.body[0].bloodGroup).toBeTypeOf("string");
+    expect(res.body[0].organization.id).toBe(hospital.body.organization.id);
+  });
+
+  it("excludes offers that were never completed", async () => {
+    const hospital = await registerOrg(app, { type: "HOSPITAL", lat: HQ.lat, lng: HQ.lng });
+    const donor = await registerDonor(app, { bloodGroup: "O-", lat: 13.09, lng: 80.28 });
+    const created = await request(app)
+      .post("/api/requests")
+      .set(...authHeader(hospital.token))
+      .send({ bloodGroup: "O-", unitsNeeded: 1, urgency: "CRITICAL" });
+
+    await request(app)
+      .post(`/api/requests/${created.body.request.id}/responses`)
+      .set(...authHeader(donor.token));
+
+    const res = await request(app).get("/api/donors/me/donations").set(...authHeader(donor.token));
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual([]);
+  });
+
+  it("rejects unauthenticated access", async () => {
+    const res = await request(app).get("/api/donors/me/donations");
+    expect(res.status).toBe(401);
+  });
+});

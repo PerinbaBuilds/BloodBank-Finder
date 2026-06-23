@@ -16,6 +16,11 @@ export async function updateMe(req: Request, res: Response) {
   res.json(serializeDonor(donor));
 }
 
+export async function getMyDonations(req: Request, res: Response) {
+  const donations = await donorsService.getDonationHistory(req.userId!);
+  res.json(donations);
+}
+
 export async function search(req: Request, res: Response) {
   const filters = validated<SearchDonorsInput>(req, "query");
   if (!filters.bloodGroup) {
