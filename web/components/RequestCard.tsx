@@ -15,7 +15,7 @@ function timeRemaining(expiresAt: string): string {
 export function RequestCard({ request }: { request: EmergencyRequest }) {
   return (
     <Link href={`/requests/${request.id}`}>
-      <Card className="flex flex-col gap-3 transition-shadow hover:shadow-md">
+      <Card className="flex flex-col gap-3 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lifted">
         <div className="flex items-start justify-between gap-2">
           <div>
             <p className="font-semibold text-zinc-900">{request.organization?.name ?? "Organization"}</p>

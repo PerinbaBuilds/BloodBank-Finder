@@ -2,7 +2,7 @@ import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { BloodGroupBadge, RequestStatusBadge, UrgencyBadge } from "./Badges";
 import { Card } from "./ui/Card";
-import { colors, spacing } from "../lib/theme";
+import { colors, spacing, typography } from "../lib/theme";
 import type { EmergencyRequest } from "../lib/types";
 
 function timeRemaining(expiresAt: string): string {
@@ -55,12 +55,11 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   title: {
-    fontWeight: "700",
-    fontSize: 15,
+    ...typography.bodyStrong,
     color: colors.textPrimary,
   },
   subtitle: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.textSecondary,
     marginTop: 2,
   },
@@ -74,16 +73,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   muted: {
-    fontSize: 13,
+    ...typography.label,
     color: colors.textSecondary,
   },
   timeLeft: {
-    fontSize: 13,
+    ...typography.label,
     fontWeight: "700",
     color: colors.textPrimary,
   },
   distance: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.textMuted,
   },
 });

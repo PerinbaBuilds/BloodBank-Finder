@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { FlatList, Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import { colors, radius, spacing } from "../../lib/theme";
+import { colors, radius, spacing, typography } from "../../lib/theme";
 
 export interface SelectOption {
   label: string;
@@ -81,8 +81,7 @@ const styles = StyleSheet.create({
     gap: spacing.xs,
   },
   label: {
-    fontSize: 13,
-    fontWeight: "600",
+    ...typography.label,
     color: colors.textPrimary,
   },
   trigger: {
@@ -97,18 +96,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   value: {
-    fontSize: 15,
+    ...typography.body,
     color: colors.textPrimary,
   },
   placeholder: {
-    fontSize: 15,
+    ...typography.body,
     color: colors.textMuted,
   },
   chevron: {
     color: colors.textMuted,
   },
   hint: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.textMuted,
   },
   backdrop: {
@@ -123,8 +122,7 @@ const styles = StyleSheet.create({
     padding: spacing.lg,
   },
   sheetTitle: {
-    fontSize: 16,
-    fontWeight: "700",
+    ...typography.h2,
     color: colors.textPrimary,
     marginBottom: spacing.sm,
   },
@@ -134,7 +132,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     paddingHorizontal: spacing.md,
     paddingVertical: 8,
-    fontSize: 14,
+    ...typography.subtitle,
     marginBottom: spacing.sm,
     color: colors.textPrimary,
   },
@@ -147,12 +145,11 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.border,
   },
   optionText: {
-    fontSize: 15,
+    ...typography.body,
     color: colors.textPrimary,
   },
   optionTextActive: {
-    fontSize: 15,
+    ...typography.bodyStrong,
     color: colors.primary,
-    fontWeight: "700",
   },
 });

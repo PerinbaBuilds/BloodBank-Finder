@@ -1,6 +1,6 @@
 import React from "react";
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, ViewStyle } from "react-native";
-import { colors, radius, spacing } from "../../lib/theme";
+import { colors, radius, shadows, spacing } from "../../lib/theme";
 
 type Variant = "primary" | "secondary" | "outline" | "ghost";
 type Size = "sm" | "md" | "lg";
@@ -26,8 +26,8 @@ export function Button({ children, onPress, variant = "primary", size = "md", is
   const sizeStyle = SIZE_STYLES[size];
 
   const variantStyle: ViewStyle = {
-    primary: { backgroundColor: colors.primary, borderColor: colors.primary },
-    secondary: { backgroundColor: colors.surface, borderColor: colors.border },
+    primary: { ...shadows.sm, backgroundColor: colors.primary, borderColor: colors.primary },
+    secondary: { ...shadows.sm, backgroundColor: colors.surface, borderColor: colors.border },
     outline: { backgroundColor: "transparent", borderColor: colors.primary },
     ghost: { backgroundColor: "transparent", borderColor: "transparent" },
   }[variant];

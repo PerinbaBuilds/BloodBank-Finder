@@ -6,9 +6,11 @@ type Variant = "primary" | "secondary" | "danger" | "ghost" | "outline";
 type Size = "sm" | "md" | "lg";
 
 const VARIANT_CLASSES: Record<Variant, string> = {
-  primary: "bg-red-600 text-white hover:bg-red-700 focus-visible:outline-red-600 disabled:bg-red-300",
+  primary:
+    "bg-red-600 text-white shadow-soft hover:bg-red-700 hover:shadow-card focus-visible:outline-red-600 disabled:bg-red-300 disabled:shadow-none",
   secondary: "bg-zinc-900 text-white hover:bg-zinc-800 focus-visible:outline-zinc-900 disabled:bg-zinc-400",
-  danger: "bg-red-50 text-red-700 border border-red-300 hover:bg-red-100 focus-visible:outline-red-600",
+  danger:
+    "bg-red-50 text-red-700 border border-red-300 shadow-soft hover:bg-red-100 hover:shadow-card focus-visible:outline-red-600",
   ghost: "bg-transparent text-zinc-700 hover:bg-zinc-100 focus-visible:outline-zinc-400",
   outline: "bg-white text-zinc-900 border border-zinc-300 hover:bg-zinc-50 focus-visible:outline-zinc-400",
 };
@@ -31,7 +33,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         disabled={disabled || isLoading}
-        className={`inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]} ${className}`}
+        className={`inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-all duration-150 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:active:scale-100 ${VARIANT_CLASSES[variant]} ${SIZE_CLASSES[size]} ${className}`}
         {...rest}
       >
         {isLoading && (

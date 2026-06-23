@@ -3,11 +3,12 @@ import { ScrollView, StyleSheet, Text } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useAuth } from "../../context/AuthContext";
 import { ApiError } from "../../lib/api";
-import { colors, spacing } from "../../lib/theme";
+import { colors, spacing, typography } from "../../lib/theme";
 import type { AuthStackParamList } from "../../navigation/types";
 import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
 import { Card } from "../../components/ui/Card";
+import { Logo } from "../../components/ui/Logo";
 
 type Props = NativeStackScreenProps<AuthStackParamList, "Login">;
 
@@ -32,6 +33,7 @@ export function LoginScreen({ navigation }: Props) {
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+      <Logo size={56} />
       <Text style={styles.title}>Welcome back</Text>
       <Text style={styles.subtitle}>Sign in to manage your donations or requests.</Text>
 
@@ -83,20 +85,21 @@ const styles = StyleSheet.create({
     gap: spacing.md,
   },
   title: {
-    fontSize: 24,
-    fontWeight: "800",
+    ...typography.h1,
     color: colors.textPrimary,
+    textAlign: "center",
   },
   subtitle: {
-    fontSize: 14,
+    ...typography.body,
     color: colors.textSecondary,
+    textAlign: "center",
   },
   card: {
     gap: spacing.md,
     marginTop: spacing.sm,
   },
   errorText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.danger,
   },
   demoCard: {
@@ -105,12 +108,11 @@ const styles = StyleSheet.create({
     marginTop: spacing.lg,
   },
   demoTitle: {
-    fontSize: 12,
-    fontWeight: "700",
+    ...typography.label,
     color: colors.textPrimary,
   },
   demoText: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.textSecondary,
   },
 });

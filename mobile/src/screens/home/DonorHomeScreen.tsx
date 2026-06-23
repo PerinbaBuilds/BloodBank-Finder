@@ -4,7 +4,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useAuth } from "../../context/AuthContext";
 import { ApiError, donorsApi, requestsApi } from "../../lib/api";
-import { colors, spacing } from "../../lib/theme";
+import { colors, spacing, typography } from "../../lib/theme";
 import type { AppTabParamList, HomeStackParamList } from "../../navigation/types";
 import type { EmergencyRequest } from "../../lib/types";
 import { Button } from "../../components/ui/Button";
@@ -127,12 +127,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: 22,
-    fontWeight: "800",
+    ...typography.h1,
     color: colors.textPrimary,
   },
   subtitle: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
   },
   statsGrid: {
@@ -147,13 +146,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   statValue: {
-    fontSize: 16,
+    ...typography.h2,
     fontWeight: "800",
     color: colors.primary,
     textAlign: "center",
   },
   statLabel: {
-    fontSize: 11,
+    ...typography.caption,
     color: colors.textSecondary,
     marginTop: 4,
     textAlign: "center",
@@ -166,17 +165,16 @@ const styles = StyleSheet.create({
     marginTop: spacing.sm,
   },
   cardTitle: {
-    fontSize: 14,
-    fontWeight: "700",
+    ...typography.bodyStrong,
     color: colors.textPrimary,
   },
   cardText: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.textSecondary,
     marginTop: 2,
   },
   errorText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.danger,
   },
   section: {
@@ -188,8 +186,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   sectionTitle: {
-    fontSize: 16,
-    fontWeight: "700",
+    ...typography.h2,
     color: colors.textPrimary,
   },
   list: {
@@ -197,7 +194,7 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   mutedText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
   },
 });

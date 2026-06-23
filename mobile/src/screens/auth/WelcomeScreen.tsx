@@ -3,13 +3,14 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ApiError, organizationsApi, statsApi } from "../../lib/api";
 import { BLOOD_GROUPS } from "../../lib/constants";
-import { colors, spacing } from "../../lib/theme";
+import { colors, spacing, typography } from "../../lib/theme";
 import type { AuthStackParamList } from "../../navigation/types";
 import type { BloodGroupLabel, OrganizationWithInventory, OrgType, StatsOverview } from "../../lib/types";
 import { Button } from "../../components/ui/Button";
 import { Input } from "../../components/ui/Input";
 import { SelectField } from "../../components/ui/SelectField";
 import { Card } from "../../components/ui/Card";
+import { Logo } from "../../components/ui/Logo";
 import { StatCard } from "../../components/StatCard";
 import { OrgCard } from "../../components/OrgCard";
 import { LocateButton } from "../../components/LocateButton";
@@ -55,6 +56,7 @@ export function WelcomeScreen({ navigation }: Props) {
 
   return (
     <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+      <Logo />
       <Text style={styles.heroTitle}>Find blood when every minute counts.</Text>
       <Text style={styles.heroSubtitle}>
         BloodBank Finder connects voluntary donors, hospitals, and blood banks in real time to resolve urgent blood
@@ -155,14 +157,12 @@ const styles = StyleSheet.create({
     gap: spacing.md,
   },
   heroTitle: {
-    fontSize: 28,
-    fontWeight: "800",
+    ...typography.display,
     color: colors.textPrimary,
     textAlign: "center",
-    marginTop: spacing.lg,
   },
   heroSubtitle: {
-    fontSize: 14,
+    ...typography.body,
     color: colors.textSecondary,
     textAlign: "center",
     marginTop: spacing.sm,
@@ -186,12 +186,11 @@ const styles = StyleSheet.create({
     gap: spacing.xs,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: "700",
+    ...typography.h2,
     color: colors.textPrimary,
   },
   sectionSubtitle: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
   },
   formCard: {
@@ -199,12 +198,12 @@ const styles = StyleSheet.create({
     gap: spacing.md,
   },
   locatedText: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.success,
     marginTop: spacing.xs,
   },
   errorText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.danger,
   },
   resultsList: {
@@ -212,7 +211,7 @@ const styles = StyleSheet.create({
     gap: spacing.md,
   },
   mutedText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
   },
 });

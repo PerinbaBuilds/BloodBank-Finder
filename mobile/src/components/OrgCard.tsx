@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { BloodGroupBadge } from "./Badges";
 import { Card } from "./ui/Card";
-import { colors, radius, spacing } from "../lib/theme";
+import { colors, radius, spacing, typography } from "../lib/theme";
 import type { OrganizationWithInventory } from "../lib/types";
 
 export function OrgCard({ org }: { org: OrganizationWithInventory }) {
@@ -64,12 +64,11 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   title: {
-    fontWeight: "700",
-    fontSize: 15,
+    ...typography.bodyStrong,
     color: colors.textPrimary,
   },
   subtitle: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.textSecondary,
     marginTop: 2,
   },
@@ -80,12 +79,12 @@ const styles = StyleSheet.create({
     paddingVertical: 3,
   },
   typeText: {
-    fontSize: 11,
+    ...typography.caption,
     fontWeight: "700",
     color: colors.textSecondary,
   },
   distance: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.textMuted,
   },
   stockRow: {
@@ -99,11 +98,11 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   stockCount: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.textSecondary,
   },
   noStock: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.textMuted,
   },
   footerRow: {
@@ -112,16 +111,16 @@ const styles = StyleSheet.create({
     gap: spacing.xs,
   },
   verified: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.success,
     fontWeight: "600",
   },
   unverified: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.textSecondary,
   },
   muted: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.textSecondary,
   },
 });

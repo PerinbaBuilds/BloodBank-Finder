@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Building2, CheckCircle2, Droplets, HeartPulse, Search, SearchX, Siren, Users } from "lucide-react";
 import { ApiError, organizationsApi, statsApi } from "@/lib/api";
 import { BLOOD_GROUPS } from "@/lib/constants";
 import type { BloodGroupLabel, OrgType, OrganizationWithInventory, StatsOverview } from "@/lib/types";
@@ -64,7 +65,15 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      <section className="bg-gradient-to-b from-red-50 to-white px-4 py-16 text-center">
+      <section className="relative overflow-hidden bg-gradient-to-b from-red-50 via-red-50/40 to-white px-4 py-16 text-center">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[480px] bg-[radial-gradient(ellipse_at_top,_rgba(220,38,38,0.12),_transparent_70%)]"
+        />
+        <span className="mx-auto mb-5 inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-white px-3 py-1 text-xs font-semibold text-red-700 shadow-soft">
+          <HeartPulse className="h-3.5 w-3.5" />
+          Live, real-time blood matching
+        </span>
         <h1 className="mx-auto max-w-3xl text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl">
           Find blood when every minute counts.
         </h1>
@@ -86,12 +95,12 @@ export default function Home() {
 
       {stats && (
         <section className="mx-auto -mt-6 grid w-full max-w-5xl grid-cols-2 gap-4 px-4 sm:grid-cols-3 md:grid-cols-6">
-          <StatCard label="Donors" value={stats.donorCount} />
-          <StatCard label="Blood Banks" value={stats.bloodBankCount} />
-          <StatCard label="Hospitals" value={stats.hospitalCount} />
-          <StatCard label="Active Requests" value={stats.activeRequests} />
-          <StatCard label="Units Fulfilled" value={stats.unitsFulfilled} />
-          <StatCard label="Total Donations" value={stats.totalDonations} />
+          <StatCard label="Donors" value={stats.donorCount} icon={Users} />
+          <StatCard label="Blood Banks" value={stats.bloodBankCount} icon={Droplets} />
+          <StatCard label="Hospitals" value={stats.hospitalCount} icon={Building2} />
+          <StatCard label="Active Requests" value={stats.activeRequests} icon={Siren} />
+          <StatCard label="Units Fulfilled" value={stats.unitsFulfilled} icon={CheckCircle2} />
+          <StatCard label="Total Donations" value={stats.totalDonations} icon={HeartPulse} />
         </section>
       )}
 
@@ -101,7 +110,7 @@ export default function Home() {
           Search verified organizations by city, blood type, or your current location.
         </p>
 
-        <Card className="mt-4">
+        <Card className="mt-4 shadow-card">
           <form onSubmit={handleSearch} className="flex flex-col gap-4">
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <Input label="City" placeholder="e.g. Chennai" value={city} onChange={(e) => setCity(e.target.value)} />
@@ -147,6 +156,7 @@ export default function Home() {
 
             {searchError && <p className="text-sm text-red-600">{searchError}</p>}
             <Button type="submit" isLoading={isSearching}>
+              <Search className="h-4 w-4" />
               Search
             </Button>
           </form>
@@ -156,7 +166,10 @@ export default function Home() {
           <div className="mt-6 grid gap-6 lg:grid-cols-2">
             <div className="flex flex-col gap-4">
               {results.length === 0 ? (
-                <p className="text-sm text-zinc-500">No matching organizations found. Try widening your search.</p>
+                <Card className="flex flex-col items-center gap-2 py-10 text-center">
+                  <SearchX className="h-8 w-8 text-zinc-300" />
+                  <p className="text-sm text-zinc-500">No matching organizations found. Try widening your search.</p>
+                </Card>
               ) : (
                 results.map((org) => <OrgCard key={org.id} org={org} />)
               )}

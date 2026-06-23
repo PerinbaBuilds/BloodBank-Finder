@@ -1,16 +1,18 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { colors, spacing } from "../../lib/theme";
+import { colors, spacing, typography } from "../../lib/theme";
 import type { AuthStackParamList } from "../../navigation/types";
 import { Button } from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
+import { Logo } from "../../components/ui/Logo";
 
 type Props = NativeStackScreenProps<AuthStackParamList, "RegisterChoice">;
 
 export function RegisterChoiceScreen({ navigation }: Props) {
   return (
     <View style={styles.screen}>
+      <Logo size={56} />
       <Text style={styles.title}>Create an account</Text>
       <Text style={styles.subtitle}>Choose how you'd like to join BloodBank Finder.</Text>
 
@@ -40,24 +42,24 @@ const styles = StyleSheet.create({
     gap: spacing.lg,
   },
   title: {
-    fontSize: 24,
-    fontWeight: "800",
+    ...typography.h1,
     color: colors.textPrimary,
+    textAlign: "center",
   },
   subtitle: {
-    fontSize: 14,
+    ...typography.body,
     color: colors.textSecondary,
+    textAlign: "center",
   },
   card: {
     gap: spacing.sm,
   },
   cardTitle: {
-    fontSize: 15,
-    fontWeight: "700",
+    ...typography.bodyStrong,
     color: colors.textPrimary,
   },
   cardText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
   },
 });

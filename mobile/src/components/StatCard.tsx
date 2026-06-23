@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { colors, radius, spacing } from "../lib/theme";
+import { colors, radius, spacing, typography } from "../lib/theme";
 
 export function StatCard({ label, value }: { label: string; value: number }) {
   return (
@@ -24,12 +24,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
   },
   value: {
-    fontSize: 20,
+    ...typography.h2,
     fontWeight: "800",
     color: colors.primary,
   },
   label: {
-    fontSize: 11,
+    ...typography.caption,
     color: colors.textSecondary,
     marginTop: 2,
     textAlign: "center",

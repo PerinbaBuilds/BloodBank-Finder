@@ -3,7 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import type { AppTabParamList } from "./types";
 import { useSocket } from "../context/SocketContext";
-import { colors } from "../lib/theme";
+import { colors, shadows, typography } from "../lib/theme";
 import { HomeStackNavigator } from "./HomeStack";
 import { RequestsStackNavigator } from "./RequestsStack";
 import { SearchStackNavigator } from "./SearchStack";
@@ -29,6 +29,12 @@ export function AppTabs() {
         headerShown: false,
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.textMuted,
+        tabBarStyle: {
+          borderTopColor: colors.border,
+          backgroundColor: colors.background,
+          ...shadows.md,
+        },
+        tabBarLabelStyle: typography.caption,
         tabBarIcon: ({ color, size, focused }) => {
           const icon = ICONS[route.name];
           return <Ionicons name={focused ? icon.active : icon.inactive} size={size} color={color} />;

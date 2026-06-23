@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { REQUEST_STATUS_COLORS, RESPONSE_STATUS_COLORS, URGENCY_COLORS } from "../lib/constants";
-import { colors, radius, spacing } from "../lib/theme";
+import { colors, radius, spacing, typography } from "../lib/theme";
 import type { BloodGroupLabel, RequestStatus, ResponseStatus, Urgency } from "../lib/types";
 
 function Badge({ color, children }: { color: string; children: string }) {
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   text: {
-    fontSize: 11,
+    ...typography.caption,
     fontWeight: "700",
   },
 });

@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useAuth } from "../../context/AuthContext";
 import { requestsApi } from "../../lib/api";
-import { colors, spacing } from "../../lib/theme";
+import { colors, spacing, typography } from "../../lib/theme";
 import type { HomeStackParamList } from "../../navigation/types";
 import type { EmergencyRequest } from "../../lib/types";
 import { Button } from "../../components/ui/Button";
@@ -91,22 +91,19 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xxl,
   },
   title: {
-    fontSize: 22,
-    fontWeight: "800",
+    ...typography.h1,
     color: colors.textPrimary,
   },
   subtitle: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
   },
   verified: {
-    fontSize: 13,
-    fontWeight: "600",
+    ...typography.label,
     color: colors.success,
   },
   unverified: {
-    fontSize: 13,
-    fontWeight: "600",
+    ...typography.label,
     color: colors.warning,
   },
   actionsRow: {
@@ -118,8 +115,7 @@ const styles = StyleSheet.create({
     marginTop: spacing.md,
   },
   sectionTitle: {
-    fontSize: 16,
-    fontWeight: "700",
+    ...typography.h2,
     color: colors.textPrimary,
   },
   list: {
@@ -127,7 +123,7 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   mutedText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
   },
 });

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { ApiError, adminApi } from "../../lib/api";
-import { colors, spacing } from "../../lib/theme";
+import { colors, spacing, typography } from "../../lib/theme";
 import type { Organization } from "../../lib/types";
 import { Button } from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
@@ -102,12 +102,11 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xxl,
   },
   title: {
-    fontSize: 22,
-    fontWeight: "800",
+    ...typography.h1,
     color: colors.textPrimary,
   },
   errorText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.danger,
   },
   list: {
@@ -123,22 +122,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   orgName: {
-    fontSize: 14,
-    fontWeight: "700",
+    ...typography.bodyStrong,
     color: colors.textPrimary,
   },
   orgMeta: {
-    fontSize: 11,
+    ...typography.caption,
     color: colors.textSecondary,
     marginTop: 2,
   },
   verifiedText: {
-    fontSize: 13,
-    fontWeight: "600",
+    ...typography.label,
     color: colors.success,
   },
   mutedText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
   },
 });
