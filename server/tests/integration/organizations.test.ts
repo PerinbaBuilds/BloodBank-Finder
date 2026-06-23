@@ -38,6 +38,34 @@ describe("inventory management", () => {
       .send({ items: [{ bloodGroup: "O-", units: 1 }] });
     expect(res.status).toBe(403);
   });
+
+  it("notifies the blood bank when stock falls at or below the low-stock threshold", async () => {
+    const bloodBank = await registerOrg(app, { type: "BLOOD_BANK" });
+
+    const res = await request(app)
+      .put("/api/inventory/me")
+      .set(...authHeader(bloodBank.token))
+      .send({ items: [{ bloodGroup: "O-", units: 5 }, { bloodGroup: "A+", units: 20 }] });
+    expect(res.status).toBe(200);
+
+    const notifications = await prisma.notification.findMany({ where: { userId: bloodBank.body.user.id } });
+    const lowStockAlerts = notifications.filter((n) => n.type === "LOW_STOCK_ALERT");
+    expect(lowStockAlerts).toHaveLength(1);
+    expect(lowStockAlerts[0].body).toContain("O-");
+    expect(lowStockAlerts[0].body).not.toContain("A+");
+  });
+
+  it("does not notify when all stock levels are above the threshold", async () => {
+    const bloodBank = await registerOrg(app, { type: "BLOOD_BANK" });
+
+    await request(app)
+      .put("/api/inventory/me")
+      .set(...authHeader(bloodBank.token))
+      .send({ items: [{ bloodGroup: "O-", units: 50 }] });
+
+    const notifications = await prisma.notification.findMany({ where: { userId: bloodBank.body.user.id } });
+    expect(notifications.filter((n) => n.type === "LOW_STOCK_ALERT")).toHaveLength(0);
+  });
 });
 
 describe("GET /api/organizations/search (public)", () => {

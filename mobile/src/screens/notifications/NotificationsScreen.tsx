@@ -23,6 +23,14 @@ export function NotificationsScreen({ navigation }: Props) {
       markReadLocally(notification.id);
       await notificationsApi.markRead(notification.id).catch(() => undefined);
     }
+    const ambulanceRequestId =
+      notification.data && typeof notification.data.ambulanceRequestId === "string"
+        ? notification.data.ambulanceRequestId
+        : null;
+    if (ambulanceRequestId) {
+      navigation.navigate("AmbulanceDetail", { id: ambulanceRequestId });
+      return;
+    }
     const requestId =
       notification.data && typeof notification.data.requestId === "string" ? notification.data.requestId : null;
     if (requestId) {

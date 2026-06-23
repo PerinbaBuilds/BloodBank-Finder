@@ -51,9 +51,19 @@ export function ProfileScreen({ navigation }: Props) {
             Edit profile
           </Button>
         )}
+        {donor && (
+          <Button variant="outline" onPress={() => navigation.navigate("DonationHistory")}>
+            My donations
+          </Button>
+        )}
         {user.role === "BLOOD_BANK" && (
           <Button variant="outline" onPress={() => navigation.navigate("Inventory")}>
             Manage inventory
+          </Button>
+        )}
+        {(user.role === "HOSPITAL" || user.role === "BLOOD_BANK") && (
+          <Button variant="outline" onPress={() => navigation.navigate("AmbulanceFleet")}>
+            Ambulance fleet
           </Button>
         )}
         <Button variant="secondary" onPress={() => logout()}>

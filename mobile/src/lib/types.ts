@@ -191,3 +191,59 @@ export interface RegisterOrganizationPayload {
   state: string;
   pincode: string;
 }
+
+export type AmbulanceStatus = "AVAILABLE" | "ON_TRIP" | "OFFLINE";
+export type AmbulanceRequestStatus =
+  | "REQUESTED"
+  | "ASSIGNED"
+  | "EN_ROUTE"
+  | "ARRIVED"
+  | "COMPLETED"
+  | "CANCELLED";
+
+export interface Ambulance {
+  id: string;
+  organizationId: string;
+  vehicleNumber: string;
+  driverName: string;
+  driverPhone: string;
+  status: AmbulanceStatus;
+  lat: number;
+  lng: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AmbulanceRequestItem {
+  id: string;
+  emergencyRequestId: string;
+  responseId: string | null;
+  organizationId: string;
+  ambulanceId: string | null;
+  ambulance?: Ambulance;
+  status: AmbulanceRequestStatus;
+  pickupAddress: string;
+  pickupLat: number;
+  pickupLng: number;
+  dropoffAddress: string;
+  dropoffLat: number;
+  dropoffLng: number;
+  notes?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DonationHistoryItem {
+  id: string;
+  requestId: string;
+  bloodGroup: BloodGroupLabel;
+  unitsNeeded: number;
+  distanceKm: number;
+  donatedAt: string;
+  organization: {
+    id: string;
+    name: string;
+    type: OrgType;
+    city: string;
+  };
+}

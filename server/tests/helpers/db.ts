@@ -5,6 +5,8 @@ export { prisma };
 export async function cleanDatabase() {
   await prisma.$transaction([
     prisma.notification.deleteMany(),
+    prisma.ambulanceRequest.deleteMany(),
+    prisma.ambulance.deleteMany(),
     prisma.requestResponse.deleteMany(),
     prisma.emergencyRequest.deleteMany(),
     prisma.inventoryItem.deleteMany(),

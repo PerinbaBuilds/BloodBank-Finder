@@ -1,4 +1,11 @@
-import type { BloodGroupLabel, RequestStatus, ResponseStatus, Urgency } from "./types";
+import type {
+  AmbulanceRequestStatus,
+  AmbulanceStatus,
+  BloodGroupLabel,
+  RequestStatus,
+  ResponseStatus,
+  Urgency,
+} from "./types";
 
 export const BLOOD_GROUPS: BloodGroupLabel[] = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
@@ -21,6 +28,21 @@ export const RESPONSE_STATUS_STYLES: Record<ResponseStatus, string> = {
   CONFIRMED: "bg-green-100 text-green-800 border-green-300",
   COMPLETED: "bg-emerald-100 text-emerald-800 border-emerald-300",
   DECLINED: "bg-zinc-200 text-zinc-700 border-zinc-300",
+  CANCELLED: "bg-zinc-200 text-zinc-500 border-zinc-300",
+};
+
+export const AMBULANCE_STATUS_STYLES: Record<AmbulanceStatus, string> = {
+  AVAILABLE: "bg-green-100 text-green-800 border-green-300",
+  ON_TRIP: "bg-blue-100 text-blue-800 border-blue-300",
+  OFFLINE: "bg-zinc-200 text-zinc-700 border-zinc-300",
+};
+
+export const AMBULANCE_REQUEST_STATUS_STYLES: Record<AmbulanceRequestStatus, string> = {
+  REQUESTED: "bg-blue-100 text-blue-800 border-blue-300",
+  ASSIGNED: "bg-purple-100 text-purple-800 border-purple-300",
+  EN_ROUTE: "bg-orange-100 text-orange-800 border-orange-300",
+  ARRIVED: "bg-yellow-100 text-yellow-800 border-yellow-300",
+  COMPLETED: "bg-emerald-100 text-emerald-800 border-emerald-300",
   CANCELLED: "bg-zinc-200 text-zinc-500 border-zinc-300",
 };
 

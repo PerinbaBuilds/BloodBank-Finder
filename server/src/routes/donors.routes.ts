@@ -10,6 +10,7 @@ router.use(requireAuth);
 
 router.get("/me", requireRole("DONOR"), donorsController.getMe);
 router.put("/me", requireRole("DONOR"), validate(updateDonorSchema), donorsController.updateMe);
+router.get("/me/donations", requireRole("DONOR"), donorsController.getMyDonations);
 router.get(
   "/search",
   requireRole("HOSPITAL", "BLOOD_BANK", "ADMIN"),

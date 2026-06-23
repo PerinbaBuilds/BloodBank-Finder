@@ -1,4 +1,4 @@
-import { DonorProfile, EmergencyRequest, InventoryItem, Organization, RequestResponse, User } from "@prisma/client";
+import { Ambulance, AmbulanceRequest, DonorProfile, EmergencyRequest, InventoryItem, Organization, RequestResponse, User } from "@prisma/client";
 import { BLOOD_GROUP_LABELS } from "@/utils/blood";
 import { checkDonationEligibility } from "@/utils/eligibility";
 
@@ -99,6 +99,42 @@ export function serializeRequest(
     createdAt: request.createdAt,
     updatedAt: request.updatedAt,
     responseCount: request.responses?.length,
+  };
+}
+
+export function serializeAmbulance(ambulance: Ambulance) {
+  return {
+    id: ambulance.id,
+    organizationId: ambulance.organizationId,
+    vehicleNumber: ambulance.vehicleNumber,
+    driverName: ambulance.driverName,
+    driverPhone: ambulance.driverPhone,
+    status: ambulance.status,
+    lat: ambulance.lat,
+    lng: ambulance.lng,
+    createdAt: ambulance.createdAt,
+    updatedAt: ambulance.updatedAt,
+  };
+}
+
+export function serializeAmbulanceRequest(ambulanceRequest: AmbulanceRequest & { ambulance?: Ambulance | null }) {
+  return {
+    id: ambulanceRequest.id,
+    emergencyRequestId: ambulanceRequest.emergencyRequestId,
+    responseId: ambulanceRequest.responseId,
+    organizationId: ambulanceRequest.organizationId,
+    ambulanceId: ambulanceRequest.ambulanceId,
+    ambulance: ambulanceRequest.ambulance ? serializeAmbulance(ambulanceRequest.ambulance) : undefined,
+    status: ambulanceRequest.status,
+    pickupAddress: ambulanceRequest.pickupAddress,
+    pickupLat: ambulanceRequest.pickupLat,
+    pickupLng: ambulanceRequest.pickupLng,
+    dropoffAddress: ambulanceRequest.dropoffAddress,
+    dropoffLat: ambulanceRequest.dropoffLat,
+    dropoffLng: ambulanceRequest.dropoffLng,
+    notes: ambulanceRequest.notes,
+    createdAt: ambulanceRequest.createdAt,
+    updatedAt: ambulanceRequest.updatedAt,
   };
 }
 

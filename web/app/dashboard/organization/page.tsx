@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Ambulance as AmbulanceIcon } from "lucide-react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/context/AuthContext";
 import { requestsApi } from "@/lib/api";
@@ -10,6 +11,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
 import { RequestCard } from "@/components/RequestCard";
+import { PageHeader } from "@/components/PageHeader";
 
 function OrganizationDashboard() {
   const { organization, user } = useAuth();
@@ -26,26 +28,31 @@ function OrganizationDashboard() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-zinc-900">{organization.name}</h1>
-          <p className="mt-1 text-sm text-zinc-500">
-            {organization.type === "BLOOD_BANK" ? "Blood Bank" : "Hospital"} · {organization.city}
-          </p>
-          <p className="mt-1 text-sm">
-            {organization.isVerified ? (
-              <span className="font-medium text-green-600">Verified</span>
-            ) : (
-              <span className="font-medium text-orange-600">
-                Pending verification — you can still post requests while an admin reviews your account.
-              </span>
-            )}
-          </p>
-        </div>
-        <Link href="/dashboard/organization/requests/new">
-          <Button>New emergency request</Button>
-        </Link>
-      </div>
+      <PageHeader
+        icon={AmbulanceIcon}
+        title={organization.name}
+        subtitle={
+          <>
+            <p>
+              {organization.type === "BLOOD_BANK" ? "Blood Bank" : "Hospital"} · {organization.city}
+            </p>
+            <p className="mt-1">
+              {organization.isVerified ? (
+                <span className="font-medium text-green-600">Verified</span>
+              ) : (
+                <span className="font-medium text-orange-600">
+                  Pending verification — you can still post requests while an admin reviews your account.
+                </span>
+              )}
+            </p>
+          </>
+        }
+        actions={
+          <Link href="/dashboard/organization/requests/new">
+            <Button>New emergency request</Button>
+          </Link>
+        }
+      />
 
       <div className="mt-6 flex flex-wrap gap-3">
         {user?.role === "BLOOD_BANK" && (
@@ -58,6 +65,11 @@ function OrganizationDashboard() {
         <Link href="/dashboard/organization/donors">
           <Button variant="outline" size="sm">
             Find donors
+          </Button>
+        </Link>
+        <Link href="/dashboard/organization/ambulances">
+          <Button variant="outline" size="sm">
+            Ambulance fleet
           </Button>
         </Link>
         <Link href="/requests">

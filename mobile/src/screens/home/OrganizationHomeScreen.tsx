@@ -56,6 +56,13 @@ export function OrganizationHomeScreen({ navigation }: Props) {
         <Button variant="outline" size="sm" onPress={() => navigation.getParent()?.navigate("Requests" as never)}>
           All requests
         </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onPress={() => navigation.getParent()?.navigate("Profile", { screen: "AmbulanceFleet" } as never)}
+        >
+          Ambulances
+        </Button>
       </View>
 
       <View style={styles.section}>

@@ -10,6 +10,7 @@ const envSchema = z.object({
   CORS_ORIGIN: z.string().default("http://localhost:3000"),
   DEFAULT_MATCH_RADIUS_KM: z.coerce.number().positive().default(15),
   MIN_DONATION_INTERVAL_DAYS: z.coerce.number().int().positive().default(90),
+  LOW_STOCK_THRESHOLD: z.coerce.number().int().min(0).default(5),
 });
 
 const parsed = envSchema.safeParse(process.env);

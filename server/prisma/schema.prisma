@@ -58,6 +58,21 @@ enum Gender {
   OTHER
 }
 
+enum AmbulanceStatus {
+  AVAILABLE
+  ON_TRIP
+  OFFLINE
+}
+
+enum AmbulanceRequestStatus {
+  REQUESTED
+  ASSIGNED
+  EN_ROUTE
+  ARRIVED
+  COMPLETED
+  CANCELLED
+}
+
 model User {
   id           String   @id @default(uuid())
   email        String   @unique
@@ -72,6 +87,7 @@ model User {
   organization Organization?
   notifications Notification[]
   requestResponses RequestResponse[]
+  ambulanceRequestsMade AmbulanceRequest[]
 
   @@map("users")
 }
@@ -123,6 +139,8 @@ model Organization {
 
   inventory        InventoryItem[]
   emergencyRequests EmergencyRequest[]
+  ambulances        Ambulance[]
+  ambulanceRequests AmbulanceRequest[]
 
   @@index([type, city])
   @@map("organizations")
@@ -159,6 +177,7 @@ model EmergencyRequest {
   updatedAt       DateTime      @updatedAt
 
   responses RequestResponse[]
+  ambulanceRequests AmbulanceRequest[]
 
   @@index([status, bloodGroup])
   @@index([organizationId])
@@ -176,8 +195,58 @@ model RequestResponse {
   respondedAt DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
 
+  ambulanceRequests AmbulanceRequest[]
+
   @@unique([requestId, donorUserId])
   @@map("request_responses")
+}
+
+model Ambulance {
+  id             String          @id @default(uuid())
+  organizationId String
+  organization   Organization    @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  vehicleNumber  String
+  driverName     String
+  driverPhone    String
+  status         AmbulanceStatus @default(AVAILABLE)
+  lat            Float
+  lng            Float
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  ambulanceRequests AmbulanceRequest[]
+
+  @@unique([organizationId, vehicleNumber])
+  @@index([organizationId, status])
+  @@map("ambulances")
+}
+
+model AmbulanceRequest {
+  id                  String                 @id @default(uuid())
+  emergencyRequestId  String
+  emergencyRequest    EmergencyRequest       @relation(fields: [emergencyRequestId], references: [id], onDelete: Cascade)
+  responseId          String?
+  response            RequestResponse?       @relation(fields: [responseId], references: [id], onDelete: SetNull)
+  organizationId      String
+  organization        Organization           @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  ambulanceId         String?
+  ambulance           Ambulance?             @relation(fields: [ambulanceId], references: [id], onDelete: SetNull)
+  requestedByUserId   String
+  requestedBy         User                   @relation(fields: [requestedByUserId], references: [id], onDelete: Cascade)
+  status              AmbulanceRequestStatus @default(REQUESTED)
+  pickupAddress       String
+  pickupLat           Float
+  pickupLng           Float
+  dropoffAddress      String
+  dropoffLat          Float
+  dropoffLng          Float
+  notes               String?
+  createdAt           DateTime               @default(now())
+  updatedAt           DateTime               @updatedAt
+
+  @@index([organizationId, status])
+  @@index([emergencyRequestId])
+  @@map("ambulance_requests")
 }
 
 model Notification {

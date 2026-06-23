@@ -1,16 +1,25 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Linking, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import type { RouteProp } from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAuth } from "../../context/AuthContext";
 import { useSocket } from "../../context/SocketContext";
-import { ApiError, requestsApi } from "../../lib/api";
+import { ApiError, ambulanceRequestsApi, ambulancesApi, requestsApi } from "../../lib/api";
 import { colors, spacing, typography } from "../../lib/theme";
-import type { RequestDetail, RequestResponseItem, ResponseStatus } from "../../lib/types";
-import { BloodGroupBadge, RequestStatusBadge, ResponseStatusBadge, UrgencyBadge } from "../../components/Badges";
+import type { Ambulance, AmbulanceRequestItem, RequestDetail, RequestResponseItem, ResponseStatus } from "../../lib/types";
+import {
+  AmbulanceRequestStatusBadge,
+  BloodGroupBadge,
+  RequestStatusBadge,
+  ResponseStatusBadge,
+  UrgencyBadge,
+} from "../../components/Badges";
 import { Button } from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
+import { Input } from "../../components/ui/Input";
+import { SelectField } from "../../components/ui/SelectField";
 import { Spinner } from "../../components/ui/Spinner";
+import { LocateButton } from "../../components/LocateButton";
 
 type RequestDetailParams = { RequestDetail: { id: string } };
 
@@ -83,7 +92,121 @@ function ResponseRow({
   );
 }
 
-export function RequestDetailScreen({ route }: Props) {
+function AmbulanceDispatchSection({
+  request,
+  navigation,
+}: {
+  request: RequestDetail;
+  navigation: NativeStackNavigationProp<any>;
+}) {
+  const [dispatches, setDispatches] = useState<AmbulanceRequestItem[] | null>(null);
+  const [availableAmbulances, setAvailableAmbulances] = useState<Ambulance[]>([]);
+  const [showForm, setShowForm] = useState(false);
+  const [form, setForm] = useState({ pickupAddress: request.address, responseId: "", ambulanceId: "", notes: "" });
+  const [coords, setCoords] = useState({ lat: request.lat, lng: request.lng });
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    ambulanceRequestsApi
+      .list()
+      .then((all) => setDispatches(all.filter((d) => d.emergencyRequestId === request.id)))
+      .catch(() => setDispatches([]));
+    ambulancesApi
+      .list()
+      .then((all) => setAvailableAmbulances(all.filter((a) => a.status === "AVAILABLE")))
+      .catch(() => setAvailableAmbulances([]));
+  }, [request.id]);
+
+  const confirmedResponses = request.responses.filter((r) => r.status === "CONFIRMED");
+
+  const updateField = (key: "pickupAddress" | "notes") => (value: string) =>
+    setForm((prev) => ({ ...prev, [key]: value }));
+
+  const handleSubmit = async () => {
+    setError("");
+    setIsSubmitting(true);
+    try {
+      const created = await ambulanceRequestsApi.create({
+        emergencyRequestId: request.id,
+        pickupAddress: form.pickupAddress,
+        pickupLat: coords.lat,
+        pickupLng: coords.lng,
+        responseId: form.responseId || undefined,
+        ambulanceId: form.ambulanceId || undefined,
+        notes: form.notes || undefined,
+      });
+      navigation.navigate("AmbulanceDetail", { id: created.id });
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : "Could not request an ambulance.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <View style={styles.section}>
+      <View style={styles.sectionHeaderRow}>
+        <Text style={styles.sectionTitle}>Ambulance dispatches</Text>
+        <Button size="sm" variant="outline" onPress={() => setShowForm((s) => !s)}>
+          {showForm ? "Cancel" : "Request ambulance"}
+        </Button>
+      </View>
+
+      {dispatches === null ? (
+        <Spinner />
+      ) : dispatches.length > 0 ? (
+        <View style={styles.list}>
+          {dispatches.map((d) => (
+            <Pressable key={d.id} onPress={() => navigation.navigate("AmbulanceDetail", { id: d.id })}>
+              <Card style={styles.dispatchCard}>
+                <Text style={styles.dispatchAddress}>
+                  {d.pickupAddress} → {d.dropoffAddress}
+                </Text>
+                <AmbulanceRequestStatusBadge status={d.status} />
+              </Card>
+            </Pressable>
+          ))}
+        </View>
+      ) : (
+        !showForm && <Text style={styles.mutedText}>No ambulance dispatched for this request yet.</Text>
+      )}
+
+      {showForm && (
+        <Card style={styles.dispatchFormCard}>
+          <Input label="Pickup address" value={form.pickupAddress} onChangeText={updateField("pickupAddress")} />
+          <View>
+            <LocateButton onLocate={setCoords} />
+            <Text style={styles.mutedText}>
+              Pickup coordinates: {coords.lat.toFixed(4)}, {coords.lng.toFixed(4)}
+            </Text>
+          </View>
+          <SelectField
+            label="Donor (optional)"
+            value={form.responseId}
+            onChange={(value) => setForm((prev) => ({ ...prev, responseId: value }))}
+            options={confirmedResponses.map((r) => ({ value: r.id, label: r.donor?.fullName ?? "Donor" }))}
+            placeholder="No specific donor"
+          />
+          <SelectField
+            label="Ambulance (optional)"
+            value={form.ambulanceId}
+            onChange={(value) => setForm((prev) => ({ ...prev, ambulanceId: value }))}
+            options={availableAmbulances.map((a) => ({ value: a.id, label: `${a.vehicleNumber} · ${a.driverName}` }))}
+            placeholder={availableAmbulances.length === 0 ? "No ambulances available" : "Assign later"}
+          />
+          <Input label="Notes (optional)" value={form.notes} onChangeText={updateField("notes")} />
+          {error && <Text style={styles.errorText}>{error}</Text>}
+          <Button isLoading={isSubmitting} onPress={handleSubmit}>
+            Confirm dispatch
+          </Button>
+        </Card>
+      )}
+    </View>
+  );
+}
+
+export function RequestDetailScreen({ route, navigation }: Props) {
   const { id } = route.params;
   const { user, organization } = useAuth();
   const { socket } = useSocket();
@@ -250,6 +373,8 @@ export function RequestDetailScreen({ route }: Props) {
         </View>
       )}
 
+      {isOwningOrg && <AmbulanceDispatchSection request={request} navigation={navigation} />}
+
       {myResponse && !isOwningOrg && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Your offer</Text>
@@ -372,5 +497,24 @@ const styles = StyleSheet.create({
   responseActions: {
     alignItems: "flex-end",
     gap: spacing.xs,
+  },
+  sectionHeaderRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  dispatchCard: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: spacing.sm,
+  },
+  dispatchAddress: {
+    ...typography.caption,
+    color: colors.textPrimary,
+    flex: 1,
+  },
+  dispatchFormCard: {
+    gap: spacing.md,
   },
 });
