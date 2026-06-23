@@ -1,6 +1,11 @@
 import type {
+  Ambulance,
+  AmbulanceRequestItem,
+  AmbulanceRequestStatus,
+  AmbulanceStatus,
   AppNotification,
   AuthResponse,
+  DonationHistoryItem,
   Donor,
   DonorPublic,
   EmergencyRequest,
@@ -107,6 +112,7 @@ export const donorsApi = {
     apiFetch<Donor>("/donors/me", { method: "PUT", body: JSON.stringify(input) }),
   search: (params: { bloodGroup?: BloodGroupLabel; lat: number; lng: number; radiusKm?: number }) =>
     apiFetch<DonorPublic[]>(`/donors/search${buildQuery(params)}`),
+  getMyDonations: () => apiFetch<DonationHistoryItem[]>("/donors/me/donations"),
 };
 
 export const organizationsApi = {
@@ -154,6 +160,34 @@ export const requestsApi = {
       method: "PATCH",
       body: JSON.stringify({ status }),
     }),
+};
+
+export const ambulancesApi = {
+  list: () => apiFetch<Ambulance[]>("/ambulances"),
+  create: (input: { vehicleNumber: string; driverName: string; driverPhone: string; lat?: number; lng?: number }) =>
+    apiFetch<Ambulance>("/ambulances", { method: "POST", body: JSON.stringify(input) }),
+  update: (id: string, input: { driverName?: string; driverPhone?: string; status?: AmbulanceStatus; lat?: number; lng?: number }) =>
+    apiFetch<Ambulance>(`/ambulances/${id}`, { method: "PATCH", body: JSON.stringify(input) }),
+};
+
+export const ambulanceRequestsApi = {
+  create: (input: {
+    emergencyRequestId: string;
+    responseId?: string;
+    ambulanceId?: string;
+    pickupAddress: string;
+    pickupLat: number;
+    pickupLng: number;
+    dropoffAddress?: string;
+    dropoffLat?: number;
+    dropoffLng?: number;
+    notes?: string;
+  }) => apiFetch<AmbulanceRequestItem>("/ambulances/requests", { method: "POST", body: JSON.stringify(input) }),
+  list: (params: { status?: AmbulanceRequestStatus } = {}) =>
+    apiFetch<AmbulanceRequestItem[]>(`/ambulances/requests${buildQuery(params)}`),
+  get: (id: string) => apiFetch<AmbulanceRequestItem>(`/ambulances/requests/${id}`),
+  update: (id: string, input: { status?: AmbulanceRequestStatus; ambulanceId?: string; notes?: string }) =>
+    apiFetch<AmbulanceRequestItem>(`/ambulances/requests/${id}`, { method: "PATCH", body: JSON.stringify(input) }),
 };
 
 export const notificationsApi = {

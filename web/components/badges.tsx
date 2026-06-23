@@ -1,5 +1,18 @@
-import { REQUEST_STATUS_STYLES, RESPONSE_STATUS_STYLES, URGENCY_STYLES } from "@/lib/constants";
-import type { BloodGroupLabel, RequestStatus, ResponseStatus, Urgency } from "@/lib/types";
+import {
+  AMBULANCE_REQUEST_STATUS_STYLES,
+  AMBULANCE_STATUS_STYLES,
+  REQUEST_STATUS_STYLES,
+  RESPONSE_STATUS_STYLES,
+  URGENCY_STYLES,
+} from "@/lib/constants";
+import type {
+  AmbulanceRequestStatus,
+  AmbulanceStatus,
+  BloodGroupLabel,
+  RequestStatus,
+  ResponseStatus,
+  Urgency,
+} from "@/lib/types";
 
 function Badge({ className, children }: { className: string; children: React.ReactNode }) {
   return (
@@ -26,4 +39,12 @@ export function RequestStatusBadge({ status }: { status: RequestStatus }) {
 
 export function ResponseStatusBadge({ status }: { status: ResponseStatus }) {
   return <Badge className={RESPONSE_STATUS_STYLES[status]}>{status}</Badge>;
+}
+
+export function AmbulanceStatusBadge({ status }: { status: AmbulanceStatus }) {
+  return <Badge className={AMBULANCE_STATUS_STYLES[status]}>{status.replace("_", " ")}</Badge>;
+}
+
+export function AmbulanceRequestStatusBadge({ status }: { status: AmbulanceRequestStatus }) {
+  return <Badge className={AMBULANCE_REQUEST_STATUS_STYLES[status]}>{status.replace("_", " ")}</Badge>;
 }

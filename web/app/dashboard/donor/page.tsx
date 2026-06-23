@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { HeartHandshake } from "lucide-react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/context/AuthContext";
 import { ApiError, donorsApi, requestsApi } from "@/lib/api";
@@ -10,6 +11,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
 import { RequestCard } from "@/components/RequestCard";
+import { PageHeader } from "@/components/PageHeader";
 
 function DonorDashboard() {
   const { donor, refresh } = useAuth();
@@ -42,19 +44,25 @@ function DonorDashboard() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-zinc-900">Welcome, {donor.fullName}</h1>
-          <p className="mt-1 text-sm text-zinc-500">
-            {donor.bloodGroup} donor in {donor.city}
-          </p>
-        </div>
-        <Link href="/dashboard/donor/profile">
-          <Button variant="outline" size="sm">
-            Edit profile
-          </Button>
-        </Link>
-      </div>
+      <PageHeader
+        icon={HeartHandshake}
+        title={`Welcome, ${donor.fullName}`}
+        subtitle={`${donor.bloodGroup} donor in ${donor.city}`}
+        actions={
+          <>
+            <Link href="/dashboard/donor/donations">
+              <Button variant="outline" size="sm">
+                My donations
+              </Button>
+            </Link>
+            <Link href="/dashboard/donor/profile">
+              <Button variant="outline" size="sm">
+                Edit profile
+              </Button>
+            </Link>
+          </>
+        }
+      />
 
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
         <Card className="text-center">

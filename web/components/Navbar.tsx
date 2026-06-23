@@ -5,6 +5,7 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import {
   AlertCircle,
+  Ambulance,
   Boxes,
   Droplet,
   LayoutDashboard,
@@ -62,6 +63,7 @@ export function Navbar() {
         { href: "/dashboard/organization", label: "Dashboard", icon: LayoutDashboard },
         { href: "/requests", label: "Requests", icon: AlertCircle },
         { href: "/dashboard/organization/donors", label: "Find Donors", icon: Users },
+        { href: "/dashboard/organization/ambulances", label: "Ambulances", icon: Ambulance },
       ];
       if (user.role === "BLOOD_BANK") {
         links.splice(2, 0, { href: "/dashboard/organization/inventory", label: "Inventory", icon: Boxes });
