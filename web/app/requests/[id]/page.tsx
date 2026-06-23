@@ -1,18 +1,33 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/context/AuthContext";
 import { useSocket } from "@/context/SocketContext";
-import { ApiError, requestsApi } from "@/lib/api";
-import type { RequestDetail, RequestResponseItem, ResponseStatus } from "@/lib/types";
-import { BloodGroupBadge, RequestStatusBadge, ResponseStatusBadge, UrgencyBadge } from "@/components/badges";
+import { ApiError, ambulanceRequestsApi, ambulancesApi, requestsApi } from "@/lib/api";
+import type {
+  Ambulance,
+  AmbulanceRequestItem,
+  RequestDetail,
+  RequestResponseItem,
+  ResponseStatus,
+} from "@/lib/types";
+import {
+  AmbulanceRequestStatusBadge,
+  BloodGroupBadge,
+  RequestStatusBadge,
+  ResponseStatusBadge,
+  UrgencyBadge,
+} from "@/components/badges";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
+import { Select } from "@/components/ui/Select";
 import { Spinner } from "@/components/ui/Spinner";
 import { MapView } from "@/components/MapViewLazy";
+import { LocateButton } from "@/components/LocateButton";
 
 function ResponseRow({
   response,
@@ -71,6 +86,132 @@ function ResponseRow({
         )}
       </div>
     </Card>
+  );
+}
+
+function AmbulanceDispatchSection({ request }: { request: RequestDetail }) {
+  const router = useRouter();
+  const [dispatches, setDispatches] = useState<AmbulanceRequestItem[] | null>(null);
+  const [availableAmbulances, setAvailableAmbulances] = useState<Ambulance[]>([]);
+  const [showForm, setShowForm] = useState(false);
+  const [form, setForm] = useState({ pickupAddress: request.address, responseId: "", ambulanceId: "", notes: "" });
+  const [coords, setCoords] = useState({ lat: request.lat, lng: request.lng });
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    ambulanceRequestsApi
+      .list()
+      .then((all) => setDispatches(all.filter((d) => d.emergencyRequestId === request.id)))
+      .catch(() => setDispatches([]));
+    ambulancesApi
+      .list()
+      .then((all) => setAvailableAmbulances(all.filter((a) => a.status === "AVAILABLE")))
+      .catch(() => setAvailableAmbulances([]));
+  }, [request.id]);
+
+  const confirmedResponses = request.responses.filter((r) => r.status === "CONFIRMED");
+
+  const updateField = (key: "pickupAddress" | "notes") => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setForm((prev) => ({ ...prev, [key]: e.target.value }));
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setIsSubmitting(true);
+    try {
+      const created = await ambulanceRequestsApi.create({
+        emergencyRequestId: request.id,
+        pickupAddress: form.pickupAddress,
+        pickupLat: coords.lat,
+        pickupLng: coords.lng,
+        responseId: form.responseId || undefined,
+        ambulanceId: form.ambulanceId || undefined,
+        notes: form.notes || undefined,
+      });
+      router.push(`/ambulance/${created.id}`);
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : "Could not request an ambulance.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="mt-8">
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-bold text-zinc-900">Ambulance dispatches</h2>
+        <Button size="sm" variant="outline" onClick={() => setShowForm((s) => !s)}>
+          {showForm ? "Cancel" : "Request ambulance"}
+        </Button>
+      </div>
+
+      {dispatches === null ? (
+        <div className="mt-4">
+          <Spinner />
+        </div>
+      ) : dispatches.length > 0 ? (
+        <div className="mt-4 flex flex-col gap-2">
+          {dispatches.map((d) => (
+            <Link key={d.id} href={`/ambulance/${d.id}`}>
+              <Card className="flex flex-wrap items-center justify-between gap-2 transition-shadow hover:shadow-md">
+                <p className="text-sm text-zinc-700">
+                  {d.pickupAddress} → {d.dropoffAddress}
+                </p>
+                <AmbulanceRequestStatusBadge status={d.status} />
+              </Card>
+            </Link>
+          ))}
+        </div>
+      ) : (
+        !showForm && <p className="mt-4 text-sm text-zinc-500">No ambulance dispatched for this request yet.</p>
+      )}
+
+      {showForm && (
+        <Card className="mt-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <Input label="Pickup address" required value={form.pickupAddress} onChange={updateField("pickupAddress")} />
+            <div>
+              <LocateButton onLocate={setCoords} />
+              <p className="mt-1 text-xs text-zinc-500">
+                Pickup coordinates: {coords.lat.toFixed(4)}, {coords.lng.toFixed(4)}
+              </p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Select
+                label="Donor (optional)"
+                value={form.responseId}
+                onChange={(e) => setForm((prev) => ({ ...prev, responseId: e.target.value }))}
+              >
+                <option value="">No specific donor</option>
+                {confirmedResponses.map((r) => (
+                  <option key={r.id} value={r.id}>
+                    {r.donor?.fullName ?? "Donor"}
+                  </option>
+                ))}
+              </Select>
+              <Select
+                label="Ambulance (optional)"
+                value={form.ambulanceId}
+                onChange={(e) => setForm((prev) => ({ ...prev, ambulanceId: e.target.value }))}
+              >
+                <option value="">{availableAmbulances.length === 0 ? "No ambulances available" : "Assign later"}</option>
+                {availableAmbulances.map((a) => (
+                  <option key={a.id} value={a.id}>
+                    {a.vehicleNumber} · {a.driverName}
+                  </option>
+                ))}
+              </Select>
+            </div>
+            <Input label="Notes (optional)" value={form.notes} onChange={updateField("notes")} />
+            {error && <p className="text-sm text-red-600">{error}</p>}
+            <Button type="submit" isLoading={isSubmitting} className="self-start">
+              Confirm dispatch
+            </Button>
+          </form>
+        </Card>
+      )}
+    </div>
   );
 }
 
@@ -264,6 +405,8 @@ function RequestDetailView() {
           </div>
         </div>
       )}
+
+      {isOwningOrg && <AmbulanceDispatchSection request={request} />}
 
       {myResponse && !isOwningOrg && (
         <div className="mt-8">

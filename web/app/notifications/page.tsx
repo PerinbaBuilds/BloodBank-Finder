@@ -40,10 +40,15 @@ function NotificationsList() {
           </Card>
         ) : (
           notifications.map((notification) => {
+            const ambulanceRequestId =
+              notification.data && typeof notification.data.ambulanceRequestId === "string"
+                ? notification.data.ambulanceRequestId
+                : null;
             const requestId =
               notification.data && typeof notification.data.requestId === "string"
                 ? notification.data.requestId
                 : null;
+            const href = ambulanceRequestId ? `/ambulance/${ambulanceRequestId}` : requestId ? `/requests/${requestId}` : null;
             const content = (
               <Card
                 className={`flex flex-col gap-1 transition-shadow hover:shadow-md ${
@@ -61,7 +66,7 @@ function NotificationsList() {
 
             return (
               <div key={notification.id} onClick={() => !notification.isRead && handleMarkRead(notification.id)}>
-                {requestId ? <Link href={`/requests/${requestId}`}>{content}</Link> : content}
+                {href ? <Link href={href}>{content}</Link> : content}
               </div>
             );
           })
