@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { BellOff } from "lucide-react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useSocket } from "@/context/SocketContext";
 import { notificationsApi } from "@/lib/api";
@@ -33,7 +34,10 @@ function NotificationsList() {
 
       <div className="mt-6 flex flex-col gap-3">
         {notifications.length === 0 ? (
-          <p className="text-sm text-zinc-500">You don&apos;t have any notifications yet.</p>
+          <Card className="flex flex-col items-center gap-2 py-10 text-center">
+            <BellOff className="h-8 w-8 text-zinc-300" />
+            <p className="text-sm text-zinc-500">You don&apos;t have any notifications yet.</p>
+          </Card>
         ) : (
           notifications.map((notification) => {
             const requestId =

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { SearchX } from "lucide-react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ApiError, adminApi } from "@/lib/api";
 import type { Organization } from "@/lib/types";
@@ -61,7 +62,10 @@ function VerificationQueue() {
         {orgs === null ? (
           <Spinner />
         ) : orgs.length === 0 ? (
-          <p className="text-sm text-zinc-500">No organizations found.</p>
+          <Card className="flex flex-col items-center gap-2 py-10 text-center">
+            <SearchX className="h-8 w-8 text-zinc-300" />
+            <p className="text-sm text-zinc-500">No organizations found for this filter.</p>
+          </Card>
         ) : (
           orgs.map((org) => (
             <Card key={org.id} className="flex flex-wrap items-center justify-between gap-3">

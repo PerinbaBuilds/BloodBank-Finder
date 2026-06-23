@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, Text } from "react-native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ApiError, requestsApi } from "../../lib/api";
 import { BLOOD_GROUPS } from "../../lib/constants";
-import { colors, spacing } from "../../lib/theme";
+import { colors, spacing, typography } from "../../lib/theme";
 import type { BloodGroupLabel, Urgency } from "../../lib/types";
 import { Button } from "../../components/ui/Button";
 import { Input, Textarea } from "../../components/ui/Input";
@@ -119,12 +119,11 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xxl,
   },
   title: {
-    fontSize: 20,
-    fontWeight: "800",
+    ...typography.h1,
     color: colors.textPrimary,
   },
   subtitle: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
   },
   card: {
@@ -132,15 +131,15 @@ const styles = StyleSheet.create({
     marginTop: spacing.sm,
   },
   locatedText: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.success,
   },
   hintText: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.textMuted,
   },
   errorText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.danger,
   },
 });

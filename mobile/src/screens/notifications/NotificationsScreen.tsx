@@ -3,7 +3,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useSocket } from "../../context/SocketContext";
 import { notificationsApi } from "../../lib/api";
-import { colors, radius, spacing } from "../../lib/theme";
+import { colors, radius, spacing, typography } from "../../lib/theme";
 import type { NotificationsStackParamList } from "../../navigation/types";
 import { Button } from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
@@ -79,15 +79,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   title: {
-    fontSize: 22,
-    fontWeight: "800",
+    ...typography.h1,
     color: colors.textPrimary,
   },
   list: {
     gap: spacing.sm,
   },
   mutedText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
   },
   notificationCard: {
@@ -104,7 +103,7 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   notificationTitle: {
-    fontSize: 14,
+    ...typography.subtitle,
     fontWeight: "700",
     color: colors.textPrimary,
     flex: 1,
@@ -117,11 +116,11 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   notificationBody: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
   },
   notificationTime: {
-    fontSize: 11,
+    ...typography.caption,
     color: colors.textMuted,
   },
 });

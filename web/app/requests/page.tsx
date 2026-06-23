@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import { SearchX } from "lucide-react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/context/AuthContext";
 import { useSocket } from "@/context/SocketContext";
@@ -111,9 +112,14 @@ function RequestsBrowser() {
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {requests === null ? (
-          <Spinner />
+          <div className="sm:col-span-2 lg:col-span-3">
+            <Spinner />
+          </div>
         ) : requests.length === 0 ? (
-          <p className="text-sm text-zinc-500">No requests match your filters.</p>
+          <Card className="flex flex-col items-center gap-2 py-10 text-center sm:col-span-2 lg:col-span-3">
+            <SearchX className="h-8 w-8 text-zinc-300" />
+            <p className="text-sm text-zinc-500">No requests match your filters. Try adjusting them above.</p>
+          </Card>
         ) : (
           requests.map((request) => <RequestCard key={request.id} request={request} />)
         )}

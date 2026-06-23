@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 import { ApiError, donorsApi } from "../../lib/api";
 import { BLOOD_GROUPS } from "../../lib/constants";
-import { colors, spacing } from "../../lib/theme";
+import { colors, spacing, typography } from "../../lib/theme";
 import type { BloodGroupLabel, DonorPublic } from "../../lib/types";
 import { BloodGroupBadge } from "../../components/Badges";
 import { Button } from "../../components/ui/Button";
@@ -108,31 +108,29 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xxl,
   },
   title: {
-    fontSize: 20,
-    fontWeight: "800",
+    ...typography.h1,
     color: colors.textPrimary,
   },
   subtitle: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
   },
   card: {
     gap: spacing.md,
   },
   locatedText: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.success,
   },
   errorText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.danger,
   },
   results: {
     gap: spacing.sm,
   },
   resultsHeader: {
-    fontSize: 13,
-    fontWeight: "600",
+    ...typography.label,
     color: colors.textPrimary,
   },
   list: {
@@ -144,12 +142,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   donorCity: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
     marginTop: 4,
   },
   donorDistance: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.textMuted,
   },
 });

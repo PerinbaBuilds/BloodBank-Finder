@@ -71,7 +71,9 @@ function OrganizationDashboard() {
         <h2 className="text-lg font-bold text-zinc-900">Your recent requests</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           {requests === null ? (
-            <Spinner />
+            <div className="sm:col-span-2">
+              <Spinner />
+            </div>
           ) : requests.length === 0 ? (
             <Card className="sm:col-span-2">
               <p className="text-sm text-zinc-500">

@@ -4,7 +4,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useAuth } from "../../context/AuthContext";
 import { ApiError, donorsApi } from "../../lib/api";
 import { BLOOD_GROUPS, INDIAN_STATES } from "../../lib/constants";
-import { colors, spacing } from "../../lib/theme";
+import { colors, spacing, typography } from "../../lib/theme";
 import type { BloodGroupLabel } from "../../lib/types";
 import type { ProfileStackParamList } from "../../navigation/types";
 import { Button } from "../../components/ui/Button";
@@ -119,27 +119,26 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xxl,
   },
   title: {
-    fontSize: 20,
-    fontWeight: "800",
+    ...typography.h1,
     color: colors.textPrimary,
   },
   subtitle: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
   },
   card: {
     gap: spacing.md,
   },
   locatedText: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.success,
   },
   errorText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.danger,
   },
   successText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.success,
   },
 });

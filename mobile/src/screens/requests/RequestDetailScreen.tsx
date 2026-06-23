@@ -5,7 +5,7 @@ import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useAuth } from "../../context/AuthContext";
 import { useSocket } from "../../context/SocketContext";
 import { ApiError, requestsApi } from "../../lib/api";
-import { colors, spacing } from "../../lib/theme";
+import { colors, spacing, typography } from "../../lib/theme";
 import type { RequestDetail, RequestResponseItem, ResponseStatus } from "../../lib/types";
 import { BloodGroupBadge, RequestStatusBadge, ResponseStatusBadge, UrgencyBadge } from "../../components/Badges";
 import { Button } from "../../components/ui/Button";
@@ -278,8 +278,8 @@ const styles = StyleSheet.create({
   errorPage: {
     flex: 1,
     padding: spacing.lg,
+    ...typography.caption,
     color: colors.danger,
-    fontSize: 13,
   },
   headerCard: {
     gap: spacing.sm,
@@ -291,12 +291,11 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   title: {
-    fontSize: 17,
-    fontWeight: "700",
+    ...typography.h2,
     color: colors.textPrimary,
   },
   address: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.primary,
     marginTop: 4,
   },
@@ -307,22 +306,22 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   unitsText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
   },
   bodyText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textPrimary,
   },
   bodyLabel: {
     fontWeight: "700",
   },
   timestamps: {
-    fontSize: 11,
+    ...typography.caption,
     color: colors.textMuted,
   },
   errorText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.danger,
   },
   actionsRow: {
@@ -332,15 +331,14 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   mutedText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
   },
   section: {
     gap: spacing.sm,
   },
   sectionTitle: {
-    fontSize: 16,
-    fontWeight: "700",
+    ...typography.h2,
     color: colors.textPrimary,
   },
   list: {
@@ -358,17 +356,16 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   responseName: {
-    fontSize: 14,
-    fontWeight: "600",
+    ...typography.subtitle,
     color: colors.textPrimary,
   },
   responseMeta: {
-    fontSize: 11,
+    ...typography.caption,
     color: colors.textSecondary,
     marginTop: 2,
   },
   phoneLink: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.primary,
     marginTop: 2,
   },

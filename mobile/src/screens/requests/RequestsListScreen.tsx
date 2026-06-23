@@ -5,7 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import { useSocket } from "../../context/SocketContext";
 import { ApiError, requestsApi } from "../../lib/api";
 import { BLOOD_GROUPS } from "../../lib/constants";
-import { colors, spacing } from "../../lib/theme";
+import { colors, spacing, typography } from "../../lib/theme";
 import type { RequestsStackParamList } from "../../navigation/types";
 import type { BloodGroupLabel, EmergencyRequest, RequestStatus } from "../../lib/types";
 import { Button } from "../../components/ui/Button";
@@ -132,12 +132,11 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
   },
   title: {
-    fontSize: 20,
-    fontWeight: "800",
+    ...typography.h1,
     color: colors.textPrimary,
   },
   subtitle: {
-    fontSize: 12,
+    ...typography.caption,
     color: colors.textSecondary,
     marginTop: 2,
   },
@@ -145,14 +144,14 @@ const styles = StyleSheet.create({
     gap: spacing.md,
   },
   errorText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.danger,
   },
   list: {
     gap: spacing.sm,
   },
   mutedText: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
   },
 });

@@ -2,7 +2,7 @@ import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useAuth } from "../../context/AuthContext";
-import { colors, spacing } from "../../lib/theme";
+import { colors, spacing, typography } from "../../lib/theme";
 import type { ProfileStackParamList } from "../../navigation/types";
 import { Button } from "../../components/ui/Button";
 import { Card } from "../../components/ui/Card";
@@ -84,30 +84,28 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xxl,
   },
   title: {
-    fontSize: 22,
-    fontWeight: "800",
+    ...typography.h1,
     color: colors.textPrimary,
   },
   card: {
     gap: 4,
   },
   name: {
-    fontSize: 18,
-    fontWeight: "700",
+    ...typography.h2,
     color: colors.textPrimary,
   },
   subtext: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
   },
   verified: {
-    fontSize: 12,
+    ...typography.caption,
     fontWeight: "600",
     color: colors.success,
     marginTop: 2,
   },
   unverified: {
-    fontSize: 12,
+    ...typography.caption,
     fontWeight: "600",
     color: colors.warning,
     marginTop: 2,
@@ -123,12 +121,11 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   rowLabel: {
-    fontSize: 13,
+    ...typography.caption,
     color: colors.textSecondary,
   },
   rowValue: {
-    fontSize: 13,
-    fontWeight: "600",
+    ...typography.label,
     color: colors.textPrimary,
   },
   actions: {

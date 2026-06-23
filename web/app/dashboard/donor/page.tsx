@@ -103,7 +103,9 @@ function DonorDashboard() {
         </div>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           {requests === null ? (
-            <Spinner />
+            <div className="sm:col-span-2">
+              <Spinner />
+            </div>
           ) : requests.length === 0 ? (
             <p className="text-sm text-zinc-500">
               No matching open requests right now. We&apos;ll notify you when one appears.
