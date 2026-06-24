@@ -11,6 +11,11 @@ const envSchema = z.object({
   DEFAULT_MATCH_RADIUS_KM: z.coerce.number().positive().default(15),
   MIN_DONATION_INTERVAL_DAYS: z.coerce.number().int().positive().default(90),
   LOW_STOCK_THRESHOLD: z.coerce.number().int().min(0).default(5),
+  RESEND_API_KEY: z.string().optional(),
+  EMAIL_FROM: z.string().default("BloodBank Finder <onboarding@resend.dev>"),
+  TWILIO_ACCOUNT_SID: z.string().optional(),
+  TWILIO_AUTH_TOKEN: z.string().optional(),
+  TWILIO_PHONE_NUMBER: z.string().optional(),
 });
 
 const parsed = envSchema.safeParse(process.env);

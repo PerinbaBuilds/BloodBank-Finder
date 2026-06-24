@@ -40,7 +40,7 @@ It ships as three coordinated client apps sharing one backend:
 
 **For Donors**
 - Register with blood group, location, and availability
-- Real-time alert the moment a compatible, in-range request opens — pushed over WebSocket, no polling
+- Real-time alert the moment a compatible, in-range request opens — pushed over WebSocket, plus email and SMS, no polling
 - One-tap "offer to donate" with automatic distance-to-request calculation
 - Donation history and an eligibility check that enforces a minimum interval between donations
 - Toggle availability for matching on/off at any time
@@ -59,6 +59,7 @@ It ships as three coordinated client apps sharing one backend:
 
 **Cross-cutting**
 - Real-time updates everywhere via Socket.IO — new requests, donor offers, status changes, ambulance tracking, notifications
+- Every notification is also delivered by email (Resend) and SMS (Twilio), alongside the in-app feed
 - Role-based access control across donor / hospital / blood bank / admin
 - Installable PWA — web manifest, custom service worker, "Add to Home Screen," cache-first static assets
 - Map-based search (Leaflet / OpenStreetMap) with an adjustable search radius
@@ -95,6 +96,8 @@ Request flow: **route → middleware (auth / validate / rate-limit) → controll
 | Framework | [Express](https://expressjs.com/) 5 |
 | Database | [PostgreSQL](https://www.postgresql.org/) + [Prisma](https://www.prisma.io/) ORM 6 |
 | Real-time | [Socket.IO](https://socket.io/) 4 (JWT-authenticated connections, per-user rooms) |
+| Email | [Resend](https://resend.com/) |
+| SMS | [Twilio](https://www.twilio.com/) |
 | Auth | [JWT](https://jwt.io/) ([jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)) + [bcryptjs](https://www.npmjs.com/package/bcryptjs) password hashing |
 | Validation | [Zod](https://zod.dev/) schemas on every route |
 | Security | [Helmet](https://helmetjs.github.io/), CORS, tiered [express-rate-limit](https://www.npmjs.com/package/express-rate-limit) |
@@ -263,6 +266,11 @@ npx expo start
 | `DEFAULT_MATCH_RADIUS_KM` | Search radius for donor matching (default `15`) |
 | `MIN_DONATION_INTERVAL_DAYS` | Minimum days required between donations (default `90`) |
 | `LOW_STOCK_THRESHOLD` | Units at or below which a low-stock alert fires (default `5`) |
+| `RESEND_API_KEY` | [Resend](https://resend.com/) API key for sending notification emails; leave unset to disable email |
+| `EMAIL_FROM` | Sender address for outgoing email (default `BloodBank Finder <onboarding@resend.dev>`) |
+| `TWILIO_ACCOUNT_SID` | [Twilio](https://www.twilio.com/) account SID for sending notification SMS; leave unset to disable SMS |
+| `TWILIO_AUTH_TOKEN` | Twilio auth token |
+| `TWILIO_PHONE_NUMBER` | Twilio phone number to send SMS from, in E.164 format |
 
 **`web/.env.local`**
 
