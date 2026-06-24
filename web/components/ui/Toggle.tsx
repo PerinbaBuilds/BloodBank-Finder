@@ -12,7 +12,7 @@ export function Toggle({ label, hint, checked, onChange }: ToggleProps) {
     <div className="flex items-center justify-between gap-3 py-1">
       <div>
         <p className="text-sm font-medium text-zinc-700">{label}</p>
-        {hint && <p className="text-xs text-zinc-400">{hint}</p>}
+        {hint && <p className="text-xs text-zinc-500">{hint}</p>}
       </div>
       <button
         type="button"

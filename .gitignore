@@ -43,6 +43,7 @@ mobile/.metro-health-check*
 Thumbs.db
 .vscode/
 .idea/
+.claude/
 *.swp
 
 ### Coverage ###
