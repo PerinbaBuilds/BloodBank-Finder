@@ -65,31 +65,70 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      <section className="relative overflow-hidden bg-gradient-to-b from-red-50 via-red-50/40 to-white px-4 py-16 text-center">
+      <section className="relative overflow-hidden bg-gradient-to-br from-red-50 via-rose-50/60 to-white px-4 py-16 sm:py-20">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[480px] bg-[radial-gradient(ellipse_at_top,_rgba(220,38,38,0.12),_transparent_70%)]"
+          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[600px] bg-[radial-gradient(ellipse_at_top,_rgba(220,38,38,0.16),_transparent_70%)]"
         />
-        <span className="mx-auto mb-5 inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-white px-3 py-1 text-xs font-semibold text-red-700 shadow-soft">
-          <HeartPulse className="h-3.5 w-3.5" />
-          Live, real-time blood matching
-        </span>
-        <h1 className="mx-auto max-w-3xl text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl">
-          Find blood when every minute counts.
-        </h1>
-        <p className="mx-auto mt-4 max-w-xl text-base text-zinc-600">
-          BloodBank Finder connects voluntary donors, hospitals, and blood banks in real time to resolve urgent
-          blood shortages — wherever you are.
-        </p>
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-          <Link href="/register/donor">
-            <Button size="lg">Become a Donor</Button>
-          </Link>
-          <Link href="/register/organization">
-            <Button size="lg" variant="outline">
-              Register a Hospital / Blood Bank
-            </Button>
-          </Link>
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-24 top-20 -z-10 h-72 w-72 rounded-full bg-red-200/50 blur-3xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -left-16 bottom-0 -z-10 h-64 w-64 rounded-full bg-rose-200/40 blur-3xl"
+        />
+
+        <div className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2">
+          <div className="text-center lg:text-left">
+            <span className="mb-5 inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-white px-3 py-1 text-xs font-semibold text-red-700 shadow-soft">
+              <HeartPulse className="h-3.5 w-3.5" />
+              Live, real-time blood matching
+            </span>
+            <h1 className="mx-auto max-w-xl text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl lg:mx-0 lg:text-6xl">
+              Find blood when <span className="text-red-600">every minute</span> counts.
+            </h1>
+            <p className="mx-auto mt-4 max-w-xl text-base text-zinc-600 lg:mx-0">
+              BloodBank Finder connects voluntary donors, hospitals, and blood banks in real time to resolve urgent
+              blood shortages — wherever you are.
+            </p>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+              <Link href="/register/donor">
+                <Button size="lg">Become a Donor</Button>
+              </Link>
+              <Link href="/register/organization">
+                <Button size="lg" variant="outline">
+                  Register a Hospital / Blood Bank
+                </Button>
+              </Link>
+            </div>
+          </div>
+
+          <div className="relative mx-auto h-[340px] w-full max-w-md sm:h-[380px]">
+            <div className="motion-safe:animate-float absolute inset-x-6 top-6 flex flex-col items-center gap-4 rounded-3xl border border-red-100 bg-white/90 p-8 shadow-lifted backdrop-blur-sm">
+              <div className="relative flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-red-500 to-red-700 shadow-lifted">
+                <span aria-hidden className="motion-safe:animate-ping absolute inset-0 rounded-full bg-red-500/40" />
+                <Droplets className="relative h-11 w-11 text-white" />
+              </div>
+              <div className="text-center">
+                <p className="text-sm font-semibold text-zinc-900">Matching donors nearby</p>
+                <p className="mt-1 flex items-center justify-center gap-1.5 text-xs text-zinc-500">
+                  <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
+                  Searching in real time
+                </p>
+              </div>
+            </div>
+
+            <div className="motion-safe:animate-float absolute -left-4 bottom-8 flex items-center gap-2 rounded-2xl border border-zinc-100 bg-white px-4 py-3 shadow-card [animation-delay:0.6s]">
+              <Users className="h-4 w-4 text-red-600" />
+              <span className="text-xs font-medium text-zinc-700">Donors notified instantly</span>
+            </div>
+
+            <div className="motion-safe:animate-float absolute -right-2 top-0 flex items-center gap-2 rounded-2xl border border-zinc-100 bg-white px-4 py-3 shadow-card [animation-delay:1.2s]">
+              <CheckCircle2 className="h-4 w-4 text-green-600" />
+              <span className="text-xs font-medium text-zinc-700">Verified organizations</span>
+            </div>
+          </div>
         </div>
       </section>
 
