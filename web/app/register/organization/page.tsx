@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Card } from "@/components/ui/Card";
-import { LocateButton } from "@/components/LocateButton";
+import { LocationField } from "@/components/LocationField";
 
 export default function OrganizationRegisterPage() {
   const { registerOrganization } = useAuth();
@@ -129,7 +129,7 @@ export default function OrganizationRegisterPage() {
           </div>
 
           <div>
-            <LocateButton onLocate={setCoords} />
+            <LocationField onLocate={setCoords} />
             {coords && (
               <p className="mt-1 text-xs text-green-600">
                 Location set ({coords.lat.toFixed(4)}, {coords.lng.toFixed(4)})
