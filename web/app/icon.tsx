@@ -24,7 +24,7 @@ export default function Icon() {
             height: 240,
             background: "white",
             borderRadius: "50% 50% 50% 0%",
-            transform: "rotate(-45deg)",
+            transform: "rotate(135deg)",
           }}
         />
       </div>
