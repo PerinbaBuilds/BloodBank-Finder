@@ -367,6 +367,15 @@ function RequestDetailView() {
               </Button>
             </>
           )}
+          {!canRespond && !myResponse && !canManageRequest && (
+            <p className="text-sm text-zinc-500">
+              {user?.role === "DONOR"
+                ? "You're not eligible to respond to this request right now (blood group, availability, or donation interval)."
+                : isOwningOrg
+                ? "This request is closed and can no longer be managed."
+                : `Only ${request.organization?.name ?? "the requesting organization"} and compatible donors can act on this request.`}
+            </p>
+          )}
         </div>
       </Card>
 
