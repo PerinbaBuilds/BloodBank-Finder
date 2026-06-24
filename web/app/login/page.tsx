@@ -16,6 +16,7 @@ const DEMO_ACCOUNTS = [
   { label: "Donor", email: "donor1@demo.com" },
 ];
 const DEMO_PASSWORD = "Password123!";
+const SHOW_DEMO_LOGIN = process.env.NEXT_PUBLIC_ENABLE_DEMO_LOGIN === "true";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -94,28 +95,30 @@ export default function LoginPage() {
         </Link>
       </p>
 
-      <Card className="animate-fade-in-up mt-8 bg-zinc-50">
-        <p className="text-sm font-semibold text-zinc-700">Quick demo login</p>
-        <p className="mt-1 text-xs text-zinc-500">
-          Tap an account to sign in instantly. Password: <code className="font-mono">{DEMO_PASSWORD}</code>
-        </p>
-        <div className="mt-3 grid grid-cols-2 gap-2">
-          {DEMO_ACCOUNTS.map((account) => (
-            <Button
-              key={account.email}
-              type="button"
-              variant="outline"
-              size="sm"
-              isLoading={demoLoading === account.email}
-              disabled={demoLoading !== null}
-              onClick={() => handleDemoLogin(account.email)}
-              className="hover:-translate-y-0.5"
-            >
-              {account.label}
-            </Button>
-          ))}
-        </div>
-      </Card>
+      {SHOW_DEMO_LOGIN && (
+        <Card className="animate-fade-in-up mt-8 bg-zinc-50">
+          <p className="text-sm font-semibold text-zinc-700">Quick demo login</p>
+          <p className="mt-1 text-xs text-zinc-500">
+            Tap an account to sign in instantly. Password: <code className="font-mono">{DEMO_PASSWORD}</code>
+          </p>
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            {DEMO_ACCOUNTS.map((account) => (
+              <Button
+                key={account.email}
+                type="button"
+                variant="outline"
+                size="sm"
+                isLoading={demoLoading === account.email}
+                disabled={demoLoading !== null}
+                onClick={() => handleDemoLogin(account.email)}
+                className="hover:-translate-y-0.5"
+              >
+                {account.label}
+              </Button>
+            ))}
+          </div>
+        </Card>
+      )}
     </div>
   );
 }
