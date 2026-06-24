@@ -19,11 +19,10 @@ export default function Icon() {
         <div
           style={{
             display: "flex",
-            width: 300,
-            height: 300,
+            width: 320,
+            height: 320,
             background: "white",
-            borderRadius: "50% 50% 50% 0",
-            transform: "rotate(45deg)",
+            borderRadius: "50%",
           }}
         />
       </div>
