@@ -101,8 +101,8 @@ export default function DonorRegisterPage() {
       <Card className="mt-6 animate-fade-in-up">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="grid gap-4 sm:grid-cols-2">
-            <Input label="Full name" required value={form.fullName} onChange={update("fullName")} />
-            <Input label="Phone" required value={form.phone} onChange={update("phone")} />
+            <Input label="Full name" required value={form.fullName} onChange={update("fullName")} autoComplete="name" />
+            <Input label="Phone" type="tel" required value={form.phone} onChange={update("phone")} autoComplete="tel" />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <Input
@@ -151,10 +151,10 @@ export default function DonorRegisterPage() {
           </div>
           <Input label="Date of birth" type="date" required value={form.dateOfBirth} onChange={update("dateOfBirth")} />
 
-          <Input label="Address" required value={form.address} onChange={update("address")} />
+          <Input label="Address" required value={form.address} onChange={update("address")} autoComplete="street-address" />
           <div className="grid gap-4 sm:grid-cols-3">
-            <Input label="City" required value={form.city} onChange={update("city")} />
-            <Select label="State" required value={form.state} onChange={update("state")}>
+            <Input label="City" required value={form.city} onChange={update("city")} autoComplete="address-level2" />
+            <Select label="State" required value={form.state} onChange={update("state")} autoComplete="address-level1">
               <option value="">Select</option>
               {INDIAN_STATES.map((s) => (
                 <option key={s} value={s}>
@@ -162,12 +162,12 @@ export default function DonorRegisterPage() {
                 </option>
               ))}
             </Select>
-            <Input label="Pincode" required value={form.pincode} onChange={update("pincode")} />
+            <Input label="Pincode" required value={form.pincode} onChange={update("pincode")} autoComplete="postal-code" />
           </div>
 
           <div className="rounded-lg border border-zinc-200 p-4">
             <p className="text-sm font-semibold text-zinc-700">Health &amp; lifestyle</p>
-            <p className="text-xs text-zinc-400">
+            <p className="text-xs text-zinc-500">
               Helps hospitals and blood banks assess donation eligibility. Kept private to your profile.
             </p>
             <div className="mt-2 flex flex-col divide-y divide-zinc-100">
@@ -218,7 +218,11 @@ export default function DonorRegisterPage() {
             )}
           </div>
 
-          {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && (
+            <p role="alert" className="text-sm text-red-600">
+              {error}
+            </p>
+          )}
           <Button type="submit" isLoading={isSubmitting} className="w-full">
             Create donor account
           </Button>

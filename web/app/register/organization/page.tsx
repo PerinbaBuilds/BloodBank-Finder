@@ -81,7 +81,7 @@ export default function OrganizationRegisterPage() {
       <Card className="mt-6">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="grid gap-4 sm:grid-cols-2">
-            <Input label="Organization name" required value={form.name} onChange={update("name")} />
+            <Input label="Organization name" required value={form.name} onChange={update("name")} autoComplete="organization" />
             <Select label="Type" required value={form.type} onChange={update("type")}>
               <option value="">Select</option>
               <option value="HOSPITAL">Hospital</option>
@@ -90,10 +90,10 @@ export default function OrganizationRegisterPage() {
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <Input label="Registration number" required value={form.regNumber} onChange={update("regNumber")} />
-            <Input label="Contact person" required value={form.contactPerson} onChange={update("contactPerson")} />
+            <Input label="Contact person" required value={form.contactPerson} onChange={update("contactPerson")} autoComplete="name" />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <Input label="Phone" required value={form.phone} onChange={update("phone")} />
+            <Input label="Phone" type="tel" required value={form.phone} onChange={update("phone")} autoComplete="tel" />
             <Input
               label="Email"
               type="email"
@@ -114,10 +114,10 @@ export default function OrganizationRegisterPage() {
             autoComplete="new-password"
           />
 
-          <Input label="Address" required value={form.address} onChange={update("address")} />
+          <Input label="Address" required value={form.address} onChange={update("address")} autoComplete="street-address" />
           <div className="grid gap-4 sm:grid-cols-3">
-            <Input label="City" required value={form.city} onChange={update("city")} />
-            <Select label="State" required value={form.state} onChange={update("state")}>
+            <Input label="City" required value={form.city} onChange={update("city")} autoComplete="address-level2" />
+            <Select label="State" required value={form.state} onChange={update("state")} autoComplete="address-level1">
               <option value="">Select</option>
               {INDIAN_STATES.map((s) => (
                 <option key={s} value={s}>
@@ -125,7 +125,7 @@ export default function OrganizationRegisterPage() {
                 </option>
               ))}
             </Select>
-            <Input label="Pincode" required value={form.pincode} onChange={update("pincode")} />
+            <Input label="Pincode" required value={form.pincode} onChange={update("pincode")} autoComplete="postal-code" />
           </div>
 
           <div>
@@ -137,11 +137,15 @@ export default function OrganizationRegisterPage() {
             )}
           </div>
 
-          {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && (
+            <p role="alert" className="text-sm text-red-600">
+              {error}
+            </p>
+          )}
           <Button type="submit" isLoading={isSubmitting} className="w-full">
             Create organization account
           </Button>
-          <p className="text-center text-xs text-zinc-400">
+          <p className="text-center text-xs text-zinc-500">
             New organizations start unverified. An administrator will verify your registration shortly.
           </p>
         </form>

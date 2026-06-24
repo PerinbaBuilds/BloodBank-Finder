@@ -154,7 +154,11 @@ export default function Home() {
               )}
             </div>
 
-            {searchError && <p className="text-sm text-red-600">{searchError}</p>}
+            {searchError && (
+              <p role="alert" className="text-sm text-red-600">
+                {searchError}
+              </p>
+            )}
             <Button type="submit" isLoading={isSearching}>
               <Search className="h-4 w-4" />
               Search

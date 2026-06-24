@@ -38,17 +38,19 @@ export class ApiError extends Error {
   }
 }
 
+// Session-scoped on purpose: the token must not survive closing the tab/browser,
+// so a shared or borrowed device doesn't auto-restore the previous user's session.
 export function getToken(): string | null {
   if (typeof window === "undefined") return null;
-  return localStorage.getItem(TOKEN_KEY);
+  return sessionStorage.getItem(TOKEN_KEY);
 }
 
 export function setToken(token: string) {
-  if (typeof window !== "undefined") localStorage.setItem(TOKEN_KEY, token);
+  if (typeof window !== "undefined") sessionStorage.setItem(TOKEN_KEY, token);
 }
 
 export function clearToken() {
-  if (typeof window !== "undefined") localStorage.removeItem(TOKEN_KEY);
+  if (typeof window !== "undefined") sessionStorage.removeItem(TOKEN_KEY);
 }
 
 function buildQuery(params?: Record<string, unknown>): string {

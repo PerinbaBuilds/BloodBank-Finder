@@ -103,3 +103,31 @@ describe("GET /api/auth/me", () => {
     expect(res.status).toBe(401);
   });
 });
+
+describe("role checks re-read the database instead of trusting the token", () => {
+  it("revokes access immediately after a role downgrade, without requiring a new login", async () => {
+    const { body, token } = await registerOrg(app, { type: "HOSPITAL" });
+
+    await prisma.user.update({ where: { id: body.user.id }, data: { role: "DONOR" } });
+
+    const res = await request(app)
+      .post("/api/requests")
+      .set(...authHeader(token))
+      .send({ bloodGroup: "O-", unitsNeeded: 1, urgency: "HIGH" });
+
+    expect(res.status).toBe(403);
+    expect(res.body.message).toBe("You do not have permission to perform this action");
+  });
+
+  it("grants access immediately after a role upgrade, without requiring a new login", async () => {
+    const { body, token } = await registerDonor(app);
+
+    await prisma.user.update({ where: { id: body.user.id }, data: { role: "ADMIN" } });
+
+    const res = await request(app)
+      .get("/api/admin/organizations")
+      .set(...authHeader(token));
+
+    expect(res.status).toBe(200);
+  });
+});

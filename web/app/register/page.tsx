@@ -8,7 +8,7 @@ export default function RegisterChoicePage() {
       <p className="mt-1 text-center text-sm text-zinc-500">Choose the option that fits you best.</p>
 
       <div className="mt-8 grid gap-6 sm:grid-cols-2">
-        <Link href="/register/donor">
+        <Link href="/register/donor" className="rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
           <Card className="flex h-full flex-col gap-2 transition-shadow hover:shadow-md">
             <h2 className="text-lg font-semibold text-zinc-900">I want to donate blood</h2>
             <p className="text-sm text-zinc-500">
@@ -16,7 +16,7 @@ export default function RegisterChoicePage() {
             </p>
           </Card>
         </Link>
-        <Link href="/register/organization">
+        <Link href="/register/organization" className="rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
           <Card className="flex h-full flex-col gap-2 transition-shadow hover:shadow-md">
             <h2 className="text-lg font-semibold text-zinc-900">I represent a hospital or blood bank</h2>
             <p className="text-sm text-zinc-500">

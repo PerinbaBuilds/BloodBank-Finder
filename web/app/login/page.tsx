@@ -76,7 +76,11 @@ export default function LoginPage() {
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
           />
-          {error && <p className="text-sm text-red-600">{error}</p>}
+          {error && (
+            <p role="alert" className="text-sm text-red-600">
+              {error}
+            </p>
+          )}
           <Button type="submit" isLoading={isSubmitting} className="w-full">
             Login
           </Button>
@@ -92,7 +96,7 @@ export default function LoginPage() {
 
       <Card className="animate-fade-in-up mt-8 bg-zinc-50">
         <p className="text-sm font-semibold text-zinc-700">Quick demo login</p>
-        <p className="mt-1 text-xs text-zinc-400">
+        <p className="mt-1 text-xs text-zinc-500">
           Tap an account to sign in instantly. Password: <code className="font-mono">{DEMO_PASSWORD}</code>
         </p>
         <div className="mt-3 grid grid-cols-2 gap-2">
