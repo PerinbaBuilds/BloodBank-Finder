@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { Role } from "@prisma/client";
 import { verifyToken } from "@/utils/jwt";
 import { AppError } from "@/utils/AppError";
+import { prisma } from "@/config/prisma";
 
 function extractToken(req: Request): string | undefined {
   const header = req.headers.authorization;
@@ -11,29 +12,42 @@ function extractToken(req: Request): string | undefined {
   return req.cookies?.token;
 }
 
-export function requireAuth(req: Request, _res: Response, next: NextFunction) {
+/**
+ * Roles aren't embedded as trusted JWT claims here: we re-read the current role from
+ * the DB on every request. This keeps authorization in sync with whatever /auth/me
+ * reports, instead of freezing a user's role at token-issue time.
+ */
+export async function requireAuth(req: Request, _res: Response, next: NextFunction) {
   const token = extractToken(req);
   if (!token) {
     return next(AppError.unauthorized("Authentication required"));
   }
+  let payload;
   try {
-    const payload = verifyToken(token);
-    req.userId = payload.sub;
-    req.userRole = payload.role;
-    next();
+    payload = verifyToken(token);
   } catch {
     return next(AppError.unauthorized("Invalid or expired session"));
   }
+  const user = await prisma.user.findUnique({ where: { id: payload.sub }, select: { id: true, role: true } });
+  if (!user) {
+    return next(AppError.unauthorized("Invalid or expired session"));
+  }
+  req.userId = user.id;
+  req.userRole = user.role;
+  next();
 }
 
 /** Populates req.userId/userRole when a valid token is present, but never rejects the request. */
-export function attachUserIfPresent(req: Request, _res: Response, next: NextFunction) {
+export async function attachUserIfPresent(req: Request, _res: Response, next: NextFunction) {
   const token = extractToken(req);
   if (token) {
     try {
       const payload = verifyToken(token);
-      req.userId = payload.sub;
-      req.userRole = payload.role;
+      const user = await prisma.user.findUnique({ where: { id: payload.sub }, select: { id: true, role: true } });
+      if (user) {
+        req.userId = user.id;
+        req.userRole = user.role;
+      }
     } catch {
       // ignore invalid token on optional-auth routes
     }
