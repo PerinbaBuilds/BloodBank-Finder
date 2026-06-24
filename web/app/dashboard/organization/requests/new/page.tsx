@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ApiError, requestsApi } from "@/lib/api";
 import { BLOOD_GROUPS } from "@/lib/constants";
@@ -10,12 +10,17 @@ import { Button } from "@/components/ui/Button";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Card } from "@/components/ui/Card";
-import { LocateButton } from "@/components/LocateButton";
+import { LocationField } from "@/components/LocationField";
 
 function NewRequestForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const requestedGroup = searchParams.get("bloodGroup");
+  const prefilledGroup = (BLOOD_GROUPS as readonly string[]).includes(requestedGroup ?? "")
+    ? (requestedGroup as BloodGroupLabel)
+    : "";
   const [form, setForm] = useState({
-    bloodGroup: "" as BloodGroupLabel | "",
+    bloodGroup: prefilledGroup as BloodGroupLabel | "",
     unitsNeeded: "1",
     urgency: "" as Urgency | "",
     patientInfo: "",
@@ -115,7 +120,7 @@ function NewRequestForm() {
           />
 
           <div>
-            <LocateButton onLocate={setCoords} />
+            <LocationField onLocate={setCoords} />
             <p className={`mt-1 text-xs ${coords ? "text-green-600" : "text-zinc-500"}`}>
               {coords
                 ? `Location set (${coords.lat.toFixed(4)}, ${coords.lng.toFixed(4)})`
@@ -144,7 +149,9 @@ function NewRequestForm() {
 export default function NewRequestPage() {
   return (
     <ProtectedRoute roles={["HOSPITAL", "BLOOD_BANK"]}>
-      <NewRequestForm />
+      <Suspense>
+        <NewRequestForm />
+      </Suspense>
     </ProtectedRoute>
   );
 }

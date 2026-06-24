@@ -11,7 +11,7 @@ import { Input, Textarea } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Card } from "@/components/ui/Card";
 import { Toggle } from "@/components/ui/Toggle";
-import { LocateButton } from "@/components/LocateButton";
+import { LocationField } from "@/components/LocationField";
 
 export default function DonorRegisterPage() {
   const { registerDonor } = useAuth();
@@ -210,7 +210,7 @@ export default function DonorRegisterPage() {
           </div>
 
           <div>
-            <LocateButton onLocate={setCoords} />
+            <LocationField onLocate={setCoords} />
             {coords && (
               <p className="mt-1 text-xs text-green-600">
                 Location set ({coords.lat.toFixed(4)}, {coords.lng.toFixed(4)})

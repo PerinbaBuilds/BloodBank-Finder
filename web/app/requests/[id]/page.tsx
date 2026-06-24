@@ -27,7 +27,7 @@ import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Spinner } from "@/components/ui/Spinner";
 import { MapView } from "@/components/MapViewLazy";
-import { LocateButton } from "@/components/LocateButton";
+import { LocationField } from "@/components/LocationField";
 
 function ResponseRow({
   response,
@@ -172,7 +172,7 @@ function AmbulanceDispatchSection({ request }: { request: RequestDetail }) {
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <Input label="Pickup address" required value={form.pickupAddress} onChange={updateField("pickupAddress")} />
             <div>
-              <LocateButton onLocate={setCoords} />
+              <LocationField onLocate={setCoords} />
               <p className="mt-1 text-xs text-zinc-500">
                 Pickup coordinates: {coords.lat.toFixed(4)}, {coords.lng.toFixed(4)}
               </p>

@@ -12,7 +12,7 @@ import { Select } from "@/components/ui/Select";
 import { Card } from "@/components/ui/Card";
 import { StatCard } from "@/components/StatCard";
 import { OrgCard } from "@/components/OrgCard";
-import { LocateButton } from "@/components/LocateButton";
+import { LocationField } from "@/components/LocationField";
 import { MapView } from "@/components/MapViewLazy";
 
 const INDIA_CENTER: [number, number] = [20.5937, 78.9629];
@@ -185,7 +185,7 @@ export default function Home() {
             </div>
 
             <div>
-              <LocateButton onLocate={setCoords} />
+              <LocationField onLocate={setCoords} />
               {coords && (
                 <p className="mt-1 text-xs text-green-600">
                   Using your location ({coords.lat.toFixed(4)}, {coords.lng.toFixed(4)})

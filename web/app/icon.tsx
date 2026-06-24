@@ -14,15 +14,17 @@ export default function Icon() {
           alignItems: "center",
           justifyContent: "center",
           background: "#dc2626",
+          borderRadius: 96,
         }}
       >
         <div
           style={{
             display: "flex",
-            width: 320,
-            height: 320,
+            width: 240,
+            height: 240,
             background: "white",
-            borderRadius: "50%",
+            borderRadius: "50% 50% 50% 0%",
+            transform: "rotate(45deg)",
           }}
         />
       </div>

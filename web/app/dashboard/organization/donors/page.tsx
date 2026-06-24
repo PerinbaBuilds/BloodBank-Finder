@@ -11,7 +11,7 @@ import { BloodGroupBadge } from "@/components/badges";
 import { Button } from "@/components/ui/Button";
 import { Select } from "@/components/ui/Select";
 import { Card } from "@/components/ui/Card";
-import { LocateButton } from "@/components/LocateButton";
+import { LocationField } from "@/components/LocationField";
 
 function FindDonors() {
   const { organization } = useAuth();
@@ -88,7 +88,7 @@ function FindDonors() {
           </div>
 
           <div>
-            <LocateButton onLocate={setCoords} />
+            <LocationField onLocate={setCoords} />
             {coords && (
               <p className="mt-1 text-xs text-green-600">
                 Searching near ({coords.lat.toFixed(4)}, {coords.lng.toFixed(4)})
@@ -105,17 +105,36 @@ function FindDonors() {
 
       {results && (
         <div className="mt-6">
-          <p className="text-sm font-medium text-zinc-700">
-            {results.length} available, eligible donor(s) found within {radiusKm} km
-          </p>
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-sm font-medium text-zinc-700">
+              {results.length} available, eligible donor(s) found within {radiusKm} km
+            </p>
+            {results.length > 0 && (
+              <Link href={`/dashboard/organization/requests/new?bloodGroup=${bloodGroup}`}>
+                <Button size="sm">Post a request for {bloodGroup}</Button>
+              </Link>
+            )}
+          </div>
+          {results.length > 0 && (
+            <p className="mt-1 text-xs text-zinc-500">
+              Donor contact details are kept private until they respond to a request and you confirm them.
+            </p>
+          )}
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {results.map((donor) => (
-              <Card key={donor.id} className="flex items-center justify-between">
-                <div>
-                  <BloodGroupBadge group={donor.bloodGroup} />
-                  <p className="mt-1 text-sm text-zinc-600">{donor.city}</p>
+              <Card key={donor.id} className="flex flex-col gap-3">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <BloodGroupBadge group={donor.bloodGroup} />
+                    <p className="mt-1 text-sm text-zinc-600">{donor.city}</p>
+                  </div>
+                  {donor.distanceKm !== undefined && <p className="text-xs text-zinc-500">~{donor.distanceKm} km</p>}
                 </div>
-                {donor.distanceKm !== undefined && <p className="text-xs text-zinc-500">~{donor.distanceKm} km</p>}
+                <Link href={`/dashboard/organization/requests/new?bloodGroup=${donor.bloodGroup}`}>
+                  <Button size="sm" variant="outline" className="w-full">
+                    Request {donor.bloodGroup} blood
+                  </Button>
+                </Link>
               </Card>
             ))}
           </div>

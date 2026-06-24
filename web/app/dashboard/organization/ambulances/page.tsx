@@ -13,7 +13,7 @@ import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
 import { PageHeader } from "@/components/PageHeader";
 import { AmbulanceRequestStatusBadge, AmbulanceStatusBadge } from "@/components/badges";
-import { LocateButton } from "@/components/LocateButton";
+import { LocationField } from "@/components/LocationField";
 
 const NEXT_STATUS: Partial<Record<AmbulanceRequestStatus, { status: AmbulanceRequestStatus; label: string }>> = {
   ASSIGNED: { status: "EN_ROUTE", label: "Mark en route" },
@@ -69,7 +69,7 @@ function RegisterAmbulanceForm({ onCreated }: { onCreated: (ambulance: Ambulance
           />
         </div>
         <div>
-          <LocateButton onLocate={setCoords} />
+          <LocationField onLocate={setCoords} />
           <p className={`mt-1 text-xs ${coords ? "text-green-600" : "text-zinc-500"}`}>
             {coords ? `Base location set (${coords.lat.toFixed(4)}, ${coords.lng.toFixed(4)})` : "Leave unset to use your organization's registered location."}
           </p>
