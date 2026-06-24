@@ -14,13 +14,18 @@ export default function Icon() {
           alignItems: "center",
           justifyContent: "center",
           background: "#dc2626",
-          color: "white",
-          fontSize: 320,
-          fontWeight: 700,
-          fontFamily: "sans-serif",
         }}
       >
-        +
+        <div
+          style={{
+            display: "flex",
+            width: 300,
+            height: 300,
+            background: "white",
+            borderRadius: "50% 50% 50% 0",
+            transform: "rotate(45deg)",
+          }}
+        />
       </div>
     ),
     { ...size }

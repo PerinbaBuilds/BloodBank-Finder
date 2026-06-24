@@ -2,15 +2,15 @@
 
 A full-stack, real-time blood donation and emergency-response platform connecting hospitals, blood banks, and donors — with geo-matched donor discovery, live inventory tracking, and on-demand ambulance dispatch.
 
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white)
-![Express](https://img.shields.io/badge/Express-5-000000?logo=express&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
-![Prisma](https://img.shields.io/badge/Prisma-6-2D3748?logo=prisma&logoColor=white)
-![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)
-![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
-![React Native](https://img.shields.io/badge/React%20Native-Expo%2056-000020?logo=expo&logoColor=white)
-![Socket.IO](https://img.shields.io/badge/Socket.IO-4-010101?logo=socket.io&logoColor=white)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-5-000000?logo=express&logoColor=white)](https://expressjs.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Prisma](https://img.shields.io/badge/Prisma-6-2D3748?logo=prisma&logoColor=white)](https://www.prisma.io/)
+[![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![React Native](https://img.shields.io/badge/React%20Native-Expo%2056-000020?logo=expo&logoColor=white)](https://expo.dev/)
+[![Socket.IO](https://img.shields.io/badge/Socket.IO-4-010101?logo=socket.io&logoColor=white)](https://socket.io/)
 
 ## Live Demo
 
@@ -88,35 +88,35 @@ Request flow: **route → middleware (auth / validate / rate-limit) → controll
 
 | | |
 |---|---|
-| Runtime | Node.js, TypeScript |
-| Framework | Express 5 |
-| Database | PostgreSQL + Prisma ORM 6 |
-| Real-time | Socket.IO 4 (JWT-authenticated connections, per-user rooms) |
-| Auth | JWT (jsonwebtoken) + bcryptjs password hashing |
-| Validation | Zod schemas on every route |
-| Security | Helmet, CORS, tiered express-rate-limit |
-| Testing | Vitest + Supertest — 82 unit/integration tests |
+| Runtime | [Node.js](https://nodejs.org/), [TypeScript](https://www.typescriptlang.org/) |
+| Framework | [Express](https://expressjs.com/) 5 |
+| Database | [PostgreSQL](https://www.postgresql.org/) + [Prisma](https://www.prisma.io/) ORM 6 |
+| Real-time | [Socket.IO](https://socket.io/) 4 (JWT-authenticated connections, per-user rooms) |
+| Auth | [JWT](https://jwt.io/) ([jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)) + [bcryptjs](https://www.npmjs.com/package/bcryptjs) password hashing |
+| Validation | [Zod](https://zod.dev/) schemas on every route |
+| Security | [Helmet](https://helmetjs.github.io/), CORS, tiered [express-rate-limit](https://www.npmjs.com/package/express-rate-limit) |
+| Testing | [Vitest](https://vitest.dev/) + [Supertest](https://www.npmjs.com/package/supertest) — 82 unit/integration tests |
 
 **Web** (`/web`)
 
 | | |
 |---|---|
-| Framework | Next.js 16 (App Router) + React 19 |
-| Styling | Tailwind CSS 4, custom red theme |
-| Maps | Leaflet / react-leaflet (OpenStreetMap — no API key required) |
-| Real-time | Socket.IO client |
+| Framework | [Next.js](https://nextjs.org/) 16 (App Router) + [React](https://react.dev/) 19 |
+| Styling | [Tailwind CSS](https://tailwindcss.com/) 4, custom red theme |
+| Maps | [Leaflet](https://leafletjs.com/) / [react-leaflet](https://react-leaflet.js.org/) (OpenStreetMap — no API key required) |
+| Real-time | [Socket.IO](https://socket.io/) client |
 | PWA | Web manifest + custom service worker (installable, cache-first static assets) |
-| Icons | lucide-react |
+| Icons | [lucide-react](https://lucide.dev/) |
 
 **Mobile** (`/mobile`)
 
 | | |
 |---|---|
-| Framework | Expo 56 + React Native 0.85 |
-| Navigation | React Navigation (native-stack + bottom-tabs) |
-| Real-time | Socket.IO client |
-| Location | expo-location |
-| Secure storage | expo-secure-store (JWT persistence) |
+| Framework | [Expo](https://expo.dev/) 56 + [React Native](https://reactnative.dev/) 0.85 |
+| Navigation | [React Navigation](https://reactnavigation.org/) (native-stack + bottom-tabs) |
+| Real-time | [Socket.IO](https://socket.io/) client |
+| Location | [expo-location](https://docs.expo.dev/versions/latest/sdk/location/) |
+| Secure storage | [expo-secure-store](https://docs.expo.dev/versions/latest/sdk/securestore/) (JWT persistence) |
 
 ## Project Structure
 
