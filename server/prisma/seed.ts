@@ -358,29 +358,75 @@ async function main() {
     donorUsers.push(user);
   }
 
-  const sampleRequest = await prisma.emergencyRequest.create({
-    data: {
-      organizationId: hospitals[0].organization!.id,
-      bloodGroup: "O_NEG",
+  const requestSeeds = [
+    {
+      org: hospitals[0],
+      bloodGroup: "O_NEG" as BloodGroup,
       unitsNeeded: 3,
-      urgency: "CRITICAL",
+      urgency: "CRITICAL" as const,
       patientInfo: "Road traffic accident victim, emergency surgery in progress",
       notes: "Please call ahead, ICU ward 4th floor",
-      lat: hospitals[0].organization!.lat,
-      lng: hospitals[0].organization!.lng,
-      address: hospitals[0].organization!.address,
-      expiresAt: new Date(Date.now() + 12 * 60 * 60 * 1000),
+      hoursToExpire: 12,
     },
-  });
+    {
+      org: hospitals[1],
+      bloodGroup: "A_POS" as BloodGroup,
+      unitsNeeded: 2,
+      urgency: "HIGH" as const,
+      patientInfo: "Scheduled cardiac bypass surgery tomorrow morning",
+      notes: "Donors can drop off at the blood bank counter, ground floor",
+      hoursToExpire: 36,
+    },
+    {
+      org: hospitals[2],
+      bloodGroup: "B_POS" as BloodGroup,
+      unitsNeeded: 4,
+      urgency: "MODERATE" as const,
+      patientInfo: "Elective surgery patient, building up reserve units ahead of schedule",
+      notes: "Any time before Friday works",
+      hoursToExpire: 72,
+    },
+  ];
+
+  const createdRequests = [];
+  for (const r of requestSeeds) {
+    const req = await prisma.emergencyRequest.create({
+      data: {
+        organizationId: r.org.organization!.id,
+        bloodGroup: r.bloodGroup,
+        unitsNeeded: r.unitsNeeded,
+        urgency: r.urgency,
+        patientInfo: r.patientInfo,
+        notes: r.notes,
+        lat: r.org.organization!.lat,
+        lng: r.org.organization!.lng,
+        address: r.org.organization!.address,
+        expiresAt: new Date(Date.now() + r.hoursToExpire * 60 * 60 * 1000),
+      },
+    });
+    createdRequests.push(req);
+  }
 
   const oNegDonor = donorUsers.find((u) => u.donorProfile?.bloodGroup === "O_NEG");
   if (oNegDonor) {
     await prisma.requestResponse.create({
       data: {
-        requestId: sampleRequest.id,
+        requestId: createdRequests[0].id,
         donorUserId: oNegDonor.id,
         status: "OFFERED",
         distanceKm: 3.2,
+      },
+    });
+  }
+
+  const aPosDonor = donorUsers.find((u) => u.donorProfile?.bloodGroup === "A_POS");
+  if (aPosDonor) {
+    await prisma.requestResponse.create({
+      data: {
+        requestId: createdRequests[1].id,
+        donorUserId: aPosDonor.id,
+        status: "CONFIRMED",
+        distanceKm: 5.6,
       },
     });
   }
