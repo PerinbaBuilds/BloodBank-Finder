@@ -115,16 +115,16 @@ function DispatchDetail() {
 
       <Card className="mt-4 flex flex-col gap-3">
         <div>
-          <p className="text-xs font-medium uppercase text-zinc-400">Pickup</p>
+          <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">Pickup</p>
           <p className="text-sm text-zinc-800">{dispatch.pickupAddress}</p>
         </div>
         <div>
-          <p className="text-xs font-medium uppercase text-zinc-400">Dropoff</p>
+          <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">Dropoff</p>
           <p className="text-sm text-zinc-800">{dispatch.dropoffAddress}</p>
         </div>
         {dispatch.notes && (
           <div>
-            <p className="text-xs font-medium uppercase text-zinc-400">Notes</p>
+            <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">Notes</p>
             <p className="text-sm text-zinc-800">{dispatch.notes}</p>
           </div>
         )}

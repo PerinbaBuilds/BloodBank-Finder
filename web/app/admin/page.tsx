@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { SearchX } from "lucide-react";
+import { SearchX, ShieldCheck } from "lucide-react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ApiError, adminApi } from "@/lib/api";
 import type { Organization } from "@/lib/types";
@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { Select } from "@/components/ui/Select";
 import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
+import { PageHeader } from "@/components/PageHeader";
 
 function VerificationQueue() {
   const [filter, setFilter] = useState<"unverified" | "verified" | "all">("unverified");
@@ -47,14 +48,18 @@ function VerificationQueue() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold text-zinc-900">Organization verification</h1>
-        <Select value={filter} onChange={(e) => setFilter(e.target.value as typeof filter)} className="w-44">
-          <option value="unverified">Pending verification</option>
-          <option value="verified">Verified</option>
-          <option value="all">All organizations</option>
-        </Select>
-      </div>
+      <PageHeader
+        icon={ShieldCheck}
+        title="Organization verification"
+        subtitle="Review and approve hospital and blood bank registrations."
+        actions={
+          <Select value={filter} onChange={(e) => setFilter(e.target.value as typeof filter)} className="w-44">
+            <option value="unverified">Pending verification</option>
+            <option value="verified">Verified</option>
+            <option value="all">All organizations</option>
+          </Select>
+        }
+      />
 
       {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
 

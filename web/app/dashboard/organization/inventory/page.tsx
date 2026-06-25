@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Droplet } from "lucide-react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ApiError, inventoryApi } from "@/lib/api";
 import { BLOOD_GROUPS } from "@/lib/constants";
@@ -9,6 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
+import { PageHeader } from "@/components/PageHeader";
 
 function emptyUnits(): Record<BloodGroupLabel, string> {
   return Object.fromEntries(BLOOD_GROUPS.map((g) => [g, "0"])) as Record<BloodGroupLabel, string>;
@@ -53,10 +55,11 @@ function InventoryEditor() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
-      <h1 className="text-2xl font-bold text-zinc-900">Manage blood inventory</h1>
-      <p className="mt-1 text-sm text-zinc-500">
-        Keep your stock levels current so hospitals and donors see accurate availability.
-      </p>
+      <PageHeader
+        icon={Droplet}
+        title="Manage blood inventory"
+        subtitle="Keep your stock levels current so hospitals and donors see accurate availability."
+      />
 
       <Card className="mt-6">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">

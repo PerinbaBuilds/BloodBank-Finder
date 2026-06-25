@@ -63,7 +63,7 @@ export function NotificationBell() {
             </div>
             <div className="max-h-80 overflow-y-auto">
               {notifications.length === 0 ? (
-                <p className="px-4 py-6 text-center text-sm text-zinc-400">No notifications yet</p>
+                <p className="px-4 py-6 text-center text-sm text-zinc-500">No notifications yet</p>
               ) : (
                 notifications.slice(0, 8).map((n) => (
                   <button

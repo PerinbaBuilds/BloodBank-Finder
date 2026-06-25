@@ -13,7 +13,7 @@ export function Footer() {
               </span>
               <span className="text-base font-bold tracking-tight text-zinc-900">BloodBank Finder</span>
             </div>
-            <p className="mt-3 text-sm text-zinc-500">
+            <p className="mt-3 text-sm leading-relaxed text-zinc-500">
               Connecting voluntary donors, hospitals, and blood banks in real time to resolve urgent blood
               shortages — wherever you are.
             </p>
@@ -21,7 +21,7 @@ export function Footer() {
 
           <div className="grid grid-cols-2 gap-8 sm:flex sm:gap-12">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">For Donors</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">For Donors</p>
               <ul className="mt-3 flex flex-col gap-2 text-sm text-zinc-600">
                 <li>
                   <Link href="/register/donor" className="hover:text-red-600">
@@ -36,7 +36,7 @@ export function Footer() {
               </ul>
             </div>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">For Organizations</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">For Organizations</p>
               <ul className="mt-3 flex flex-col gap-2 text-sm text-zinc-600">
                 <li>
                   <Link href="/register/organization" className="hover:text-red-600">

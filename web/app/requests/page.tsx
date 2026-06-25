@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
-import { SearchX } from "lucide-react";
+import { ClipboardList, SearchX } from "lucide-react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/context/AuthContext";
 import { useSocket } from "@/context/SocketContext";
@@ -14,6 +14,7 @@ import { Select } from "@/components/ui/Select";
 import { Card } from "@/components/ui/Card";
 import { Spinner } from "@/components/ui/Spinner";
 import { RequestCard } from "@/components/RequestCard";
+import { PageHeader } from "@/components/PageHeader";
 
 const STATUS_OPTIONS: RequestStatus[] = ["OPEN", "PARTIALLY_FULFILLED", "FULFILLED", "CANCELLED", "EXPIRED"];
 
@@ -63,19 +64,18 @@ function RequestsBrowser() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-10">
-      <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-zinc-900">Emergency requests</h1>
-          <p className="mt-1 text-sm text-zinc-500">
-            {isOrg ? "Browse and manage emergency blood requests." : "Open requests you may be able to help with."}
-          </p>
-        </div>
-        {isOrg && (
-          <Link href="/dashboard/organization/requests/new">
-            <Button>New request</Button>
-          </Link>
-        )}
-      </div>
+      <PageHeader
+        icon={ClipboardList}
+        title="Emergency requests"
+        subtitle={isOrg ? "Browse and manage emergency blood requests." : "Open requests you may be able to help with."}
+        actions={
+          isOrg && (
+            <Link href="/dashboard/organization/requests/new">
+              <Button>New request</Button>
+            </Link>
+          )
+        }
+      />
 
       <Card className="mt-6">
         <div className="grid gap-4 sm:grid-cols-3">

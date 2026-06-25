@@ -2,6 +2,7 @@
 
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Siren } from "lucide-react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ApiError, requestsApi } from "@/lib/api";
 import { BLOOD_GROUPS } from "@/lib/constants";
@@ -11,6 +12,7 @@ import { Input, Textarea } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Card } from "@/components/ui/Card";
 import { LocationField } from "@/components/LocationField";
+import { PageHeader } from "@/components/PageHeader";
 
 function NewRequestForm() {
   const router = useRouter();
@@ -66,8 +68,11 @@ function NewRequestForm() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
-      <h1 className="text-2xl font-bold text-zinc-900">Post an emergency blood request</h1>
-      <p className="mt-1 text-sm text-zinc-500">Compatible donors near your location will be notified instantly.</p>
+      <PageHeader
+        icon={Siren}
+        title="Post an emergency blood request"
+        subtitle="Compatible donors near your location will be notified instantly."
+      />
 
       <Card className="mt-6">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">

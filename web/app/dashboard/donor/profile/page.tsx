@@ -144,7 +144,7 @@ function DonorProfileForm() {
 
           <div className="rounded-lg border border-zinc-200 p-4">
             <p className="text-sm font-semibold text-zinc-700">Health &amp; lifestyle</p>
-            <p className="text-xs text-zinc-400">
+            <p className="text-xs text-zinc-500">
               Helps hospitals and blood banks assess donation eligibility. Kept private to your profile.
             </p>
             <div className="mt-2 flex flex-col divide-y divide-zinc-100">

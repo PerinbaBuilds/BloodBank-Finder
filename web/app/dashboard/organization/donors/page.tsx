@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Users } from "lucide-react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/context/AuthContext";
 import { ApiError, donorsApi } from "@/lib/api";
@@ -12,6 +13,7 @@ import { Button } from "@/components/ui/Button";
 import { Select } from "@/components/ui/Select";
 import { Card } from "@/components/ui/Card";
 import { LocationField } from "@/components/LocationField";
+import { PageHeader } from "@/components/PageHeader";
 
 function FindDonors() {
   const { organization } = useAuth();
@@ -53,14 +55,19 @@ function FindDonors() {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-2xl font-bold text-zinc-900">Find available donors</h1>
-      <p className="mt-1 text-sm text-zinc-500">
-        See how many compatible, available donors are nearby. To contact a donor,{" "}
-        <Link href="/dashboard/organization/requests/new" className="font-medium text-red-600 hover:underline">
-          post an emergency request
-        </Link>{" "}
-        — contact details are shared automatically once a donor responds and you confirm them.
-      </p>
+      <PageHeader
+        icon={Users}
+        title="Find available donors"
+        subtitle={
+          <>
+            See how many compatible, available donors are nearby. To contact a donor,{" "}
+            <Link href="/dashboard/organization/requests/new" className="font-medium text-red-600 hover:underline">
+              post an emergency request
+            </Link>{" "}
+            — contact details are shared automatically once a donor responds and you confirm them.
+          </>
+        }
+      />
 
       <Card className="mt-6">
         <form onSubmit={handleSearch} className="flex flex-col gap-4">

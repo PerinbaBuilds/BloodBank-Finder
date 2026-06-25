@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { LogIn } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { ApiError } from "@/lib/api";
 import { Button } from "@/components/ui/Button";
@@ -56,8 +57,13 @@ export default function LoginPage() {
 
   return (
     <div className="mx-auto flex max-w-md flex-col px-4 py-16">
-      <h1 className="animate-fade-in-up text-2xl font-bold text-zinc-900">Welcome back</h1>
-      <p className="animate-fade-in-up mt-1 text-sm text-zinc-500">Sign in to manage your donations or requests.</p>
+      <div className="text-center">
+        <span className="animate-fade-in-up mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-white shadow-lifted">
+          <LogIn className="h-5 w-5" />
+        </span>
+        <h1 className="animate-fade-in-up mt-4 text-2xl font-bold text-zinc-900">Welcome back</h1>
+        <p className="animate-fade-in-up mt-1 text-sm text-zinc-500">Sign in to manage your donations or requests.</p>
+      </div>
 
       <Card className="mt-6 animate-fade-in-up">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">

@@ -154,7 +154,7 @@ function AmbulanceDispatchSection({ request }: { request: RequestDetail }) {
         <div className="mt-4 flex flex-col gap-2">
           {dispatches.map((d) => (
             <Link key={d.id} href={`/ambulance/${d.id}`}>
-              <Card className="flex flex-wrap items-center justify-between gap-2 transition-shadow hover:shadow-md">
+              <Card className="flex flex-wrap items-center justify-between gap-2 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lifted">
                 <p className="text-sm text-zinc-700">
                   {d.pickupAddress} → {d.dropoffAddress}
                 </p>
@@ -303,7 +303,7 @@ function RequestDetailView() {
         ← Back to requests
       </Link>
 
-      <Card className="mt-4">
+      <Card className="mt-4 shadow-lifted">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h1 className="text-xl font-bold text-zinc-900">
@@ -335,7 +335,7 @@ function RequestDetailView() {
           </p>
         )}
 
-        <p className="mt-4 text-xs text-zinc-400">
+        <p className="mt-4 text-xs text-zinc-500">
           Posted {new Date(request.createdAt).toLocaleString()} · Expires{" "}
           {new Date(request.expiresAt).toLocaleString()}
         </p>

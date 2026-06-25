@@ -56,7 +56,7 @@ function NotificationsList() {
             const href = ambulanceRequestId ? `/ambulance/${ambulanceRequestId}` : requestId ? `/requests/${requestId}` : null;
             const content = (
               <Card
-                className={`flex flex-col gap-1 transition-shadow hover:shadow-md ${
+                className={`flex flex-col gap-1 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lifted ${
                   notification.isRead ? "" : "border-red-300 bg-red-50/40"
                 }`}
               >
@@ -65,7 +65,7 @@ function NotificationsList() {
                   {!notification.isRead && <span className="h-2 w-2 shrink-0 rounded-full bg-red-600" />}
                 </div>
                 <p className="text-sm text-zinc-600">{notification.body}</p>
-                <p className="text-xs text-zinc-400">{new Date(notification.createdAt).toLocaleString()}</p>
+                <p className="text-xs text-zinc-500">{new Date(notification.createdAt).toLocaleString()}</p>
               </Card>
             );
 

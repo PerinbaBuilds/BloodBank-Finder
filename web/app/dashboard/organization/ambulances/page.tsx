@@ -218,7 +218,7 @@ function DispatchList({
               )
             )}
 
-            <p className="text-xs text-zinc-400">Requested {new Date(dispatch.createdAt).toLocaleString()}</p>
+            <p className="text-xs text-zinc-500">Requested {new Date(dispatch.createdAt).toLocaleString()}</p>
 
             <div className="mt-1 flex flex-wrap items-center gap-2">
               <Link href={`/ambulance/${dispatch.id}`} className="text-sm font-medium text-red-600 hover:underline">

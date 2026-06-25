@@ -27,7 +27,7 @@ export function OrgCard({ org }: { org: OrganizationWithInventory }) {
       {org.type === "BLOOD_BANK" && (
         <div className="flex flex-wrap gap-2">
           {inStock.length === 0 ? (
-            <p className="text-xs text-zinc-400">No stock reported</p>
+            <p className="text-xs text-zinc-500">No stock reported</p>
           ) : (
             inStock.map((item) => (
               <div key={item.id} className="flex items-center gap-1">

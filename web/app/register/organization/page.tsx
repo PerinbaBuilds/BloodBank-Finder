@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Building2 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { ApiError } from "@/lib/api";
 import { INDIAN_STATES } from "@/lib/constants";
@@ -73,10 +74,15 @@ export default function OrganizationRegisterPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
-      <h1 className="text-2xl font-bold text-zinc-900">Register a Hospital or Blood Bank</h1>
-      <p className="mt-1 text-sm text-zinc-500">
-        Verified organizations can post emergency requests and manage blood inventory.
-      </p>
+      <div className="text-center">
+        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-white shadow-lifted">
+          <Building2 className="h-5 w-5" />
+        </span>
+        <h1 className="mt-4 text-2xl font-bold text-zinc-900">Register a Hospital or Blood Bank</h1>
+        <p className="mt-1 text-sm text-zinc-500">
+          Verified organizations can post emergency requests and manage blood inventory.
+        </p>
+      </div>
 
       <Card className="mt-6">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">

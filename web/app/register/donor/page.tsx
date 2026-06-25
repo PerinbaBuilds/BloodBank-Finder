@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Droplet } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { ApiError } from "@/lib/api";
 import { BLOOD_GROUPS, INDIAN_STATES } from "@/lib/constants";
@@ -102,10 +103,15 @@ export default function DonorRegisterPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
-      <h1 className="animate-fade-in-up text-2xl font-bold text-zinc-900">Register as a Donor</h1>
-      <p className="animate-fade-in-up mt-1 text-sm text-zinc-500">
-        Join our network of voluntary donors and help save lives in your community.
-      </p>
+      <div className="text-center">
+        <span className="animate-fade-in-up mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-white shadow-lifted">
+          <Droplet className="h-5 w-5" />
+        </span>
+        <h1 className="animate-fade-in-up mt-4 text-2xl font-bold text-zinc-900">Register as a Donor</h1>
+        <p className="animate-fade-in-up mt-1 text-sm text-zinc-500">
+          Join our network of voluntary donors and help save lives in your community.
+        </p>
+      </div>
 
       <Card className="mt-6 animate-fade-in-up">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
