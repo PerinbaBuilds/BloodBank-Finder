@@ -13,6 +13,15 @@ import { Card } from "@/components/ui/Card";
 import { Toggle } from "@/components/ui/Toggle";
 import { LocationField } from "@/components/LocationField";
 
+const MIN_DONOR_AGE = 18;
+const MAX_DONOR_AGE = 65;
+
+function isoDateYearsAgo(years: number) {
+  const d = new Date();
+  d.setFullYear(d.getFullYear() - years);
+  return d.toISOString().split("T")[0];
+}
+
 export default function DonorRegisterPage() {
   const { registerDonor } = useAuth();
   const router = useRouter();
@@ -149,7 +158,15 @@ export default function DonorRegisterPage() {
               onChange={update("weightKg")}
             />
           </div>
-          <Input label="Date of birth" type="date" required value={form.dateOfBirth} onChange={update("dateOfBirth")} />
+          <Input
+            label="Date of birth"
+            type="date"
+            required
+            min={isoDateYearsAgo(MAX_DONOR_AGE)}
+            max={isoDateYearsAgo(MIN_DONOR_AGE)}
+            value={form.dateOfBirth}
+            onChange={update("dateOfBirth")}
+          />
 
           <Input label="Address" required value={form.address} onChange={update("address")} autoComplete="street-address" />
           <div className="grid gap-4 sm:grid-cols-3">
