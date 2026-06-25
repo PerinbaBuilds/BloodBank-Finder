@@ -294,6 +294,17 @@ All seeded accounts use the password `Password123!`.
 | Hospital | `mylapore@hospital.demo`, `tnagar@hospital.demo` |
 | Donor | `donor1@demo.com` … `donor10@demo.com` |
 
+## Admin Setup
+
+The seeded admin account above is for local development only. For a real deployment, create your own admin account instead of relying on seed data:
+
+```bash
+cd server
+ADMIN_EMAIL=you@example.com ADMIN_PASSWORD=choose-a-strong-password npm run create-admin
+```
+
+Omit `ADMIN_PASSWORD` to have a random one generated and printed once. The script refuses to run if an account with that email already exists, so it's safe to keep around. Never commit real admin credentials to this repository.
+
 ## Roadmap
 
 - Inter-blood-bank stock transfer requests, so a low-stock bank can pull units from a nearby bank with surplus
