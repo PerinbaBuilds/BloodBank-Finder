@@ -383,6 +383,28 @@ export async function seedDatabase(prisma: PrismaClient) {
       notes: "Any time before Friday works",
       hoursToExpire: 72,
     },
+    {
+      org: hospitals[3],
+      bloodGroup: "O_POS" as BloodGroup,
+      unitsNeeded: 2,
+      urgency: "HIGH" as const,
+      patientInfo: "Postpartum hemorrhage, successfully resolved",
+      notes: "Resolved - thank you to our donors",
+      hoursToExpire: -48,
+      status: "FULFILLED" as const,
+      unitsFulfilled: 2,
+    },
+    {
+      org: hospitals[4],
+      bloodGroup: "A_NEG" as BloodGroup,
+      unitsNeeded: 1,
+      urgency: "MODERATE" as const,
+      patientInfo: "Planned transfusion for anemia treatment, successfully completed",
+      notes: "Resolved",
+      hoursToExpire: -120,
+      status: "FULFILLED" as const,
+      unitsFulfilled: 1,
+    },
   ];
 
   const createdRequests = [];
@@ -399,6 +421,8 @@ export async function seedDatabase(prisma: PrismaClient) {
         lng: r.org.organization!.lng,
         address: r.org.organization!.address,
         expiresAt: new Date(Date.now() + r.hoursToExpire * 60 * 60 * 1000),
+        ...(r.status ? { status: r.status } : {}),
+        ...(r.unitsFulfilled !== undefined ? { unitsFulfilled: r.unitsFulfilled } : {}),
       },
     });
     createdRequests.push(req);
@@ -424,6 +448,36 @@ export async function seedDatabase(prisma: PrismaClient) {
         donorUserId: aPosDonor.id,
         status: "CONFIRMED",
         distanceKm: 5.6,
+      },
+    });
+  }
+
+  const oPosCompatibleDonors = donorUsers.filter(
+    (u) => u.donorProfile?.bloodGroup === "O_POS" || u.donorProfile?.bloodGroup === "O_NEG",
+  );
+  for (const donor of oPosCompatibleDonors.slice(0, 2)) {
+    await prisma.requestResponse.create({
+      data: {
+        requestId: createdRequests[3].id,
+        donorUserId: donor.id,
+        status: "COMPLETED",
+        distanceKm: 4.1,
+      },
+    });
+  }
+
+  const aNegCompatibleDonor = donorUsers.find(
+    (u) =>
+      (u.donorProfile?.bloodGroup === "A_NEG" || u.donorProfile?.bloodGroup === "O_NEG") &&
+      !oPosCompatibleDonors.slice(0, 2).some((d) => d.id === u.id),
+  );
+  if (aNegCompatibleDonor) {
+    await prisma.requestResponse.create({
+      data: {
+        requestId: createdRequests[4].id,
+        donorUserId: aNegCompatibleDonor.id,
+        status: "COMPLETED",
+        distanceKm: 2.7,
       },
     });
   }
