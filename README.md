@@ -24,8 +24,6 @@ A full-stack, real-time blood donation and emergency-response platform connectin
 
 > Hosted on free-tier infrastructure — the API spins down when idle, so the first request after inactivity can take 30–50 seconds to wake it up.
 
-Try it instantly with a seeded demo account (see [Demo Accounts](#demo-accounts)) — no sign-up required.
-
 ## Overview
 
 BloodBank Finder solves a real coordination problem: when a hospital needs blood urgently, who has it, how much, and how fast can a compatible donor get there? The platform models three cooperating roles — **donors**, **hospitals/blood banks**, and **admins** — and layers in real-time notifications, geospatial donor matching by blood-type compatibility, and an ambulance dispatch workflow for getting donors or patients where they need to be.
