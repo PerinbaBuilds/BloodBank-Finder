@@ -5,12 +5,12 @@ import { seedDatabase } from "@/scripts/seedData";
 
 const router = Router();
 
-router.post("/", async (req, res) => {
+async function handleSeed(req: import("express").Request, res: import("express").Response) {
   if (!env.SEED_SECRET) {
     return res.status(404).json({ error: "Not found" });
   }
 
-  const provided = req.header("x-seed-secret");
+  const provided = req.header("x-seed-secret") ?? req.query.secret;
   if (!provided || provided !== env.SEED_SECRET) {
     return res.status(401).json({ error: "Unauthorized" });
   }
@@ -25,6 +25,9 @@ router.post("/", async (req, res) => {
   } finally {
     await prisma.$disconnect();
   }
-});
+}
+
+router.get("/", handleSeed);
+router.post("/", handleSeed);
 
 export default router;
