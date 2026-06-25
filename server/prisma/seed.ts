@@ -72,6 +72,39 @@ async function main() {
       pincode: "600042",
       stock: { O_NEG: 2, O_POS: 0, A_POS: 0, A_NEG: 1, B_POS: 4, B_NEG: 0, AB_POS: 0, AB_NEG: 0 },
     },
+    {
+      name: "Anna Nagar Blood Centre",
+      email: "annanagar@bloodbank.demo",
+      lat: 13.0850,
+      lng: 80.2101,
+      address: "2nd Avenue, Anna Nagar, Chennai",
+      city: "Chennai",
+      state: "Tamil Nadu",
+      pincode: "600040",
+      stock: { O_NEG: 3, O_POS: 10, A_POS: 8, A_NEG: 2, B_POS: 6, B_NEG: 1, AB_POS: 3, AB_NEG: 0 },
+    },
+    {
+      name: "Tambaram Voluntary Blood Bank",
+      email: "tambaram@bloodbank.demo",
+      lat: 12.9249,
+      lng: 80.1000,
+      address: "GST Road, Tambaram, Chennai",
+      city: "Chennai",
+      state: "Tamil Nadu",
+      pincode: "600045",
+      stock: { O_NEG: 1, O_POS: 6, A_POS: 4, A_NEG: 0, B_POS: 3, B_NEG: 0, AB_POS: 1, AB_NEG: 0 },
+    },
+    {
+      name: "Porur Blood Bank Trust",
+      email: "porur@bloodbank.demo",
+      lat: 13.0382,
+      lng: 80.1565,
+      address: "Mount Poonamallee Road, Porur, Chennai",
+      city: "Chennai",
+      state: "Tamil Nadu",
+      pincode: "600116",
+      stock: { O_NEG: 5, O_POS: 14, A_POS: 9, A_NEG: 3, B_POS: 8, B_NEG: 2, AB_POS: 4, AB_NEG: 1 },
+    },
   ];
 
   for (const bb of bloodBankSeeds) {
@@ -140,6 +173,46 @@ async function main() {
       city: "Chennai",
       state: "Tamil Nadu",
       pincode: "600017",
+    },
+    {
+      name: "Guindy General Hospital",
+      email: "guindy@hospital.demo",
+      lat: 13.0067,
+      lng: 80.2206,
+      address: "Sardar Patel Road, Guindy, Chennai",
+      city: "Chennai",
+      state: "Tamil Nadu",
+      pincode: "600032",
+    },
+    {
+      name: "Egmore Children's Hospital",
+      email: "egmore@hospital.demo",
+      lat: 13.0732,
+      lng: 80.2609,
+      address: "Pantheon Road, Egmore, Chennai",
+      city: "Chennai",
+      state: "Tamil Nadu",
+      pincode: "600008",
+    },
+    {
+      name: "Vadapalani Health Centre",
+      email: "vadapalani@hospital.demo",
+      lat: 13.0504,
+      lng: 80.2129,
+      address: "Arcot Road, Vadapalani, Chennai",
+      city: "Chennai",
+      state: "Tamil Nadu",
+      pincode: "600026",
+    },
+    {
+      name: "Perambur Government Hospital",
+      email: "perambur@hospital.demo",
+      lat: 13.1106,
+      lng: 80.2329,
+      address: "Paterson Road, Perambur, Chennai",
+      city: "Chennai",
+      state: "Tamil Nadu",
+      pincode: "600011",
     },
   ];
 
@@ -214,6 +287,33 @@ async function main() {
     { name: "Lakshmi Narayanan", group: "O_NEG" as BloodGroup, lat: 12.9950, lng: 80.2250, city: "Chennai", available: true, lastDonationDaysAgo: null },
     { name: "Ramesh Chandran", group: "AB_NEG" as BloodGroup, lat: 13.0600, lng: 80.2500, city: "Chennai", available: true, lastDonationDaysAgo: 95, usesDrugs: false },
     { name: "Saranya Murugan", group: "O_POS" as BloodGroup, lat: 13.0300, lng: 80.2150, city: "Chennai", available: true, lastDonationDaysAgo: 45 },
+    { name: "Anitha Raj", group: "B_NEG" as BloodGroup, lat: 13.0850, lng: 80.2101, city: "Chennai", available: true, lastDonationDaysAgo: null },
+    { name: "Mohammed Faizal", group: "O_POS" as BloodGroup, lat: 12.9249, lng: 80.1000, city: "Chennai", available: true, lastDonationDaysAgo: 60 },
+    { name: "Deepa Venkat", group: "AB_POS" as BloodGroup, lat: 13.0382, lng: 80.1565, city: "Chennai", available: true, lastDonationDaysAgo: null },
+    {
+      name: "Senthil Kumar",
+      group: "A_NEG" as BloodGroup,
+      lat: 13.0067,
+      lng: 80.2206,
+      city: "Chennai",
+      available: false,
+      lastDonationDaysAgo: 5,
+      isAlcoholic: true,
+    },
+    { name: "Revathi Subramani", group: "O_NEG" as BloodGroup, lat: 13.0732, lng: 80.2609, city: "Chennai", available: true, lastDonationDaysAgo: 150 },
+    { name: "Bharath Krishnan", group: "B_POS" as BloodGroup, lat: 13.0504, lng: 80.2129, city: "Chennai", available: true, lastDonationDaysAgo: null },
+    {
+      name: "Yamuna Selvi",
+      group: "A_POS" as BloodGroup,
+      lat: 13.1106,
+      lng: 80.2329,
+      city: "Chennai",
+      available: true,
+      lastDonationDaysAgo: 75,
+      hasChronicIllness: true,
+      chronicIllnessDetails: "Type 2 diabetes, diet-controlled",
+    },
+    { name: "Gokul Anand", group: "AB_NEG" as BloodGroup, lat: 13.0600, lng: 80.2700, city: "Chennai", available: true, lastDonationDaysAgo: null },
   ];
 
   const donorUsers = [];
@@ -288,9 +388,13 @@ async function main() {
   console.log("Seed complete.");
   console.log(`All demo accounts use password: ${DEMO_PASSWORD}`);
   console.log("Admin login: admin@bloodbankfinder.org");
-  console.log("Blood bank logins: central@bloodbank.demo, adyar@bloodbank.demo, velachery@bloodbank.demo");
-  console.log("Hospital logins: mylapore@hospital.demo, tnagar@hospital.demo");
-  console.log("Donor logins: donor1@demo.com ... donor10@demo.com");
+  console.log(
+    "Blood bank logins: central@bloodbank.demo, adyar@bloodbank.demo, velachery@bloodbank.demo, annanagar@bloodbank.demo, tambaram@bloodbank.demo, porur@bloodbank.demo",
+  );
+  console.log(
+    "Hospital logins: mylapore@hospital.demo, tnagar@hospital.demo, guindy@hospital.demo, egmore@hospital.demo, vadapalani@hospital.demo, perambur@hospital.demo",
+  );
+  console.log(`Donor logins: donor1@demo.com ... donor${donorSeeds.length}@demo.com`);
 }
 
 main()
