@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { bloodGroupLabelSchema, latitudeSchema, longitudeSchema } from "@/schemas/common.schema";
+import { calculateAge, MAX_DONOR_AGE, MIN_DONOR_AGE } from "@/utils/eligibility";
 
 export const loginSchema = z.object({
   email: z.string().email(),
@@ -14,7 +15,10 @@ export const registerDonorSchema = z.object({
   fullName: z.string().min(2).max(100),
   bloodGroup: bloodGroupLabelSchema,
   gender: z.enum(["MALE", "FEMALE", "OTHER"]),
-  dateOfBirth: z.coerce.date(),
+  dateOfBirth: z.coerce.date().refine(
+    (date) => !isNaN(date.getTime()) && calculateAge(date) >= MIN_DONOR_AGE && calculateAge(date) <= MAX_DONOR_AGE,
+    { message: `Donor must be between ${MIN_DONOR_AGE} and ${MAX_DONOR_AGE} years old` }
+  ),
   weightKg: z.coerce.number().positive().max(400),
   lat: latitudeSchema,
   lng: longitudeSchema,
