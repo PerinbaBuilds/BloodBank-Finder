@@ -16,7 +16,6 @@ import ambulanceRoutes from "@/routes/ambulance.routes";
 import notificationRoutes from "@/routes/notifications.routes";
 import statsRoutes from "@/routes/stats.routes";
 import adminRoutes from "@/routes/admin.routes";
-import seedRoutes from "@/routes/seed.routes";
 
 export function createApp() {
   const app = express();
@@ -43,7 +42,6 @@ export function createApp() {
   app.use("/api/notifications", notificationRoutes);
   app.use("/api/stats", statsRoutes);
   app.use("/api/admin", adminRoutes);
-  app.use("/api/_seed", seedRoutes);
 
   app.use(notFoundHandler);
   app.use(errorHandler);

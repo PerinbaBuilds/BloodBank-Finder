@@ -16,7 +16,6 @@ const envSchema = z.object({
   TWILIO_ACCOUNT_SID: z.string().optional(),
   TWILIO_AUTH_TOKEN: z.string().optional(),
   TWILIO_PHONE_NUMBER: z.string().optional(),
-  SEED_SECRET: z.string().optional(),
 });
 
 const parsed = envSchema.safeParse(process.env);
