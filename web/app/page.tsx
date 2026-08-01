@@ -206,8 +206,8 @@ export default function Home() {
         </Card>
 
         {results && (
-          <div className="mt-6 grid gap-6 lg:grid-cols-2">
-            <div className="flex flex-col gap-4">
+          <div className="mt-6 grid gap-6 lg:grid-cols-2 lg:items-start">
+            <div className="flex flex-col gap-4 lg:max-h-[480px] lg:overflow-y-auto lg:pr-2">
               {results.length === 0 ? (
                 <Card className="flex flex-col items-center gap-2 py-10 text-center">
                   <SearchX className="h-8 w-8 text-zinc-300" />
@@ -217,7 +217,9 @@ export default function Home() {
                 results.map((org) => <OrgCard key={org.id} org={org} />)
               )}
             </div>
-            <MapView center={mapCenter} markers={markers} height="480px" />
+            <div className="lg:sticky lg:top-24">
+              <MapView center={mapCenter} markers={markers} height="480px" />
+            </div>
           </div>
         )}
       </section>

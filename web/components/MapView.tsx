@@ -23,11 +23,28 @@ export interface MapMarker {
   description?: string;
 }
 
-function Recenter({ center }: { center: [number, number] }) {
+function FitToContent({
+  markers,
+  center,
+  zoom,
+}: {
+  markers: MapMarker[];
+  center: [number, number];
+  zoom: number;
+}) {
   const map = useMap();
+  // Stable key so we only re-frame when the actual set of points changes,
+  // not on every parent re-render (which would fight the user's panning).
+  const markerKey = markers.map((m) => `${m.lat},${m.lng}`).join("|");
   useEffect(() => {
-    map.setView(center);
-  }, [center, map]);
+    if (markers.length > 0) {
+      const bounds = L.latLngBounds(markers.map((m) => [m.lat, m.lng] as [number, number]));
+      map.fitBounds(bounds, { padding: [48, 48], maxZoom: 14 });
+    } else {
+      map.setView(center, zoom);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [markerKey, center[0], center[1], zoom, map]);
   return null;
 }
 
@@ -53,7 +70,7 @@ export function MapView({
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Recenter center={center} />
+      <FitToContent markers={markers} center={center} zoom={zoom} />
       {markers.map((marker) => (
         <Marker key={marker.id} position={[marker.lat, marker.lng]} icon={defaultIcon}>
           <Popup>
