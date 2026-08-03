@@ -65,7 +65,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      <section className="relative overflow-hidden bg-gradient-to-br from-red-50 via-rose-50/60 to-white px-4 py-16 sm:py-20">
+      <section className="relative overflow-hidden px-4 py-16 sm:py-20">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[600px] bg-[radial-gradient(ellipse_at_top,_rgba(220,38,38,0.16),_transparent_70%)]"

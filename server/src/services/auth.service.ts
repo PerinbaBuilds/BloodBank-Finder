@@ -57,6 +57,18 @@ export async function registerDonor(input: RegisterDonorInput) {
     include: { donorProfile: true },
   });
 
+  await sendEmail({
+    to: user.email,
+    subject: "Welcome to BloodBank Finder",
+    text:
+      `Hi ${input.fullName},\n\n` +
+      `Thanks for registering as a blood donor with BloodBank Finder. You're now part of a network that helps ` +
+      `hospitals and blood banks reach compatible donors quickly during emergencies.\n\n` +
+      `Whenever a nearby request matches your blood group, we'll notify you. You can turn your availability ` +
+      `on or off anytime from your dashboard.\n\n` +
+      `Thank you for helping save lives.\n\n— The BloodBank Finder team`,
+  });
+
   const token = signToken({ sub: user.id, role: user.role });
   return { user, token };
 }
@@ -89,6 +101,17 @@ export async function registerOrganization(input: RegisterOrganizationInput) {
       },
     },
     include: { organization: true },
+  });
+
+  await sendEmail({
+    to: user.email,
+    subject: "Welcome to BloodBank Finder",
+    text:
+      `Hi ${input.contactPerson},\n\n` +
+      `Thanks for registering ${input.name} on BloodBank Finder.\n\n` +
+      `Your organization account has been created and is pending verification by our team. Once verified, ` +
+      `you'll be able to post emergency blood requests and appear in donor and organization searches.\n\n` +
+      `— The BloodBank Finder team`,
   });
 
   const token = signToken({ sub: user.id, role: user.role });

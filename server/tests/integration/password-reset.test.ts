@@ -33,6 +33,7 @@ describe("POST /api/auth/forgot-password", () => {
   it("emails a reset link and lets a donor set a new password", async () => {
     const payload = donorPayload({ email: "reset-donor@test.local" });
     await request(app).post("/api/auth/register/donor").send(payload);
+    sentEmails.length = 0; // drop the welcome email so we only assert on the reset one
 
     const forgot = await request(app).post("/api/auth/forgot-password").send({ email: payload.email });
     expect(forgot.status).toBe(200);
@@ -59,6 +60,7 @@ describe("POST /api/auth/forgot-password", () => {
   it("also works for an organization (hospital / blood bank) account", async () => {
     const payload = orgPayload({ email: "reset-org@test.local", type: "BLOOD_BANK" });
     await request(app).post("/api/auth/register/organization").send(payload);
+    sentEmails.length = 0;
 
     await request(app).post("/api/auth/forgot-password").send({ email: payload.email });
     const token = tokenFromLastEmail();
@@ -92,6 +94,7 @@ describe("POST /api/auth/reset-password", () => {
   it("rejects an expired token", async () => {
     const payload = donorPayload({ email: "expired-donor@test.local" });
     await request(app).post("/api/auth/register/donor").send(payload);
+    sentEmails.length = 0;
     await request(app).post("/api/auth/forgot-password").send({ email: payload.email });
     const token = tokenFromLastEmail();
 
@@ -110,6 +113,7 @@ describe("POST /api/auth/reset-password", () => {
   it("rejects a token that was already used", async () => {
     const payload = donorPayload({ email: "reuse-donor@test.local" });
     await request(app).post("/api/auth/register/donor").send(payload);
+    sentEmails.length = 0;
     await request(app).post("/api/auth/forgot-password").send({ email: payload.email });
     const token = tokenFromLastEmail();
 
@@ -118,5 +122,19 @@ describe("POST /api/auth/reset-password", () => {
 
     const second = await request(app).post("/api/auth/reset-password").send({ token, password: "SecondUse123!" });
     expect(second.status).toBe(400);
+  });
+});
+
+describe("registration welcome email", () => {
+  it("sends a welcome email to a new donor", async () => {
+    const payload = donorPayload({ email: "welcome-donor@test.local" });
+    await request(app).post("/api/auth/register/donor").send(payload);
+    expect(sentEmails.some((e) => e.to === payload.email && /welcome/i.test(e.subject))).toBe(true);
+  });
+
+  it("sends a welcome email to a new organization", async () => {
+    const payload = orgPayload({ email: "welcome-org@test.local" });
+    await request(app).post("/api/auth/register/organization").send(payload);
+    expect(sentEmails.some((e) => e.to === payload.email && /welcome/i.test(e.subject))).toBe(true);
   });
 });

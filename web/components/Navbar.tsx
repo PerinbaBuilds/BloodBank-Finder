@@ -47,7 +47,7 @@ function NavLink({
 }
 
 export function Navbar() {
-  const { user, organization, logout } = useAuth();
+  const { user, organization, logout, isLoading } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const roleLinks = (() => {
@@ -95,7 +95,11 @@ export function Navbar() {
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
-          {user ? (
+          {isLoading ? (
+            // Hold a neutral placeholder until the session resolves, so the
+            // logged-out Login/Register buttons never flash for a signed-in user.
+            <div className="h-8 w-36 animate-pulse rounded-md bg-zinc-100" aria-hidden />
+          ) : user ? (
             <>
               <NotificationBell />
               <span className="text-sm text-zinc-600">{organization?.name ?? user.email}</span>
@@ -132,7 +136,7 @@ export function Navbar() {
                 {link.label}
               </NavLink>
             ))}
-            {user ? (
+            {isLoading ? null : user ? (
               <>
                 <NavLink href="/notifications" onClick={() => setMenuOpen(false)}>
                   Notifications

@@ -17,7 +17,12 @@
 }
 
 body {
-  background: var(--background);
+  /* One cohesive, softly warm backdrop for every page: a faint rose glow at the
+     top fading into a warm off-white, held fixed so each screen reads the same. */
+  background:
+    radial-gradient(1100px 520px at 50% -8%, rgba(244, 63, 94, 0.07), transparent 62%),
+    #faf7f7;
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
