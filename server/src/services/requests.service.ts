@@ -122,7 +122,7 @@ export async function listRequests(params: { userId: string; role: Role; filters
   return withDistance.map(({ request, distanceKm }) => ({ ...serializeRequest(request), distanceKm }));
 }
 
-export async function getRequestById(requestId: string) {
+export async function getRequestById(requestId: string, actorUserId?: string) {
   const request = await prisma.emergencyRequest.findUnique({
     where: { id: requestId },
     include: {
@@ -131,9 +131,18 @@ export async function getRequestById(requestId: string) {
     },
   });
   if (!request) throw AppError.notFound("Request not found");
+
+  // The responder list (names, blood groups, distances) is private. Only the
+  // owning organization sees everyone who offered; a donor sees just their own
+  // response; anyone else sees none.
+  const isOwner = request.organization.userId === actorUserId;
+  const visibleResponses = isOwner
+    ? request.responses
+    : request.responses.filter((r) => r.donorUserId === actorUserId);
+
   return {
     ...serializeRequest(request),
-    responses: request.responses.map(serializeResponse),
+    responses: visibleResponses.map(serializeResponse),
   };
 }
 
@@ -227,31 +236,41 @@ export async function updateResponse(
   const isRespondingDonor = response.donorUserId === actorUserId;
   if (!isOwningOrg && !isRespondingDonor) throw AppError.forbidden();
 
-  if ((status === "CONFIRMED" || status === "DECLINED") && !isOwningOrg) {
-    throw AppError.forbidden("Only the requesting organization can confirm or decline an offer");
+  // Confirming, declining, and marking a donation completed are all decisions
+  // that belong to the requesting organization — a donor must not be able to
+  // self-complete their own offer (which would inflate their donation count and
+  // the request's fulfilled units without any hospital confirmation).
+  if ((status === "CONFIRMED" || status === "DECLINED" || status === "COMPLETED") && !isOwningOrg) {
+    throw AppError.forbidden("Only the requesting organization can confirm, decline, or complete an offer");
   }
   if (status === "CANCELLED" && !isRespondingDonor) {
     throw AppError.forbidden("Only the donor can cancel their own offer");
   }
-
-  const updated = await prisma.requestResponse.update({
-    where: { id: responseId },
-    data: { status },
-    include: { donor: { include: { donorProfile: true } } },
-  });
-
-  if (status === "COMPLETED") {
-    await prisma.$transaction([
-      prisma.donorProfile.update({
-        where: { userId: response.donorUserId },
-        data: { lastDonationDate: new Date(), totalDonations: { increment: 1 } },
-      }),
-      prisma.emergencyRequest.update({
-        where: { id: requestId },
-        data: { unitsFulfilled: { increment: 1 } },
-      }),
-    ]);
+  // A completion may only advance a currently-confirmed offer. This enforces the
+  // state machine and makes the transition idempotent: replaying COMPLETED on an
+  // already-completed (or unconfirmed) response is rejected instead of
+  // re-incrementing the donation counters.
+  if (status === "COMPLETED" && response.status !== "CONFIRMED") {
+    throw AppError.badRequest("Only a confirmed offer can be marked as completed");
   }
+
+  const responseInclude = { donor: { include: { donorProfile: true } } } as const;
+  const updated =
+    status === "COMPLETED"
+      ? (
+          await prisma.$transaction([
+            prisma.requestResponse.update({ where: { id: responseId }, data: { status }, include: responseInclude }),
+            prisma.donorProfile.update({
+              where: { userId: response.donorUserId },
+              data: { lastDonationDate: new Date(), totalDonations: { increment: 1 } },
+            }),
+            prisma.emergencyRequest.update({
+              where: { id: requestId },
+              data: { unitsFulfilled: { increment: 1 } },
+            }),
+          ])
+        )[0]
+      : await prisma.requestResponse.update({ where: { id: responseId }, data: { status }, include: responseInclude });
 
   const notifyTargetUserId = isOwningOrg ? response.donorUserId : response.request.organization.userId;
   await notifyUser(notifyTargetUserId, {

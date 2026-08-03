@@ -40,7 +40,11 @@ export function SocketProvider({ children }: { children: React.ReactNode }) {
     return () => {
       instance.disconnect();
     };
-  }, [user]);
+    // Key on the user's identity only: a profile refresh replaces the `user`
+    // object but keeps the same id, and we don't want to tear down/reconnect the
+    // socket (and miss realtime events) on every such refresh.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id]);
 
   useEffect(() => {
     if (!socket) return;

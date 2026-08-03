@@ -18,7 +18,12 @@ export const listRequestsSchema = z.object({
   status: z.enum(["OPEN", "PARTIALLY_FULFILLED", "FULFILLED", "CANCELLED", "EXPIRED"]).optional(),
   bloodGroup: bloodGroupLabelSchema.optional(),
   compatibleWithDonorBloodGroup: bloodGroupLabelSchema.optional(),
-  mine: z.coerce.boolean().optional(),
+  // NOT z.coerce.boolean(): that coerces any non-empty string (incl. "false")
+  // to true, so ?mine=false would wrongly scope to the caller's own requests.
+  mine: z
+    .enum(["true", "false"])
+    .transform((v) => v === "true")
+    .optional(),
   lat: latitudeSchema.optional(),
   lng: longitudeSchema.optional(),
   radiusKm: z.coerce.number().positive().max(500).default(15),

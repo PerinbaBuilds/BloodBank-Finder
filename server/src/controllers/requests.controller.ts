@@ -30,7 +30,7 @@ export async function listRequests(req: Request, res: Response) {
 }
 
 export async function getRequest(req: Request, res: Response) {
-  const result = await requestsService.getRequestById(getParam(req, "id"));
+  const result = await requestsService.getRequestById(getParam(req, "id"), req.userId);
   res.json(result);
 }
 

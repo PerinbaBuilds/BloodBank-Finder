@@ -332,4 +332,71 @@ describe("PATCH /api/requests/:id/responses/:responseId (status transitions)", (
     const updatedRequest = await prisma.emergencyRequest.findUnique({ where: { id: requestId } });
     expect(updatedRequest?.unitsFulfilled).toBe(1);
   });
+
+  it("forbids a donor from marking their own offer COMPLETED", async () => {
+    const { hospital, donor, requestId, responseId } = await setupOfferedResponse();
+    await request(app)
+      .patch(`/api/requests/${requestId}/responses/${responseId}`)
+      .set(...authHeader(hospital.token))
+      .send({ status: "CONFIRMED" });
+
+    const res = await request(app)
+      .patch(`/api/requests/${requestId}/responses/${responseId}`)
+      .set(...authHeader(donor.token))
+      .send({ status: "COMPLETED" });
+    expect(res.status).toBe(403);
+
+    const donorProfile = await prisma.donorProfile.findUnique({ where: { userId: donor.body.user.id } });
+    expect(donorProfile?.totalDonations).toBe(0);
+  });
+
+  it("rejects completing an offer that was never confirmed", async () => {
+    const { hospital, requestId, responseId } = await setupOfferedResponse();
+    const res = await request(app)
+      .patch(`/api/requests/${requestId}/responses/${responseId}`)
+      .set(...authHeader(hospital.token))
+      .send({ status: "COMPLETED" });
+    expect(res.status).toBe(400);
+  });
+
+  it("does not double-count donations when COMPLETED is replayed", async () => {
+    const { hospital, donor, requestId, responseId } = await setupOfferedResponse();
+    await request(app)
+      .patch(`/api/requests/${requestId}/responses/${responseId}`)
+      .set(...authHeader(hospital.token))
+      .send({ status: "CONFIRMED" });
+
+    const first = await request(app)
+      .patch(`/api/requests/${requestId}/responses/${responseId}`)
+      .set(...authHeader(hospital.token))
+      .send({ status: "COMPLETED" });
+    expect(first.status).toBe(200);
+
+    const second = await request(app)
+      .patch(`/api/requests/${requestId}/responses/${responseId}`)
+      .set(...authHeader(hospital.token))
+      .send({ status: "COMPLETED" });
+    expect(second.status).toBe(400);
+
+    const donorProfile = await prisma.donorProfile.findUnique({ where: { userId: donor.body.user.id } });
+    expect(donorProfile?.totalDonations).toBe(1);
+    const updatedRequest = await prisma.emergencyRequest.findUnique({ where: { id: requestId } });
+    expect(updatedRequest?.unitsFulfilled).toBe(1);
+  });
+
+  it("hides the responder list from a user who is not the owning organization", async () => {
+    const { requestId } = await setupOfferedResponse();
+    const otherHospital = await registerOrg(app, { type: "HOSPITAL" });
+
+    const res = await request(app).get(`/api/requests/${requestId}`).set(...authHeader(otherHospital.token));
+    expect(res.status).toBe(200);
+    expect(res.body.responses).toEqual([]);
+  });
+
+  it("still lets the responding donor see their own response", async () => {
+    const { donor, requestId } = await setupOfferedResponse();
+    const res = await request(app).get(`/api/requests/${requestId}`).set(...authHeader(donor.token));
+    expect(res.status).toBe(200);
+    expect(res.body.responses).toHaveLength(1);
+  });
 });
