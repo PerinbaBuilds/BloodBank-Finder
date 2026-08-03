@@ -53,6 +53,7 @@ export default function DonorRegisterPage() {
     gender: "" as Gender | "",
     dateOfBirth: "",
     weightKg: "",
+    heightCm: "",
     address: "",
     city: "",
     state: "",
@@ -64,6 +65,10 @@ export default function DonorRegisterPage() {
     chronicIllnessDetails: "",
     hasGeneticDisorder: false,
     geneticDisorderDetails: "",
+    hasDonatedBefore: false,
+    lastDonationDate: "",
+    hadTransfusion: false,
+    transfusionDate: "",
   });
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [error, setError] = useState("");
@@ -97,6 +102,7 @@ export default function DonorRegisterPage() {
         gender: form.gender,
         dateOfBirth: form.dateOfBirth,
         weightKg: Number(form.weightKg),
+        heightCm: Number(form.heightCm),
         lat: coords.lat,
         lng: coords.lng,
         address: form.address,
@@ -110,6 +116,9 @@ export default function DonorRegisterPage() {
         chronicIllnessDetails: form.hasChronicIllness ? form.chronicIllnessDetails || undefined : undefined,
         hasGeneticDisorder: form.hasGeneticDisorder,
         geneticDisorderDetails: form.hasGeneticDisorder ? form.geneticDisorderDetails || undefined : undefined,
+        lastDonationDate: form.hasDonatedBefore ? form.lastDonationDate || undefined : undefined,
+        hadTransfusion: form.hadTransfusion,
+        transfusionDate: form.hadTransfusion ? form.transfusionDate || undefined : undefined,
       });
       router.push("/dashboard/donor");
     } catch (err) {
@@ -167,7 +176,7 @@ export default function DonorRegisterPage() {
               />
               <Input label="Phone" type="tel" required value={form.phone} onChange={update("phone")} autoComplete="tel" />
             </div>
-            <div className="grid gap-4 sm:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2">
               <Select label="Blood group" required value={form.bloodGroup} onChange={update("bloodGroup")}>
                 <option value="">Select</option>
                 {BLOOD_GROUPS.map((g) => (
@@ -182,6 +191,8 @@ export default function DonorRegisterPage() {
                 <option value="FEMALE">Female</option>
                 <option value="OTHER">Other</option>
               </Select>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
               <Input
                 label="Weight (kg)"
                 type="number"
@@ -190,6 +201,15 @@ export default function DonorRegisterPage() {
                 required
                 value={form.weightKg}
                 onChange={update("weightKg")}
+              />
+              <Input
+                label="Height (cm)"
+                type="number"
+                min={1}
+                max={300}
+                required
+                value={form.heightCm}
+                onChange={update("heightCm")}
               />
             </div>
             <Input
@@ -276,6 +296,38 @@ export default function DonorRegisterPage() {
                     maxLength={500}
                     value={form.geneticDisorderDetails}
                     onChange={update("geneticDisorderDetails")}
+                  />
+                </div>
+              )}
+              <Toggle
+                label="Have you donated blood before?"
+                checked={form.hasDonatedBefore}
+                onChange={toggle("hasDonatedBefore")}
+              />
+              {form.hasDonatedBefore && (
+                <div className="animate-fade-in-up py-3">
+                  <Input
+                    label="When was your last donation?"
+                    type="date"
+                    max={isoDateYearsAgo(0)}
+                    value={form.lastDonationDate}
+                    onChange={update("lastDonationDate")}
+                  />
+                </div>
+              )}
+              <Toggle
+                label="Any blood transfusions before?"
+                checked={form.hadTransfusion}
+                onChange={toggle("hadTransfusion")}
+              />
+              {form.hadTransfusion && (
+                <div className="animate-fade-in-up py-3">
+                  <Input
+                    label="When was the transfusion?"
+                    type="date"
+                    max={isoDateYearsAgo(0)}
+                    value={form.transfusionDate}
+                    onChange={update("transfusionDate")}
                   />
                 </div>
               )}

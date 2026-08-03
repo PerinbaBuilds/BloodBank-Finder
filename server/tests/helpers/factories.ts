@@ -21,6 +21,7 @@ export function donorPayload(overrides: Record<string, unknown> = {}) {
     gender: "MALE",
     dateOfBirth: "1995-01-01",
     weightKg: 70,
+    heightCm: 170,
     lat: 13.0827,
     lng: 80.2707,
     address: "1 Test Street",

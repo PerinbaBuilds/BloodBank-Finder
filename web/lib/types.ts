@@ -28,6 +28,7 @@ export interface Donor {
   dateOfBirth: string;
   age: number;
   weightKg: number;
+  heightCm: number | null;
   lat: number;
   lng: number;
   address: string;
@@ -45,6 +46,8 @@ export interface Donor {
   chronicIllnessDetails: string | null;
   hasGeneticDisorder: boolean;
   geneticDisorderDetails: string | null;
+  hadTransfusion: boolean;
+  transfusionDate: string | null;
   eligibility: Eligibility;
   email?: string;
   phone?: string;
@@ -232,6 +235,7 @@ export interface RegisterDonorPayload {
   gender: Gender;
   dateOfBirth: string;
   weightKg: number;
+  heightCm: number;
   lat: number;
   lng: number;
   address: string;
@@ -245,6 +249,9 @@ export interface RegisterDonorPayload {
   chronicIllnessDetails?: string;
   hasGeneticDisorder: boolean;
   geneticDisorderDetails?: string;
+  lastDonationDate?: string;
+  hadTransfusion: boolean;
+  transfusionDate?: string;
 }
 
 export interface RegisterOrganizationPayload {

@@ -103,6 +103,7 @@ model DonorProfile {
   gender           Gender
   dateOfBirth      DateTime
   weightKg         Float
+  heightCm         Float?
   lat              Float
   lng              Float
   address          String
@@ -120,6 +121,8 @@ model DonorProfile {
   chronicIllnessDetails  String?
   hasGeneticDisorder     Boolean @default(false)
   geneticDisorderDetails String?
+  hadTransfusion         Boolean @default(false)
+  transfusionDate        DateTime?
   createdAt        DateTime   @default(now())
   updatedAt        DateTime   @updatedAt
 

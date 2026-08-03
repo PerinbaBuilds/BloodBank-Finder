@@ -2,6 +2,12 @@ import { z } from "zod";
 import { bloodGroupLabelSchema, latitudeSchema, longitudeSchema } from "@/schemas/common.schema";
 import { calculateAge, MAX_DONOR_AGE, MIN_DONOR_AGE } from "@/utils/eligibility";
 
+// Optional date that treats "" / null as "not provided" (forms send empty strings).
+const optionalDate = z.preprocess(
+  (v) => (v === "" || v === null || v === undefined ? undefined : v),
+  z.coerce.date().optional()
+);
+
 export const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1, "Password is required"),
@@ -31,6 +37,7 @@ export const registerDonorSchema = z.object({
     { message: `Donor must be between ${MIN_DONOR_AGE} and ${MAX_DONOR_AGE} years old` }
   ),
   weightKg: z.coerce.number().positive().max(400),
+  heightCm: z.coerce.number().positive().max(300),
   lat: latitudeSchema,
   lng: longitudeSchema,
   address: z.string().min(3).max(200),
@@ -44,6 +51,9 @@ export const registerDonorSchema = z.object({
   chronicIllnessDetails: z.string().max(500).optional(),
   hasGeneticDisorder: z.boolean().default(false),
   geneticDisorderDetails: z.string().max(500).optional(),
+  lastDonationDate: optionalDate,
+  hadTransfusion: z.boolean().default(false),
+  transfusionDate: optionalDate,
 });
 export type RegisterDonorInput = z.infer<typeof registerDonorSchema>;
 

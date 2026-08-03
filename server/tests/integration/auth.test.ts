@@ -26,6 +26,28 @@ describe("POST /api/auth/register/donor", () => {
     expect(me.body.donor.fullName).toBe(body.donor.fullName);
   });
 
+  it("stores height, last-donation date, and transfusion history", async () => {
+    const payload = donorPayload({
+      heightCm: 176,
+      lastDonationDate: "2026-01-15",
+      hadTransfusion: true,
+      transfusionDate: "2024-06-10",
+    });
+    const res = await request(app).post("/api/auth/register/donor").send(payload);
+    expect(res.status).toBe(201);
+    expect(res.body.donor.heightCm).toBe(176);
+    expect(res.body.donor.hadTransfusion).toBe(true);
+    expect(res.body.donor.transfusionDate).not.toBeNull();
+    expect(res.body.donor.lastDonationDate).not.toBeNull();
+  });
+
+  it("rejects a donor registration missing height", async () => {
+    const { heightCm, ...noHeight } = donorPayload();
+    void heightCm;
+    const res = await request(app).post("/api/auth/register/donor").send(noHeight);
+    expect(res.status).toBe(400);
+  });
+
   it("rejects a second registration with the same email", async () => {
     const payload = donorPayload({ email: "dup@test.local" });
     const first = await request(app).post("/api/auth/register/donor").send(payload);
