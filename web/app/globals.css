@@ -78,3 +78,44 @@ body {
 .animate-float {
   animation: float 4s ease-in-out infinite;
 }
+
+/* Continuously scrolling ECG/heartbeat monitor line (two tiled copies, shift by
+   one copy width for a seamless loop). */
+@keyframes ecg-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-ecg-scroll {
+  animation: ecg-scroll 2.4s linear infinite;
+}
+
+@keyframes heartbeat {
+  0%,
+  45%,
+  100% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.12);
+  }
+  32% {
+    transform: scale(1.04);
+  }
+}
+
+.animate-heartbeat {
+  animation: heartbeat 1.6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ecg-scroll,
+  .animate-heartbeat,
+  .animate-float {
+    animation: none;
+  }
+}

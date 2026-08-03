@@ -31,6 +31,21 @@ import { MapView } from "@/components/MapViewLazy";
 const INDIA_CENTER: [number, number] = [20.5937, 78.9629];
 const RADIUS_OPTIONS = ["5", "10", "25", "50", "100"];
 
+function EcgLine() {
+  return (
+    <svg viewBox="0 0 120 36" preserveAspectRatio="none" className="h-full w-1/2 flex-none">
+      <path
+        d="M0 18 H42 l3 -1 l3 2 l3 -13 l3 24 l3 -12 l3 0 H120"
+        fill="none"
+        stroke="#f87171"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 const STEPS = [
   {
     icon: Siren,
@@ -175,8 +190,9 @@ export default function Home() {
                 </span>
               </div>
               <div className="mt-4 flex items-center gap-3">
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-red-600 text-white shadow-soft">
-                  <span className="text-lg font-bold leading-none">O&minus;</span>
+                <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-red-600 text-white shadow-soft">
+                  <span aria-hidden className="absolute inset-0 rounded-xl bg-red-500/50 motion-safe:animate-ping" />
+                  <span className="relative text-lg font-bold leading-none">O&minus;</span>
                 </div>
                 <div className="min-w-0">
                   <p className="truncate font-semibold text-zinc-900">Govt. General Hospital</p>
@@ -200,8 +216,21 @@ export default function Home() {
                   </div>
                   <span className="text-xs text-zinc-500">+12 within 5 km</span>
                 </div>
-                <div className="mt-4 inline-flex w-full items-center gap-2 rounded-lg bg-zinc-900 px-3 py-2 text-xs font-medium text-white">
-                  <Activity className="h-3.5 w-3.5" /> Notifying compatible donors…
+                <div className="mt-4 rounded-lg bg-zinc-900 px-3 py-2.5">
+                  <div className="flex items-center justify-between text-xs font-medium text-white">
+                    <span className="inline-flex items-center gap-1.5">
+                      <Activity className="h-3.5 w-3.5" /> Notifying compatible donors…
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-400">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 motion-safe:animate-pulse" /> live
+                    </span>
+                  </div>
+                  <div className="mt-2 h-7 overflow-hidden" aria-hidden>
+                    <div className="flex h-full w-[200%] animate-ecg-scroll">
+                      <EcgLine />
+                      <EcgLine />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
