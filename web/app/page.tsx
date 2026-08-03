@@ -32,15 +32,18 @@ const INDIA_CENTER: [number, number] = [20.5937, 78.9629];
 const RADIUS_OPTIONS = ["5", "10", "25", "50", "100"];
 
 function EcgLine() {
+  // A realistic PQRST heartbeat trace (small P wave, sharp QRS spike, rounded T
+  // wave), glowing green like a real vitals monitor.
   return (
-    <svg viewBox="0 0 120 36" preserveAspectRatio="none" className="h-full w-1/2 flex-none">
+    <svg viewBox="0 0 150 40" preserveAspectRatio="none" className="h-full w-1/2 flex-none">
       <path
-        d="M0 18 H42 l3 -1 l3 2 l3 -13 l3 24 l3 -12 l3 0 H120"
+        d="M0 22 H20 q4 -7 8 0 H38 l2 3 l3 -20 l3 28 l2 -11 H62 q7 -9 14 0 H150"
         fill="none"
-        stroke="#f87171"
+        stroke="#4ade80"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
+        style={{ filter: "drop-shadow(0 0 3px rgba(74,222,128,0.8))" }}
       />
     </svg>
   );
@@ -216,16 +219,19 @@ export default function Home() {
                   </div>
                   <span className="text-xs text-zinc-500">+12 within 5 km</span>
                 </div>
-                <div className="mt-4 rounded-lg bg-zinc-900 px-3 py-2.5">
+                <div className="mt-4 overflow-hidden rounded-lg bg-zinc-950 px-3 py-2.5">
                   <div className="flex items-center justify-between text-xs font-medium text-white">
                     <span className="inline-flex items-center gap-1.5">
-                      <Activity className="h-3.5 w-3.5" /> Notifying compatible donors…
+                      <Activity className="h-3.5 w-3.5 text-emerald-400" /> Notifying compatible donors…
                     </span>
                     <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wide text-emerald-400">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 motion-safe:animate-pulse" /> live
                     </span>
                   </div>
-                  <div className="mt-2 h-7 overflow-hidden" aria-hidden>
+                  <div
+                    aria-hidden
+                    className="mt-2 h-8 overflow-hidden rounded bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:12px_12px]"
+                  >
                     <div className="flex h-full w-[200%] animate-ecg-scroll">
                       <EcgLine />
                       <EcgLine />

@@ -17,11 +17,11 @@
 }
 
 body {
-  /* One cohesive, softly warm backdrop for every page: a faint rose glow at the
-     top fading into a warm off-white, held fixed so each screen reads the same. */
+  /* One cohesive light-red backdrop on every page: a soft red glow up top
+     settling into a light red wash, held fixed so each screen reads the same. */
   background:
-    radial-gradient(1100px 520px at 50% -8%, rgba(244, 63, 94, 0.07), transparent 62%),
-    #faf7f7;
+    radial-gradient(1100px 560px at 50% -8%, rgba(239, 68, 68, 0.14), transparent 60%),
+    #fceaea;
   background-attachment: fixed;
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
@@ -91,7 +91,7 @@ body {
 }
 
 .animate-ecg-scroll {
-  animation: ecg-scroll 2.4s linear infinite;
+  animation: ecg-scroll 1.5s linear infinite;
 }
 
 @keyframes heartbeat {
