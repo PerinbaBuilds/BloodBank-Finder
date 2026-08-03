@@ -104,6 +104,10 @@ export const authApi = {
     apiFetch<AuthResponse>("/auth/register/organization", { method: "POST", body: JSON.stringify(input) }),
   login: (input: { email: string; password: string }) =>
     apiFetch<AuthResponse>("/auth/login", { method: "POST", body: JSON.stringify(input) }),
+  forgotPassword: (input: { email: string }) =>
+    apiFetch<{ message: string }>("/auth/forgot-password", { method: "POST", body: JSON.stringify(input) }),
+  resetPassword: (input: { token: string; password: string }) =>
+    apiFetch<{ message: string }>("/auth/reset-password", { method: "POST", body: JSON.stringify(input) }),
   logout: () => apiFetch<void>("/auth/logout", { method: "POST" }),
   me: () => apiFetch<{ user: AuthResponse["user"]; donor?: Donor; organization?: Organization }>("/auth/me"),
 };

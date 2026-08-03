@@ -18,6 +18,8 @@ services:
         value: 7d
       - key: CORS_ORIGIN
         value: http://localhost:3000
+      - key: APP_URL
+        value: https://blood-bank-finder.vercel.app
       - key: DEFAULT_MATCH_RADIUS_KM
         value: "15"
       - key: MIN_DONATION_INTERVAL_DAYS

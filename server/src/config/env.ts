@@ -8,6 +8,8 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(16, "JWT_SECRET must be at least 16 characters"),
   JWT_EXPIRES_IN: z.string().default("7d"),
   CORS_ORIGIN: z.string().default("http://localhost:3000"),
+  APP_URL: z.string().default("http://localhost:3000"),
+  PASSWORD_RESET_TOKEN_TTL_MINUTES: z.coerce.number().int().positive().default(60),
   DEFAULT_MATCH_RADIUS_KM: z.coerce.number().positive().default(15),
   MIN_DONATION_INTERVAL_DAYS: z.coerce.number().int().positive().default(90),
   LOW_STOCK_THRESHOLD: z.coerce.number().int().min(0).default(5),
