@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { SearchX, ShieldCheck } from "lucide-react";
+import { CheckCircle2, SearchX, ShieldCheck } from "lucide-react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ApiError, adminApi } from "@/lib/api";
 import type { Organization } from "@/lib/types";
@@ -74,17 +74,24 @@ function VerificationQueue() {
         ) : (
           orgs.map((org) => (
             <Card key={org.id} className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <p className="font-semibold text-zinc-900">{org.name}</p>
-                <p className="text-xs text-zinc-500">
-                  {org.type === "BLOOD_BANK" ? "Blood Bank" : "Hospital"} · {org.city} · Reg #{org.regNumber}
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="font-semibold text-zinc-900">{org.name}</p>
+                  <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] font-medium text-zinc-600">
+                    {org.type === "BLOOD_BANK" ? "Blood Bank" : "Hospital"}
+                  </span>
+                </div>
+                <p className="mt-0.5 text-xs text-zinc-500">
+                  {org.city} · Reg #{org.regNumber}
                 </p>
                 <p className="text-xs text-zinc-500">
                   Contact: {org.contactPerson} · {org.phone} · {org.email}
                 </p>
               </div>
               {org.isVerified ? (
-                <span className="text-sm font-medium text-green-600">Verified</span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-700">
+                  <CheckCircle2 className="h-4 w-4" /> Verified
+                </span>
               ) : (
                 <Button size="sm" isLoading={verifyingId === org.id} onClick={() => handleVerify(org.id)}>
                   Verify
