@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { HeartHandshake } from "lucide-react";
+import { CalendarClock, HeartHandshake, ShieldCheck } from "lucide-react";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { useAuth } from "@/context/AuthContext";
 import { ApiError, donorsApi, requestsApi } from "@/lib/api";
@@ -65,21 +65,40 @@ function DonorDashboard() {
       />
 
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
-        <Card className="text-center">
-          <p className="text-2xl font-bold text-red-600">{donor.totalDonations}</p>
-          <p className="mt-1 text-sm text-zinc-600">Total donations</p>
+        <Card className="flex items-center gap-3">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600">
+            <HeartHandshake className="h-5 w-5" />
+          </span>
+          <div>
+            <p className="text-2xl font-bold text-zinc-900">{donor.totalDonations}</p>
+            <p className="text-xs font-medium text-zinc-500">Total donations</p>
+          </div>
         </Card>
-        <Card className="text-center">
-          <p className="text-2xl font-bold text-red-600">
-            {donor.lastDonationDate ? new Date(donor.lastDonationDate).toLocaleDateString() : "—"}
-          </p>
-          <p className="mt-1 text-sm text-zinc-600">Last donation</p>
+        <Card className="flex items-center gap-3">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-600">
+            <CalendarClock className="h-5 w-5" />
+          </span>
+          <div>
+            <p className="text-base font-bold text-zinc-900">
+              {donor.lastDonationDate ? new Date(donor.lastDonationDate).toLocaleDateString() : "—"}
+            </p>
+            <p className="text-xs font-medium text-zinc-500">Last donation</p>
+          </div>
         </Card>
-        <Card className="text-center">
-          <p className={`text-2xl font-bold ${donor.eligibility.isEligible ? "text-green-600" : "text-orange-600"}`}>
-            {donor.eligibility.isEligible ? "Eligible" : "Not eligible"}
-          </p>
-          <p className="mt-1 text-sm text-zinc-600">{donor.eligibility.reason ?? "You can donate now"}</p>
+        <Card className="flex items-center gap-3">
+          <span
+            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${
+              donor.eligibility.isEligible ? "bg-green-50 text-green-600" : "bg-orange-50 text-orange-600"
+            }`}
+          >
+            <ShieldCheck className="h-5 w-5" />
+          </span>
+          <div>
+            <p className={`text-base font-bold ${donor.eligibility.isEligible ? "text-green-600" : "text-orange-600"}`}>
+              {donor.eligibility.isEligible ? "Eligible" : "Not eligible"}
+            </p>
+            <p className="text-xs font-medium text-zinc-500">{donor.eligibility.reason ?? "You can donate now"}</p>
+          </div>
         </Card>
       </div>
 
