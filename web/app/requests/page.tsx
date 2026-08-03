@@ -17,6 +17,7 @@ import { RequestCard } from "@/components/RequestCard";
 import { PageHeader } from "@/components/PageHeader";
 
 const STATUS_OPTIONS: RequestStatus[] = ["OPEN", "PARTIALLY_FULFILLED", "FULFILLED", "CANCELLED", "EXPIRED"];
+const RADIUS_OPTIONS = ["10", "25", "50", "100", "250"];
 
 function RequestsBrowser() {
   const { user, donor } = useAuth();
@@ -25,6 +26,7 @@ function RequestsBrowser() {
 
   const [status, setStatus] = useState<RequestStatus | "">("OPEN");
   const [bloodGroup, setBloodGroup] = useState<BloodGroupLabel | "">("");
+  const [radiusKm, setRadiusKm] = useState("25");
   const [mineOnly, setMineOnly] = useState(false);
   const [requests, setRequests] = useState<EmergencyRequest[] | null>(null);
   const [error, setError] = useState("");
@@ -38,13 +40,14 @@ function RequestsBrowser() {
         mine: isOrg && mineOnly ? true : undefined,
         lat: !isOrg ? donor?.lat : undefined,
         lng: !isOrg ? donor?.lng : undefined,
+        radiusKm: !isOrg ? Number(radiusKm) : undefined,
       });
       setRequests(data);
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Could not load requests.");
       setRequests([]);
     }
-  }, [status, bloodGroup, mineOnly, isOrg, donor]);
+  }, [status, bloodGroup, radiusKm, mineOnly, isOrg, donor]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- fetch-on-mount/filter-change is intentional
@@ -99,6 +102,15 @@ function RequestsBrowser() {
               </option>
             ))}
           </Select>
+          {!isOrg && (
+            <Select label="Within distance" value={radiusKm} onChange={(e) => setRadiusKm(e.target.value)}>
+              {RADIUS_OPTIONS.map((r) => (
+                <option key={r} value={r}>
+                  {r} km of you
+                </option>
+              ))}
+            </Select>
+          )}
           {isOrg && (
             <label className="flex items-center gap-2 self-end pb-2 text-sm font-medium text-zinc-700">
               <input type="checkbox" checked={mineOnly} onChange={(e) => setMineOnly(e.target.checked)} />
@@ -106,6 +118,11 @@ function RequestsBrowser() {
             </label>
           )}
         </div>
+        {!isOrg && (
+          <p className="mt-3 text-xs text-zinc-500">
+            Showing requests within {radiusKm} km of your registered location.
+          </p>
+        )}
       </Card>
 
       {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
