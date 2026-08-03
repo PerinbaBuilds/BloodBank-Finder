@@ -23,6 +23,24 @@ function isoDateYearsAgo(years: number) {
   return d.toISOString().split("T")[0];
 }
 
+function FormSection({
+  title,
+  description,
+  children,
+}: {
+  title: string;
+  description?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="border-t border-zinc-100 pt-6 first:border-t-0 first:pt-0">
+      <h2 className="text-sm font-semibold text-zinc-900">{title}</h2>
+      {description && <p className="mt-0.5 text-xs text-zinc-500">{description}</p>}
+      <div className="mt-4 flex flex-col gap-4">{children}</div>
+    </section>
+  );
+}
+
 export default function DonorRegisterPage() {
   const { registerDonor } = useAuth();
   const router = useRouter();
@@ -102,98 +120,130 @@ export default function DonorRegisterPage() {
   };
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12">
-      <div className="text-center">
-        <span className="animate-fade-in-up mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-white shadow-lifted">
-          <Droplet className="h-5 w-5" />
+    <div className="mx-auto max-w-2xl px-4 py-14">
+      <div className="animate-fade-in-up text-center">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-red-100 bg-white/80 px-3 py-1 text-xs font-semibold text-red-700 shadow-soft">
+          <Droplet className="h-3.5 w-3.5" /> Become a donor
         </span>
-        <h1 className="animate-fade-in-up mt-4 text-2xl font-bold text-zinc-900">Register as a Donor</h1>
-        <p className="animate-fade-in-up mt-1 text-sm text-zinc-500">
-          Join our network of voluntary donors and help save lives in your community.
+        <h1 className="mt-4 text-3xl font-bold tracking-tight text-zinc-900">Create your donor account</h1>
+        <p className="mx-auto mt-2 max-w-md text-sm text-zinc-500">
+          Join the network of voluntary donors and get alerted the moment someone nearby needs your blood type.
         </p>
       </div>
 
-      <Card className="mt-6 animate-fade-in-up">
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Input label="Full name" required value={form.fullName} onChange={update("fullName")} autoComplete="name" />
-            <Input label="Phone" type="tel" required value={form.phone} onChange={update("phone")} autoComplete="tel" />
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Input
-              label="Email"
-              type="email"
-              required
-              value={form.email}
-              onChange={update("email")}
-              autoComplete="email"
-            />
-            <Input
-              label="Password"
-              type="password"
-              required
-              minLength={8}
-              hint="At least 8 characters"
-              value={form.password}
-              onChange={update("password")}
-              autoComplete="new-password"
-            />
-          </div>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <Select label="Blood group" required value={form.bloodGroup} onChange={update("bloodGroup")}>
-              <option value="">Select</option>
-              {BLOOD_GROUPS.map((g) => (
-                <option key={g} value={g}>
-                  {g}
-                </option>
-              ))}
-            </Select>
-            <Select label="Gender" required value={form.gender} onChange={update("gender")}>
-              <option value="">Select</option>
-              <option value="MALE">Male</option>
-              <option value="FEMALE">Female</option>
-              <option value="OTHER">Other</option>
-            </Select>
-            <Input
-              label="Weight (kg)"
-              type="number"
-              min={1}
-              max={400}
-              required
-              value={form.weightKg}
-              onChange={update("weightKg")}
-            />
-          </div>
-          <Input
-            label="Date of birth"
-            type="date"
-            required
-            min={isoDateYearsAgo(MAX_DONOR_AGE)}
-            max={isoDateYearsAgo(MIN_DONOR_AGE)}
-            value={form.dateOfBirth}
-            onChange={update("dateOfBirth")}
-          />
+      <Card className="mt-8 animate-fade-in-up sm:p-7">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+          <FormSection title="Account">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Input
+                label="Email"
+                type="email"
+                required
+                value={form.email}
+                onChange={update("email")}
+                autoComplete="email"
+              />
+              <Input
+                label="Password"
+                type="password"
+                required
+                minLength={8}
+                hint="At least 8 characters"
+                value={form.password}
+                onChange={update("password")}
+                autoComplete="new-password"
+              />
+            </div>
+          </FormSection>
 
-          <Input label="Address" required value={form.address} onChange={update("address")} autoComplete="street-address" />
-          <div className="grid gap-4 sm:grid-cols-3">
-            <Input label="City" required value={form.city} onChange={update("city")} autoComplete="address-level2" />
-            <Select label="State" required value={form.state} onChange={update("state")} autoComplete="address-level1">
-              <option value="">Select</option>
-              {INDIAN_STATES.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </Select>
-            <Input label="Pincode" required value={form.pincode} onChange={update("pincode")} autoComplete="postal-code" />
-          </div>
+          <FormSection title="About you">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Input
+                label="Full name"
+                required
+                value={form.fullName}
+                onChange={update("fullName")}
+                autoComplete="name"
+              />
+              <Input label="Phone" type="tel" required value={form.phone} onChange={update("phone")} autoComplete="tel" />
+            </div>
+            <div className="grid gap-4 sm:grid-cols-3">
+              <Select label="Blood group" required value={form.bloodGroup} onChange={update("bloodGroup")}>
+                <option value="">Select</option>
+                {BLOOD_GROUPS.map((g) => (
+                  <option key={g} value={g}>
+                    {g}
+                  </option>
+                ))}
+              </Select>
+              <Select label="Gender" required value={form.gender} onChange={update("gender")}>
+                <option value="">Select</option>
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
+                <option value="OTHER">Other</option>
+              </Select>
+              <Input
+                label="Weight (kg)"
+                type="number"
+                min={1}
+                max={400}
+                required
+                value={form.weightKg}
+                onChange={update("weightKg")}
+              />
+            </div>
+            <Input
+              label="Date of birth"
+              type="date"
+              required
+              min={isoDateYearsAgo(MAX_DONOR_AGE)}
+              max={isoDateYearsAgo(MIN_DONOR_AGE)}
+              value={form.dateOfBirth}
+              onChange={update("dateOfBirth")}
+            />
+          </FormSection>
 
-          <div className="rounded-lg border border-zinc-200 p-4">
-            <p className="text-sm font-semibold text-zinc-700">Health &amp; lifestyle</p>
-            <p className="text-xs text-zinc-500">
-              Helps hospitals and blood banks assess donation eligibility. Kept private to your profile.
-            </p>
-            <div className="mt-2 flex flex-col divide-y divide-zinc-100">
+          <FormSection title="Where you're located" description="So nearby hospitals and blood banks can reach you fast.">
+            <Input
+              label="Address"
+              required
+              value={form.address}
+              onChange={update("address")}
+              autoComplete="street-address"
+            />
+            <div className="grid gap-4 sm:grid-cols-3">
+              <Input label="City" required value={form.city} onChange={update("city")} autoComplete="address-level2" />
+              <Select label="State" required value={form.state} onChange={update("state")} autoComplete="address-level1">
+                <option value="">Select</option>
+                {INDIAN_STATES.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </Select>
+              <Input
+                label="Pincode"
+                required
+                value={form.pincode}
+                onChange={update("pincode")}
+                autoComplete="postal-code"
+              />
+            </div>
+            <div>
+              <LocationField onLocate={setCoords} />
+              {coords && (
+                <p className="mt-1 text-xs text-green-600">
+                  Location set ({coords.lat.toFixed(4)}, {coords.lng.toFixed(4)})
+                </p>
+              )}
+            </div>
+          </FormSection>
+
+          <FormSection
+            title="Health & lifestyle"
+            description="Helps hospitals and blood banks assess donation eligibility. Kept private to your profile."
+          >
+            <div className="flex flex-col divide-y divide-zinc-100 rounded-xl border border-zinc-200 px-4">
               <Toggle label="Do you smoke?" checked={form.isSmoker} onChange={toggle("isSmoker")} />
               <Toggle label="Do you consume alcohol?" checked={form.isAlcoholic} onChange={toggle("isAlcoholic")} />
               <Toggle label="Do you use recreational drugs?" checked={form.usesDrugs} onChange={toggle("usesDrugs")} />
@@ -203,7 +253,7 @@ export default function DonorRegisterPage() {
                 onChange={toggle("hasChronicIllness")}
               />
               {form.hasChronicIllness && (
-                <div className="animate-fade-in-up pt-3">
+                <div className="animate-fade-in-up py-3">
                   <Textarea
                     label="Please describe the illness"
                     rows={2}
@@ -219,7 +269,7 @@ export default function DonorRegisterPage() {
                 onChange={toggle("hasGeneticDisorder")}
               />
               {form.hasGeneticDisorder && (
-                <div className="animate-fade-in-up pt-3">
+                <div className="animate-fade-in-up py-3">
                   <Textarea
                     label="Please describe the disorder"
                     rows={2}
@@ -230,16 +280,7 @@ export default function DonorRegisterPage() {
                 </div>
               )}
             </div>
-          </div>
-
-          <div>
-            <LocationField onLocate={setCoords} />
-            {coords && (
-              <p className="mt-1 text-xs text-green-600">
-                Location set ({coords.lat.toFixed(4)}, {coords.lng.toFixed(4)})
-              </p>
-            )}
-          </div>
+          </FormSection>
 
           {error && (
             <p role="alert" className="text-sm text-red-600">

@@ -73,18 +73,18 @@ export default function OrganizationRegisterPage() {
   };
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12">
-      <div className="text-center">
-        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-600 text-white shadow-lifted">
-          <Building2 className="h-5 w-5" />
+    <div className="mx-auto max-w-2xl px-4 py-14">
+      <div className="animate-fade-in-up text-center">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-red-100 bg-white/80 px-3 py-1 text-xs font-semibold text-red-700 shadow-soft">
+          <Building2 className="h-3.5 w-3.5" /> For hospitals &amp; blood banks
         </span>
-        <h1 className="mt-4 text-2xl font-bold text-zinc-900">Register a Hospital or Blood Bank</h1>
-        <p className="mt-1 text-sm text-zinc-500">
-          Verified organizations can post emergency requests and manage blood inventory.
+        <h1 className="mt-4 text-3xl font-bold tracking-tight text-zinc-900">Register your organization</h1>
+        <p className="mx-auto mt-2 max-w-md text-sm text-zinc-500">
+          Post emergency requests, manage inventory, and reach compatible donors. Accounts are verified before going live.
         </p>
       </div>
 
-      <Card className="mt-6">
+      <Card className="mt-8 animate-fade-in-up sm:p-7">
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <Input label="Organization name" required value={form.name} onChange={update("name")} autoComplete="organization" />
