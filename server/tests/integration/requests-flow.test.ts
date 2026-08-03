@@ -384,6 +384,25 @@ describe("PATCH /api/requests/:id/responses/:responseId (status transitions)", (
     expect(updatedRequest?.unitsFulfilled).toBe(1);
   });
 
+  it("closes a fully-fulfilled request so donors stop seeing it in the open list", async () => {
+    const { hospital, donor, requestId, responseId } = await setupOfferedResponse();
+    await request(app)
+      .patch(`/api/requests/${requestId}/responses/${responseId}`)
+      .set(...authHeader(hospital.token))
+      .send({ status: "CONFIRMED" });
+    await request(app)
+      .patch(`/api/requests/${requestId}/responses/${responseId}`)
+      .set(...authHeader(hospital.token))
+      .send({ status: "COMPLETED" });
+
+    const updated = await prisma.emergencyRequest.findUnique({ where: { id: requestId } });
+    expect(updated?.status).toBe("FULFILLED");
+
+    const browse = await request(app).get("/api/requests?status=OPEN").set(...authHeader(donor.token));
+    expect(browse.status).toBe(200);
+    expect(browse.body.some((r: { id: string }) => r.id === requestId)).toBe(false);
+  });
+
   it("hides the responder list from a user who is not the owning organization", async () => {
     const { requestId } = await setupOfferedResponse();
     const otherHospital = await registerOrg(app, { type: "HOSPITAL" });

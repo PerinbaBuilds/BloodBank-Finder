@@ -255,6 +255,10 @@ export async function updateResponse(
   }
 
   const responseInclude = { donor: { include: { donorProfile: true } } } as const;
+  // Once this completion meets the units needed, close the request (FULFILLED)
+  // so it stops showing to other donors browsing open requests. A request that
+  // still needs more units stays OPEN so donors keep seeing it.
+  const fullyFulfilled = response.request.unitsFulfilled + 1 >= response.request.unitsNeeded;
   const updated =
     status === "COMPLETED"
       ? (
@@ -266,7 +270,10 @@ export async function updateResponse(
             }),
             prisma.emergencyRequest.update({
               where: { id: requestId },
-              data: { unitsFulfilled: { increment: 1 } },
+              data: {
+                unitsFulfilled: { increment: 1 },
+                ...(fullyFulfilled ? { status: "FULFILLED" as const } : {}),
+              },
             }),
           ])
         )[0]
