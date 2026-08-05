@@ -1,0 +1,48 @@
+# Local, one-command stack: PostgreSQL + API + web.
+#   docker compose up --build
+# API → http://localhost:4000 · Web → http://localhost:3000
+# Seed demo data once the stack is up:  docker compose exec api npm run seed
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: bloodbank
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: ./server
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/bloodbank
+      JWT_SECRET: local-dev-secret-change-me-at-least-16-chars
+      CORS_ORIGIN: http://localhost:3000
+      NODE_ENV: production
+      PORT: "4000"
+    ports:
+      - "4000:4000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ./web
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:4000/api
+        NEXT_PUBLIC_SOCKET_URL: http://localhost:4000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+
+volumes:
+  dbdata:
