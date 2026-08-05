@@ -5,16 +5,16 @@ When a hospital needs blood urgently, BloodBank Finder finds nearby, blood-type-
 **Live app:** https://blood-bank-finder.vercel.app/ &nbsp;·&nbsp; **API:** https://bloodbank-finder-api.onrender.com
 
 <p>
-  <a href="https://www.typescriptlang.org/"><img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"></a>
-  <a href="https://nodejs.org/"><img alt="Node.js" src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white"></a>
-  <a href="https://expressjs.com/"><img alt="Express" src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white"></a>
-  <a href="https://www.postgresql.org/"><img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white"></a>
-  <a href="https://www.prisma.io/"><img alt="Prisma" src="https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white"></a>
-  <a href="https://nextjs.org/"><img alt="Next.js" src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white"></a>
-  <a href="https://react.dev/"><img alt="React" src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black"></a>
-  <a href="https://socket.io/"><img alt="Socket.IO" src="https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socket.io&logoColor=white"></a>
-  <a href="https://github.com/PerinbaBuilds/BloodBank-Finder/actions"><img alt="GitHub Actions" src="https://img.shields.io/badge/GitHub%20Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white"></a>
-  <a href="https://vercel.com/"><img alt="Vercel" src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"></a>
+  <a href="https://www.typescriptlang.org/"><img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-1f2933?style=for-the-badge&logo=typescript&logoColor=3178C6"></a>
+  <a href="https://nodejs.org/"><img alt="Node.js" src="https://img.shields.io/badge/Node.js-1f2933?style=for-the-badge&logo=node.js&logoColor=5FA04E"></a>
+  <a href="https://expressjs.com/"><img alt="Express" src="https://img.shields.io/badge/Express-1f2933?style=for-the-badge&logo=express&logoColor=E2E8F0"></a>
+  <a href="https://www.postgresql.org/"><img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-1f2933?style=for-the-badge&logo=postgresql&logoColor=4F9CE6"></a>
+  <a href="https://www.prisma.io/"><img alt="Prisma" src="https://img.shields.io/badge/Prisma-1f2933?style=for-the-badge&logo=prisma&logoColor=E2E8F0"></a>
+  <a href="https://nextjs.org/"><img alt="Next.js" src="https://img.shields.io/badge/Next.js-1f2933?style=for-the-badge&logo=next.js&logoColor=E2E8F0"></a>
+  <a href="https://react.dev/"><img alt="React" src="https://img.shields.io/badge/React-1f2933?style=for-the-badge&logo=react&logoColor=61DAFB"></a>
+  <a href="https://socket.io/"><img alt="Socket.IO" src="https://img.shields.io/badge/Socket.IO-1f2933?style=for-the-badge&logo=socket.io&logoColor=E2E8F0"></a>
+  <a href="https://github.com/PerinbaBuilds/BloodBank-Finder/actions"><img alt="GitHub Actions" src="https://img.shields.io/badge/GitHub%20Actions-1f2933?style=for-the-badge&logo=github-actions&logoColor=E2E8F0"></a>
+  <a href="https://vercel.com/"><img alt="Vercel" src="https://img.shields.io/badge/Vercel-1f2933?style=for-the-badge&logo=vercel&logoColor=E2E8F0"></a>
 </p>
 
 > Hosted on free-tier infrastructure — the API spins down when idle, so the first request after inactivity can take 30–50 seconds to wake it up.
