@@ -1,16 +1,21 @@
-# BloodBank Finder
+# BloodBank Finder &nbsp;[![CI](https://img.shields.io/github/actions/workflow/status/PerinbaBuilds/BloodBank-Finder/ci.yml?branch=main&label=CI)](https://github.com/PerinbaBuilds/BloodBank-Finder/actions/workflows/ci.yml)
 
-[![CI](https://img.shields.io/github/actions/workflow/status/PerinbaBuilds/BloodBank-Finder/ci.yml?branch=main&style=flat-square&logo=github&label=CI)](https://github.com/PerinbaBuilds/BloodBank-Finder/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](./LICENSE)
-[![Live demo](https://img.shields.io/badge/demo-live-e11d48?style=flat-square)](https://blood-bank-finder.vercel.app/)
-[![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](https://github.com/PerinbaBuilds/BloodBank-Finder/pulls)
+When a hospital needs blood urgently, BloodBank Finder finds nearby, blood-type-compatible donors and alerts them in real time — matched by compatibility and distance, *the moment* the request is posted.
 
-> When a hospital needs blood urgently, BloodBank Finder finds nearby, blood-type-compatible donors and alerts them in real time — matched by compatibility and distance, the moment the request is posted.
+**Live app:** https://blood-bank-finder.vercel.app/ &nbsp;·&nbsp; **API:** https://bloodbank-finder-api.onrender.com
 
-| | |
-|---|---|
-| 🌐 Web app | **[blood-bank-finder.vercel.app](https://blood-bank-finder.vercel.app/)** |
-| 🔌 API | [bloodbank-finder-api.onrender.com](https://bloodbank-finder-api.onrender.com) |
+<p>
+  <a href="https://www.typescriptlang.org/"><img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"></a>
+  <a href="https://nodejs.org/"><img alt="Node.js" src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white"></a>
+  <a href="https://expressjs.com/"><img alt="Express" src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white"></a>
+  <a href="https://www.postgresql.org/"><img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white"></a>
+  <a href="https://www.prisma.io/"><img alt="Prisma" src="https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white"></a>
+  <a href="https://nextjs.org/"><img alt="Next.js" src="https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white"></a>
+  <a href="https://react.dev/"><img alt="React" src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black"></a>
+  <a href="https://socket.io/"><img alt="Socket.IO" src="https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socket.io&logoColor=white"></a>
+  <a href="https://github.com/PerinbaBuilds/BloodBank-Finder/actions"><img alt="GitHub Actions" src="https://img.shields.io/badge/GitHub%20Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white"></a>
+  <a href="https://vercel.com/"><img alt="Vercel" src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white"></a>
+</p>
 
 > Hosted on free-tier infrastructure — the API spins down when idle, so the first request after inactivity can take 30–50 seconds to wake it up.
 
